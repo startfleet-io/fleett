@@ -123,7 +123,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_corvette'] == false &&
-          item['corvette_price'] == -1
+          item['corvette_price'] <= 0
         ) {
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -142,7 +142,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_frigate'] == false &&
-          item['frigate_price'] == -1
+          item['frigate_price'] <= 0
         ) {
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -161,7 +161,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_cruiser'] == false &&
-          item['cruiser_price'] == -1
+          item['cruiser_price'] <= 0
         ) {
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -229,7 +229,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_corvette'] == false &&
-          item['corvette_price'] == -1
+          item['corvette_price'] <= 0
         ) {
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -248,7 +248,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_frigate'] == false &&
-          item['frigate_price'] == -1
+          item['frigate_price'] <= 0
         ) {
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -267,7 +267,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_cruiser'] == false &&
-          item['cruiser_price'] == -1
+          item['cruiser_price'] <= 0
         ) {
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -333,7 +333,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_corvette'] == false &&
-          item['corvette_price'] == -1
+          item['corvette_price'] <= 0
         ) {
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -352,7 +352,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_frigate'] == false &&
-          item['frigate_price'] == -1
+          item['frigate_price'] <= 0
         ) {
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -371,7 +371,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_cruiser'] == false &&
-          item['cruiser_price'] == -1
+          item['cruiser_price'] <= 0
         ) {
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -433,7 +433,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_corvette'] == false &&
-          item['corvette_price'] == -1
+          item['corvette_price'] <= 0
         ) {
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -476,7 +476,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_frigate'] == false &&
-          item['frigate_price'] == -1
+          item['frigate_price'] <= 0
         ) {
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
@@ -519,7 +519,7 @@ $(function () {
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
           item['included_in_cruiser'] == false &&
-          item['cruiser_price'] == -1
+          item['cruiser_price'] <= 0
         ) {
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
