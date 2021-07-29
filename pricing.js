@@ -1,4 +1,5 @@
-$(function () {
+
+    $(function () {
   let companyType = $('#companyType');
   let companyState = $('#companyCity');
   let FeeText = $('.feetext');
@@ -61,7 +62,7 @@ $(function () {
 
 
       var badge = '<div id="wrapper-img-featured-label" class="img-featured-plans">';
-      badge+='<img src="images/featured-label-new.svg" loading="lazy" id="img-featured-label" alt="" class="image-21">';
+      badge+='<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/610154cc329673a834f01bed_featured-label-new.svg" loading="lazy" id="img-featured-label" alt="" class="image-21">';
       badge+='</div>';
 
       let featuredPlan = plans.filter((p)=> p.is_featured == "true");
@@ -110,19 +111,18 @@ $(function () {
 
       formationItems.forEach((item, index) => {
 
-       
-
+    
         let corvette = null;
         let frigate = null;
         let cruiser = null;
         if (
-          item['included_in_corvette'] == true &&
+          Boolean(item['included_in_corvette']) == true &&
           item['corvette_price'] == 0
         ) {
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_corvette'] == false &&
+          Boolean(item['included_in_corvette']) == false &&
           item['corvette_price'] <= 0
         ) {
           corvette =
@@ -137,11 +137,11 @@ $(function () {
               : item['corvette_price']
           } `;
         }
-        if (item['included_in_frigate'] == true && item['frigate_price'] == 0) {
+        if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_frigate'] == false &&
+          Boolean(item['included_in_frigate']) == false &&
           item['frigate_price'] <= 0
         ) {
           frigate =
@@ -156,11 +156,11 @@ $(function () {
               : item['frigate_price']
           } `;
         }
-        if (item['included_in_cruiser'] == true && item['cruiser_price'] == 0) {
+        if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_cruiser'] == false &&
+          Boolean(item['included_in_cruiser']) == false &&
           item['cruiser_price'] <= 0
         ) {
           cruiser =
@@ -222,13 +222,13 @@ $(function () {
         let frigate = null;
         let cruiser = null;
         if (
-          item['included_in_corvette'] == true &&
+          Boolean(item['included_in_corvette']) == true &&
           item['corvette_price'] == 0
         ) {
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_corvette'] == false &&
+          Boolean(item['included_in_corvette']) == false &&
           item['corvette_price'] <= 0
         ) {
           corvette =
@@ -243,11 +243,11 @@ $(function () {
               : item['corvette_price']
           } `;
         }
-        if (item['included_in_frigate'] == true && item['frigate_price'] == 0) {
+        if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_frigate'] == false &&
+          Boolean(item['included_in_frigate']) == false &&
           item['frigate_price'] <= 0
         ) {
           frigate =
@@ -262,11 +262,11 @@ $(function () {
               : item['frigate_price']
           } `;
         }
-        if (item['included_in_cruiser'] == true && item['cruiser_price'] == 0) {
+        if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_cruiser'] == false &&
+          Boolean(item['included_in_cruiser']) == false &&
           item['cruiser_price'] <= 0
         ) {
           cruiser =
@@ -326,13 +326,13 @@ $(function () {
         let frigate = null;
         let cruiser = null;
         if (
-          item['included_in_corvette'] == true &&
+          Boolean(item['included_in_corvette']) == true &&
           item['corvette_price'] == 0
         ) {
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_corvette'] == false &&
+          Boolean(item['included_in_corvette']) == false &&
           item['corvette_price'] <= 0
         ) {
           corvette =
@@ -347,11 +347,11 @@ $(function () {
               : item['corvette_price']
           } `;
         }
-        if (item['included_in_frigate'] == true && item['frigate_price'] == 0) {
+        if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_frigate'] == false &&
+          Boolean(item['included_in_frigate']) == false &&
           item['frigate_price'] <= 0
         ) {
           frigate =
@@ -366,11 +366,11 @@ $(function () {
               : item['frigate_price']
           } `;
         }
-        if (item['included_in_cruiser'] == true && item['cruiser_price'] == 0) {
+        if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_cruiser'] == false &&
+          Boolean(item['included_in_cruiser']) == false &&
           item['cruiser_price'] <= 0
         ) {
           cruiser =
@@ -426,13 +426,13 @@ $(function () {
         let frigate = null;
         let cruiser = null;
         if (
-          item['included_in_corvette'] == true &&
-          item['corvette_price'] == 0
+          Boolean(item['included_in_corvette']) == true &&
+          item['corvette_price'] <= 0
         ) {
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_corvette'] == false &&
+          Boolean(item['included_in_corvette']) == false &&
           item['corvette_price'] <= 0
         ) {
           corvette =
@@ -471,11 +471,11 @@ $(function () {
             } `;
           }
         }
-        if (item['included_in_frigate'] == true && item['frigate_price'] == 0) {
+        if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_frigate'] == false &&
+          Boolean(item['included_in_frigate']) == false &&
           item['frigate_price'] <= 0
         ) {
           frigate =
@@ -514,11 +514,11 @@ $(function () {
             } `;
           }
         }
-        if (item['included_in_cruiser'] == true && item['cruiser_price'] == 0) {
+        if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
         } else if (
-          item['included_in_cruiser'] == false &&
+          Boolean(item['included_in_cruiser']) == false &&
           item['cruiser_price'] <= 0
         ) {
           cruiser =
