@@ -179,13 +179,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
           item['corvette_price'] <= 0
         ) {
           corvette =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_corvette']) == false &&
           item['corvette_price'] <= 0
         ) {
           corvette =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
           let params = {
@@ -208,13 +208,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
         if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_frigate']) == false &&
           item['frigate_price'] <= 0
         ) {
           frigate =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
           let params = {
@@ -237,13 +237,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
         if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_cruiser']) == false &&
           item['cruiser_price'] <= 0
         ) {
           cruiser =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
            let params = {
@@ -316,13 +316,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
           item['corvette_price'] == 0
         ) {
           corvette =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_corvette']) == false &&
           item['corvette_price'] <= 0
         ) {
           corvette =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
           let params = {
@@ -345,13 +345,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
         if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_frigate']) == false &&
           item['frigate_price'] <= 0
         ) {
           frigate =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
           let params = {
@@ -374,13 +374,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
         if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_cruiser']) == false &&
           item['cruiser_price'] <= 0
         ) {
           cruiser =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
           let params = {
@@ -451,13 +451,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
           item['corvette_price'] == 0
         ) {
           corvette =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_corvette']) == false &&
           item['corvette_price'] <= 0
         ) {
           corvette =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
            let params = {
@@ -482,13 +482,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
         if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_frigate']) == false &&
           item['frigate_price'] <= 0
         ) {
           frigate =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
            let params = {
@@ -511,13 +511,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
         if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_cruiser']) == false &&
           item['cruiser_price'] <= 0
         ) {
           cruiser =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
           let params = {
@@ -583,13 +583,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
           item['corvette_price'] <= 0
         ) {
           corvette =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_corvette']) == false &&
           item['corvette_price'] <= 0
         ) {
           corvette =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
            let params = {
@@ -636,13 +636,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
         if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_frigate']) == false &&
           item['frigate_price'] <= 0
         ) {
           frigate =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
            let params = {
@@ -689,13 +689,13 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
         if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
         } else if (
           Boolean(item['included_in_cruiser']) == false &&
           item['cruiser_price'] <= 0
         ) {
           cruiser =
-            '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
+            '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
         } else {
 
           let params = {
