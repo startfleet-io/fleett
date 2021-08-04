@@ -89,7 +89,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
              cell+=`<span class="single-plans"> $${params.price} <sub class="label-monthly">${payment_type_text}</sub></span>`;
             }
             if(params.payment_type == onetime_text && params.item['setup_fee'] <= 0) {
-             cell+=`<span class="single-plans"> $${params.price}</span>`;
+             cell+=`<span class="without-label"> $${params.price}</span>`;
             }
 
                 if(numberPlan) {
