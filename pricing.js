@@ -1,5 +1,4 @@
-
-    $(function () {
+$(function () {
   let companyType = $('#companyType');
   let companyState = $('#companyCity');
   let FeeText = $('.feetext');
@@ -44,14 +43,71 @@
   let frigateSaving = $("#frigateSaving");
   let cruiserSaving = $("#cruiserSaving");
 
+  var without_product_url = 'order.html?';
+  var with_product_url = 'order.html?';
 
+  var url_products = {};
+
+  var yearly_text = 'yearly'
+  var monthly_text = 'monthly'
+  var onetime_text = 'onetime'
+
+  function displayCell( params ) {
+
+    let numberPlan = 0;
+    let price = parseInt(params.price) + parseInt(params.item['setup_fee']);
+
+let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.plan}" data-price="${
+            price
+          }"  id="${params.item['id']}" data-ref="${params.item['refcode']}" />`; 
+
+            let payment_type_text = params.payment_type.charAt(0).toUpperCase() + params.payment_type.slice(1);
+
+            if(params.item['setup_fee'] > 0 && params.payment_type == yearly_text) {
+
+              numberPlan++
+
+              cell+= `<span class="first-plans">$${params.item['setup_fee']}<sub class="label-yearly">Setup</sub></span>`;
+
+              cell+= `<span class="second-plans">+ $${params.price}<sub class="label-add-setup">${payment_type_text}</sub></span>`
+            }
+
+             if(params.item['setup_fee'] > 0 && params.payment_type == monthly_text) {
+
+              numberPlan++
+
+            cell+= `<span class="first-plans">$${params.item['setup_fee']}<sub class="label-yearly">Setup</sub></span>`;
+
+            cell+= `<span class="second-plans">+ $${params.price}<sub class="label-add-setup">${payment_type_text}</sub></span>`
+            }
+
+            if(params.payment_type == yearly_text && params.item['setup_fee'] <= 0) {
+            cell+= `<span class="single-plans"> $${params.price} <sub class="label-yearly">${payment_type_text}</sub></span>`;
+            }
+
+            if(params.payment_type == monthly_text && params.item['setup_fee'] <= 0) {
+             cell+=`<span class="single-plans"> $${params.price} <sub class="label-monthly">${payment_type_text}</sub></span>`;
+            }
+            if(params.payment_type == onetime_text && params.item['setup_fee'] <= 0) {
+             cell+=`<span class="single-plans"> $${params.price}</span>`;
+            }
+
+                if(numberPlan) {
+                  return `<div class="tb 2-plans">${cell}</div>`;
+                }else {
+
+                  return `<div class="tb">${cell}</div>`;
+                }
+         
+  }
 
   $.get(`https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/pricing`,{},async function(data, textStatus, jqXHR) {
 
     const { plans, state_fess, products } = data;
 
-      productList = products;
-    
+      productList = _.sortBy(products, 'order'); 
+
+     
       // plans
 
       let x = plans.filter((p)=> p.name.toLowerCase() == 'corvette')[0];
@@ -106,7 +162,8 @@
 
       dt = state_fess;
 
-      formationItems = await products.reverse()
+
+      formationItems = await productList
         .filter((item) => (item.category == 'formation' && item.is_hide==false));
 
       formationItems.forEach((item, index) => {
@@ -115,9 +172,11 @@
         let corvette = null;
         let frigate = null;
         let cruiser = null;
+        let payment_type = item['payment_type'];
+
         if (
           Boolean(item['included_in_corvette']) == true &&
-          item['corvette_price'] == 0
+          item['corvette_price'] <= 0
         ) {
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check">';
@@ -128,14 +187,24 @@
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette" data-price="${
-            item['corvette_price']
-          }"  id="${item._id}" data-ref="${item['refcode']}" /> $${
-            item['payment_type'] == 'Yearly' ||
-            item['payment_type'] == 'Monthly'
-              ? item['corvette_price'] + ' ' + item['payment_type']
-              : item['corvette_price']
-          } `;
+
+          let params = {
+            plan:'corvette',
+            price:item['corvette_price'],
+            payment_type,
+            item
+          }
+
+          corvette = displayCell( params );
+
+          // corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette" data-price="${
+          //   item['corvette_price']
+          // }"  id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //   payment_type == yearly_text ||
+          //   payment_type == monthly_text
+          //     ? item['corvette_price'] + ' ' + payment_type
+          //     : item['corvette_price']
+          // } `;
         }
         if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
@@ -147,14 +216,24 @@
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate" data-price="${
-            item['frigate_price']
-          }"  id="${item._id}" /> $${
-            item['payment_type'] == 'Yearly' ||
-            item['payment_type'] == 'Monthly'
-              ? item['frigate_price'] + ' ' + item['payment_type']
-              : item['frigate_price']
-          } `;
+
+          let params = {
+            plan:'frigate',
+            price:item['frigate_price'],
+            payment_type,
+            item
+          }
+
+          frigate = displayCell( params );
+
+          // frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate" data-price="${
+          //   item['frigate_price']
+          // }"  id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //   payment_type == yearly_text ||
+          //   payment_type == monthly_text
+          //     ? item['frigate_price'] + ' ' + payment_type
+          //     : item['frigate_price']
+          // } `;
         }
         if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
@@ -166,20 +245,30 @@
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser" data-price="${
-            item['cruiser_price']
-          }"  id="${item._id}" /> $${
-            item['payment_type'] == 'Yearly' ||
-            item['payment_type'] == 'Monthly'
-              ? item['cruiser_price'] + ' ' + item['payment_type']
-              : item['cruiser_price']
-          } `;
+
+           let params = {
+            plan:'cruiser',
+            price:item['cruiser_price'],
+            payment_type,
+            item
+          }
+
+          cruiser = displayCell( params );
+
+          // cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser" data-price="${
+          //   item['cruiser_price']
+          // }"  id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //   payment_type == yearly_text ||
+          //   payment_type == monthly_text
+          //     ? item['cruiser_price'] + ' ' + payment_type
+          //     : item['cruiser_price']
+          // } `;
         }
 
         let alternate = index % 2 != 0 ? '' : 'row-bg';
 
         $('#GridFormation').append(
-          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center"><div class="tb">${corvette}</div></div><div class="pricing-table-cell cell-center"><div class="tb">${frigate}</div></div><div class="pricing-table-cell cell-center"><div class="tb">${cruiser}</div></div></div>`,
+          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
         );
 
         $('#FormationCovertte')
@@ -210,8 +299,8 @@
   </div>
 </div></div>`);
       });
-      complianceItems = products
-        .reverse()
+      complianceItems = productList
+        
         .filter((item) => (item.category == 'compliance' && item.is_hide==false));
       //console.log('compliance items', complianceItems);
       complianceItems.forEach((item, index) => {
@@ -221,6 +310,7 @@
         let corvette = null;
         let frigate = null;
         let cruiser = null;
+        let payment_type = item['payment_type'];
         if (
           Boolean(item['included_in_corvette']) == true &&
           item['corvette_price'] == 0
@@ -234,14 +324,24 @@
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette"  data-price="${
-            item['corvette_price']
-          }"  id="${item._id}" data-ref="${item['refcode']}" /> $${
-            item['payment_type'] == 'Yearly' ||
-            item['payment_type'] == 'Monthly'
-              ? item['corvette_price'] + ' ' + item['payment_type']
-              : item['corvette_price']
-          } `;
+
+          let params = {
+            plan:'corvette',
+            price:item['corvette_price'],
+            payment_type,
+            item
+          }
+
+          corvette = displayCell( params );
+
+          // corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette"  data-price="${
+          //   item['corvette_price']
+          // }"  id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //   payment_type == yearly_text ||
+          //   payment_type == monthly_text
+          //     ? item['corvette_price'] + ' ' + payment_type
+          //     : item['corvette_price']
+          // } `;
         }
         if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
@@ -253,14 +353,24 @@
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate" data-price="${
-            item['frigate_price']
-          }"  id="${item._id}" /> $${
-            item['payment_type'] == 'Yearly' ||
-            item['payment_type'] == 'Monthly'
-              ? item['frigate_price'] + ' ' + item['payment_type']
-              : item['frigate_price']
-          } `;
+
+          let params = {
+            plan:'frigate',
+            price:item['frigate_price'],
+            payment_type,
+            item
+          }
+
+          frigate = displayCell( params );
+
+          // frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate" data-price="${
+          //   item['frigate_price']
+          // }"  id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //   payment_type == yearly_text ||
+          //   payment_type == monthly_text
+          //     ? item['frigate_price'] + ' ' + payment_type
+          //     : item['frigate_price']
+          // } `;
         }
         if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
@@ -272,19 +382,29 @@
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser"  data-price="${
-            item['cruiser_price']
-          }"  id="${item._id}" /> $${
-            item['payment_type'] == 'Yearly' ||
-            item['payment_type'] == 'Monthly'
-              ? item['corvette_price'] + ' ' + item['payment_type']
-              : item['cruiser_price']
-          } `;
+
+          let params = {
+            plan:'cruiser',
+            price:item['cruiser_price'],
+            payment_type,
+            item
+          }
+
+          cruiser = displayCell( params );
+
+          // cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser"  data-price="${
+          //   item['cruiser_price']
+          // }"  id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //   payment_type == yearly_text ||
+          //   payment_type == monthly_text
+          //     ? item['corvette_price'] + ' ' + payment_type
+          //     : item['cruiser_price']
+          // } `;
         }
         let alternate = index % 2 != 0 ? '' : 'row-bg';
 
         $('#gridCompliance').append(
-          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center"><div class="tb">${corvette}</div></div><div class="pricing-table-cell cell-center"><div class="tb">${frigate}</div></div><div class="pricing-table-cell cell-center"><div class="tb">${cruiser}</div></div></div>`,
+          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
         );
         $('#ComplianceCovertte')
           .append(`<div id="covertteM" class="w-layout-grid pricing-grid-mobile mrow ${alternate}"><div class="pricing-table-cell mcell">
@@ -315,8 +435,8 @@
         </div>
       </div></div>`);
       });
-      growthItems = products
-        .reverse()
+      growthItems = productList
+        
         .filter((item) => (item.category == 'growth' && item.is_hide==false));
       growthItems.forEach((item, index) => {
 
@@ -325,6 +445,7 @@
         let corvette = null;
         let frigate = null;
         let cruiser = null;
+        let payment_type = item['payment_type'];
         if (
           Boolean(item['included_in_corvette']) == true &&
           item['corvette_price'] == 0
@@ -338,14 +459,26 @@
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette" data-price="${
-            item['corvette_price']
-          }" id="${item._id}" data-ref="${item['refcode']}" /> $${
-            item['payment_type'] == 'Yearly' ||
-            item['payment_type'] == 'Monthly'
-              ? item['corvette_price'] + ' ' + item['payment_type']
-              : item['corvette_price']
-          } `;
+
+           let params = {
+            plan:'corvette',
+            price:item['corvette_price'],
+            payment_type,
+            item
+          }
+
+          corvette = displayCell( params );
+
+          // corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette" data-price="${
+          //   item['corvette_price']
+          // }" id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //   payment_type == yearly_text ||
+          //   payment_type == monthly_text
+          //     ? item['corvette_price'] + ' ' + payment_type
+          //     : item['corvette_price']
+          // } `;
+
+
         }
         if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
@@ -357,14 +490,24 @@
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate" data-price="${
-            item['frigate_price']
-          }"  id="${item._id}" /> $${
-            item['payment_type'] == 'Yearly' ||
-            item['payment_type'] == 'Monthly'
-              ? item['frigate_price'] + ' ' + item['payment_type']
-              : item['frigate_price']
-          } `;
+
+           let params = {
+            plan:'frigate',
+            price:item['frigate_price'],
+            payment_type,
+            item
+          }
+
+          frigate = displayCell( params );
+
+          // frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate" data-price="${
+          //   item['frigate_price']
+          // }"  id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //   payment_type == yearly_text ||
+          //   payment_type == monthly_text
+          //     ? item['frigate_price'] + ' ' + payment_type
+          //     : item['frigate_price']
+          // } `;
         }
         if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
@@ -376,18 +519,28 @@
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser"  data-price="${
-            item['cruiser_price']
-          }" id="${item._id}" /> $${
-            item['payment_type'] == 'Yearly' ||
-            item['payment_type'] == 'Monthly'
-              ? item['cruiser_price'] + ' ' + item['payment_type']
-              : item['cruiser_price']
-          } `;
+
+          let params = {
+            plan:'cruiser',
+            price:item['cruiser_price'],
+            payment_type,
+            item
+          }
+
+          cruiser = displayCell( params );
+
+          // cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser"  data-price="${
+          //   item['cruiser_price']
+          // }" id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //   payment_type == yearly_text ||
+          //   payment_type == monthly_text
+          //     ? item['cruiser_price'] + ' ' + payment_type
+          //     : item['cruiser_price']
+          // } `;
         }
         let alternate = index % 2 != 0 ? '' : 'row-bg';
         $('#gridGrowth').append(
-          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center"><div class="tb">${corvette}</div></div><div class="pricing-table-cell cell-center"><div class="tb">${frigate}</div></div><div class="pricing-table-cell cell-center"><div class="tb">${cruiser}</div></div></div>`,
+          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
         );
         $('#OperationCovertte')
           .append(`<div id="covertteM" class="w-layout-grid pricing-grid-mobile mrow ${alternate}"><div class="pricing-table-cell mcell">
@@ -417,14 +570,14 @@
         </div>
       </div></div>`);
       });
-      Addons = products
-        .reverse()
+      Addons = productList
         .filter((item) => (item.category == 'addons' && item.is_hide==false));
       Addons.forEach((item, index) => {
 
         let corvette = null;
         let frigate = null;
         let cruiser = null;
+        let payment_type = item['payment_type'];
         if (
           Boolean(item['included_in_corvette']) == true &&
           item['corvette_price'] <= 0
@@ -438,38 +591,48 @@
           corvette =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          if (item['setup_fee'] == 0) {
-            corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette"  data-price="${
-              item['corvette_price']
-            }" id="${item._id}" data-ref="${item['refcode']}" /> $${
-              item['payment_type'] == 'Yearly'
-                ? item['corvette_price'] + ' ' + item['payment_type']
-                : item['payment_type'] == 'Monthly'
-                ? item['setup_fee'] +
-                  ' <span>setup</span> ' +
-                  '$' +
-                  item['corvette_price'] +
-                  item['payment_type']
-                : item['corvette_price']
-            } `;
-          } else {
-            corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette"  data-price="${
-              item['corvette_price'] + item['setup_fee']
-            }" id="${item._id}" data-ref="${item['refcode']}" /> $${
-              item['payment_type'] == 'Yearly'
-                ? item['corvette_price'] + ' ' + item['payment_type']
-                : item['payment_type'] == 'Monthly'
-                ? '<span class="setup_fee">' +
-                  item['setup_fee'] +
-                  ' setup</span> ' +
-                  '<span class="monthly-fee">+ $' +
-                  item['corvette_price'] +
-                  ' ' +
-                  item['payment_type'] +
-                  '</span>'
-                : item['corvette_price']
-            } `;
+
+           let params = {
+            plan:'corvette',
+            price:item['corvette_price'],
+            payment_type,
+            item
           }
+
+          corvette = displayCell( params );
+
+          // if (item['setup_fee'] == 0) {
+          //   corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette"  data-price="${
+          //     item['corvette_price']
+          //   }" id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //     payment_type == yearly_text
+          //       ? item['corvette_price'] + ' ' + payment_type
+          //       : payment_type == monthly_text
+          //       ? item['setup_fee'] +
+          //         ' <span>setup</span> ' +
+          //         '$' +
+          //         item['corvette_price'] +
+          //         payment_type
+          //       : item['corvette_price']
+          //   } `;
+          // } else {
+          //   corvette = `<input class="mr-5 priceBox" type="checkbox" data-plan="corvette"  data-price="${
+          //     item['corvette_price'] + item['setup_fee']
+          //   }" id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //     payment_type == yearly_text
+          //       ? item['corvette_price'] + ' ' + payment_type
+          //       : payment_type == monthly_text
+          //       ? '<span class="setup_fee">' +
+          //         item['setup_fee'] +
+          //         ' setup</span> ' +
+          //         '<span class="monthly-fee">+ $' +
+          //         item['corvette_price'] +
+          //         ' ' +
+          //         payment_type +
+          //         '</span>'
+          //       : item['corvette_price']
+          //   } `;
+          // }
         }
         if (Boolean(item['included_in_frigate']) == true && item['frigate_price'] == 0) {
           frigate =
@@ -481,38 +644,48 @@
           frigate =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          if (item['setup_fee'] == 0) {
-            frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate"  data-price="${
-              item['frigate_price']
-            }" id="${item._id}" /> $${
-              item['payment_type'] == 'Yearly'
-                ? item['frigate_price'] + ' ' + item['payment_type']
-                : item['payment_type'] == 'Monthly'
-                ? item['setup_fee'] +
-                  ' <span>setup</span> ' +
-                  '$' +
-                  item['frigate_price'] +
-                  item['payment_type']
-                : item['frigate_price']
-            } `;
-          } else {
-            frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate"  data-price="${
-              item['frigate_price'] + item['setup_fee']
-            }" id="${item._id}" /> $${
-              item['payment_type'] == 'Yearly'
-                ? item['frigate_price'] + ' ' + item['payment_type']
-                : item['payment_type'] == 'Monthly'
-                ? '<span class="setup_fee">' +
-                  item['setup_fee'] +
-                  ' setup</span> ' +
-                  '<span class="monthly-fee">+ $' +
-                  item['frigate_price'] +
-                  ' ' +
-                  item['payment_type'] +
-                  '</span>'
-                : item['frigate_price']
-            } `;
+
+           let params = {
+            plan:'frigate',
+            price:item['frigate_price'],
+            payment_type,
+            item
           }
+
+          frigate = displayCell( params );
+
+          // if (item['setup_fee'] == 0) {
+          //   frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate"  data-price="${
+          //     item['frigate_price']
+          //   }" id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //     payment_type == yearly_text
+          //       ? item['frigate_price'] + ' ' + payment_type
+          //       : payment_type == monthly_text
+          //       ? item['setup_fee'] +
+          //         ' <span>setup</span> ' +
+          //         '$' +
+          //         item['frigate_price'] +
+          //         payment_type
+          //       : item['frigate_price']
+          //   } `;
+          // } else {
+          //   frigate = `<input class="mr-5 priceBox" type="checkbox" data-plan="frigate"  data-price="${
+          //     item['frigate_price'] + item['setup_fee']
+          //   }" id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //     payment_type == yearly_text
+          //       ? item['frigate_price'] + ' ' + payment_type
+          //       : payment_type == monthly_text
+          //       ? '<span class="setup_fee">' +
+          //         item['setup_fee'] +
+          //         ' setup</span> ' +
+          //         '<span class="monthly-fee">+ $' +
+          //         item['frigate_price'] +
+          //         ' ' +
+          //         payment_type +
+          //         '</span>'
+          //       : item['frigate_price']
+          //   } `;
+          // }
         }
         if (Boolean(item['included_in_cruiser']) == true && item['cruiser_price'] == 0) {
           cruiser =
@@ -524,43 +697,53 @@
           cruiser =
             '<img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check">';
         } else {
-          if (item['setup_fee'] == 0) {
-            cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser"  data-price="${
-              item['cruiser_price']
-            }" id="${item._id}" /> $${
-              item['payment_type'] == 'Yearly'
-                ? item['cruiser_price'] + ' ' + item['payment_type']
-                : item['payment_type'] == 'Monthly'
-                ? item['setup_fee'] +
-                  ' <span>setup</span> ' +
-                  '$' +
-                  item['cruiser_price'] +
-                  item['payment_type']
-                : item['cruiser_price']
-            } `;
-          } else {
-            cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser"  data-price="${
-              item['cruiser_price'] + item['setup_fee']
-            }" id="${item._id}" /> $${
-              item['payment_type'] == 'Yearly'
-                ? item['cruiser_price'] + ' ' + item['payment_type']
-                : item['payment_type'] == 'Monthly'
-                ? '<span class="setup_fee">' +
-                  item['setup_fee'] +
-                  ' setup</span> ' +
-                  '<span class="monthly-fee">+ $' +
-                  item['cruiser_price'] +
-                  ' ' +
-                  item['payment_type'] +
-                  '</span>'
-                : item['cruiser_price']
-            } `;
+
+          let params = {
+            plan:'cruiser',
+            price:item['cruiser_price'],
+            payment_type,
+            item
           }
+
+          cruiser = displayCell( params );
+
+          // if (item['setup_fee'] == 0) {
+          //   cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser"  data-price="${
+          //     item['cruiser_price']
+          //   }" id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //     payment_type == yearly_text
+          //       ? item['cruiser_price'] + ' ' + payment_type
+          //       : payment_type == monthly_text
+          //       ? item['setup_fee'] +
+          //         ' <span>setup</span> ' +
+          //         '$' +
+          //         item['cruiser_price'] +
+          //         payment_type
+          //       : item['cruiser_price']
+          //   } `;
+          // } else {
+          //   cruiser = `<input class="mr-5 priceBox" type="checkbox" data-plan="cruiser"  data-price="${
+          //     item['cruiser_price'] + item['setup_fee']
+          //   }" id="${item._id}" data-ref="${item['refcode']}" /> $${
+          //     payment_type == yearly_text
+          //       ? item['cruiser_price'] + ' ' + payment_type
+          //       : payment_type == monthly_text
+          //       ? '<span class="setup_fee">' +
+          //         item['setup_fee'] +
+          //         ' setup</span> ' +
+          //         '<span class="monthly-fee">+ $' +
+          //         item['cruiser_price'] +
+          //         ' ' +
+          //         payment_type +
+          //         '</span>'
+          //       : item['cruiser_price']
+          //   } `;
+          // }
         }
         let alternate = index % 2 != 0 ? '' : 'row-bg';
 
         $('#Addons').prepend(
-          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center"><div class="tb">${corvette}</div></div><div class="pricing-table-cell cell-center"><div class="tb">${frigate}</div></div><div class="pricing-table-cell cell-center"><div class="tb">${cruiser}</div></div></div>`,
+          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
         );
         $('#AddonConvertte')
           .append(`<div id="covertteM" class="w-layout-grid pricing-grid-mobile mrow ${alternate}"><div class="pricing-table-cell mcell">
@@ -662,12 +845,26 @@
     if (this.checked) {
       let planName = $(this).data('plan');
       let planPrice = $(this).data('price');
+      let productRef = $(this).data('ref');
 
-      console.log(planPrice);
+      if(!url_products[planName]) {
+
+        url_products[planName] = []
+        url_products[planName].push({
+          productRef
+        })
+      }else {
+
+        url_products[planName].push({
+          productRef
+        })
+
+      }
+      console.log(url_products);
 
       if (planName == 'corvette') {
 
-        let productRef = $(this).data('ref');
+        
         corvetteAddOnFee += parseInt(planPrice);
         $('#corvetteAddOn').html('$' + parseInt(corvetteAddOnFee));
         covertteTotal += parseInt(planPrice);
@@ -686,6 +883,13 @@
     } else {
       let planName = $(this).data('plan');
       let planPrice = $(this).data('price');
+      let productRef = $(this).data('ref');
+
+      if(url_products[planName]) {
+
+        url_products[planName] = url_products[planName].filter((item)=> item.productRef !== productRef)
+      }
+
       if (planName == 'corvette') {
         if (corvetteAddOnFee < 0) {
           corvetteAddOnFee = 0;
@@ -716,4 +920,70 @@
       }
     }
   });
+
+  // new code
+
+
+
+    
+    $(".without-product-plan").click(function() {
+
+      without_product_url = 'order.html?';
+
+      without_product_url+= 'p='+$(this).attr("data-plan");
+      without_product_url+= '&ct='+$("#companyType").val();
+      without_product_url+= '&cct='+$("#companyCity").val();
+
+      window.location.href = without_product_url;
+
+    })
+
+     $(".with-product-plan").click(function() {
+
+      with_product_url = 'order.html?';
+
+      let pLaN = $(this).attr("data-plan");
+
+      //console.log(with_product_url)
+
+      with_product_url+= 'p='+pLaN
+      with_product_url+= '&ct='+$("#companyType").val();
+      with_product_url+= '&cct='+$("#companyCity").val();
+     
+      if(url_products[pLaN]) {
+
+        if(url_products[pLaN].length) {
+
+            let ref = '&ref=';
+            let items = []
+
+          url_products[pLaN].forEach(function(item) {
+            console.warn(item);
+            items.push(item.productRef);
+          })
+
+          ref+=items.join("-");
+          with_product_url+=ref;
+        }
+      }
+
+      //console.log(with_product_url);
+
+      window.location.href = with_product_url;
+
+    });
+
+     $(document).on("click",".single-plans, .first-plans, .second-plans",function() {
+
+      if(!$(this).siblings("input[type='checkbox']").is(":checked")){
+        $(this).siblings("input[type='checkbox']").trigger("click");
+        $(this).siblings("input[type='checkbox']").prop("checked",true)
+      } else {
+        $(this).siblings("input[type='checkbox']").trigger("click");
+        $(this).siblings("input[type='checkbox']").prop("checked",false)
+      }
+
+     })
+
 });
+
