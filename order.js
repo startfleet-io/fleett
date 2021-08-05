@@ -414,11 +414,14 @@ $("div.wrapper-option-member-step-3 label.w-checkbox").click(function() {
    }
 })
 
+$(document).on("click",".custom-submit",function() {
+  finalSubmission();
+})
 
 // final submission
-function finalSubmission(e) {
+function finalSubmission() {
 
-e.preventDefault();
+//e.preventDefault();
 
  if(step == 4) {
 
