@@ -43,8 +43,8 @@ $(function () {
   let frigateSaving = $("#frigateSaving");
   let cruiserSaving = $("#cruiserSaving");
 
-  var without_product_url = 'order.html?';
-  var with_product_url = 'order.html?';
+  var without_product_url = 'order?';
+  var with_product_url = 'order?';
 
   var url_products = {};
 
@@ -928,7 +928,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
     
     $(".without-product-plan").click(function() {
 
-      without_product_url = 'order.html?';
+      without_product_url = 'order?';
 
       without_product_url+= 'p='+$(this).attr("data-plan");
       without_product_url+= '&ct='+$("#companyType").val();
@@ -940,7 +940,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
 
      $(".with-product-plan").click(function() {
 
-      with_product_url = 'order.html?';
+      with_product_url = 'order?';
 
       let pLaN = $(this).attr("data-plan");
 
