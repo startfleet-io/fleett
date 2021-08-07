@@ -383,7 +383,8 @@ function callStateFee( data ) {
     $("#stateText").html(`${found.state.charAt(0).toUpperCase()}${found.state.slice(1)} State Fees`)
     stateFee = found.fee;
     $("#stateFee").html(`$${stateFee}`)
-    //$("#totalCost").html(`$${stateFee}`);
+    let tot = parseInt(totalCost) + parseInt(stateFee);
+    $("#totalCost").html(`$${tot}`);
   }
 }
 
