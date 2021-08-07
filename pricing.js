@@ -988,8 +988,8 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       $("#exit-01").click(function(){
       $("#content-01").hide();
       });
-      $(document).on("click",".show-desc",function(){
-      console.log(productList);
+      $(document).on("click",".show-desc",function(event){
+       event.stopPropagation();
       let pdtxt = $(this).prev("h4").text()
       let found = productList.filter((p)=> p.name == pdtxt)
 
