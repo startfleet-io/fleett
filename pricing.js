@@ -268,7 +268,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         let alternate = index % 2 != 0 ? '' : 'row-bg';
 
         $('#GridFormation').append(
-          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
+          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="javascript:;" class="help w-inline-block show-desc"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
         );
 
         $('#FormationCovertte')
@@ -404,7 +404,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         let alternate = index % 2 != 0 ? '' : 'row-bg';
 
         $('#gridCompliance').append(
-          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
+          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="javascript:;" class="help w-inline-block show-desc"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
         );
         $('#ComplianceCovertte')
           .append(`<div id="covertteM" class="w-layout-grid pricing-grid-mobile mrow ${alternate}"><div class="pricing-table-cell mcell">
@@ -540,7 +540,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
         let alternate = index % 2 != 0 ? '' : 'row-bg';
         $('#gridGrowth').append(
-          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
+          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="javascript:;" class="help w-inline-block show-desc"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
         );
         $('#OperationCovertte')
           .append(`<div id="covertteM" class="w-layout-grid pricing-grid-mobile mrow ${alternate}"><div class="pricing-table-cell mcell">
@@ -743,7 +743,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         let alternate = index % 2 != 0 ? '' : 'row-bg';
 
         $('#Addons').prepend(
-          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="#" class="help w-inline-block"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
+          `<div class="table-row ${alternate}"><div class="pricing-table-cell"><h4 class="pricing-cell-title">${item.name}</h4><a data-tippy-content="Add custom tooltips" href="javascript:;" class="help w-inline-block show-desc"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d874a76a8499e179433725_Icon%20awesome-question-circle.png" alt="" class="help-icon"></a></div><div class="pricing-table-cell cell-center">${corvette}</div><div class="pricing-table-cell cell-center">${frigate}</div><div class="pricing-table-cell cell-center">${cruiser}</div></div>`,
         );
         $('#AddonConvertte')
           .append(`<div id="covertteM" class="w-layout-grid pricing-grid-mobile mrow ${alternate}"><div class="pricing-table-cell mcell">
@@ -984,6 +984,24 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       }
 
      })
+
+      $("#exit-01").click(function(){
+      $("#content-01").hide();
+      });
+      $(document).on("click",".show-desc",function(){
+      console.log(productList);
+      let pdtxt = $(this).prev("h4").text()
+      let found = productList.filter((p)=> p.name == pdtxt)
+
+      if(found.length) {
+      $("#productTitle").html(found[0].name);
+      $("#productDescription").html(found[0].description);
+      console.log(found)
+      $("#content-01").show();
+
+      }
+
+      });
 
 });
 
