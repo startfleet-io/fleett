@@ -12,6 +12,7 @@
     var cruiserPrice = 0; 
     var addonPrice = 0;
     var totalCost =0;
+    $("#totalCost").html(`$${totalCost}`);
     var suffix = {
       llc:[
         'LLC',
