@@ -1003,5 +1003,22 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
 
       });
 
+         // close popup on esc
+      $(document).keyup(function(e) {
+       if (e.key === "Escape") { // escape key maps to keycode `27`
+           $("#content-01").hide();
+      }
+      });
+
+      // close popup click on body
+      $(document).on("click","body",function(e) {
+          
+          if($("#content-01").is(":visible")){
+
+               $("#content-01").hide();
+          }
+        
+      });
+
 });
 
