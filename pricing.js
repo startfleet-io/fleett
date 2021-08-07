@@ -973,7 +973,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
 
     });
 
-     $(document).on("click",".single-plans, .first-plans, .second-plans",function() {
+     $(document).on("click",".single-plans, .first-plans, .second-plans, .without-label",function() {
 
       if(!$(this).siblings("input[type='checkbox']").is(":checked")){
         $(this).siblings("input[type='checkbox']").trigger("click");

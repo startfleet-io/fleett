@@ -12,6 +12,19 @@
     var cruiserPrice = 0; 
     var addonPrice = 0;
     var totalCost =0;
+    var suffix = {
+      llc:[
+        'LLC',
+        'L.L.C.',
+        'Limited Liability Company'
+      ],
+      corporation:[
+        'Corporation',
+        'Incorporated',
+        'Inc.',
+        'Corp.'
+      ]
+    };
 
 // get pricing
 
@@ -214,10 +227,10 @@ function stepValidation() {
               .next("div.invalid-insert")
               .remove();
 
-            if((($("#Business-desc-form").val()).trim()).length < 100) {
+            if((($("#Business-desc-form").val()).trim()).length < 20) {
 
               let msg = '<div class="invalid-insert show-left">'
-              msg+='Please business description atleast 100 characters long!'
+              msg+='Please business description at least 20 characters long!'
               msg+='</div>'
 
               $("#Business-desc-form")
@@ -286,10 +299,12 @@ $("div.wrapper-structure .checkbox-wrap").on("click",function(){
 
   let url = new URL(window.location.href);
   let search_params = url.searchParams;
-  search_params.set('ct',$(this).next().next().attr("data-value"))
+  let selectedStructure = $(this).next().next().attr("data-value");
 
+  search_params.set('ct',selectedStructure)
     if (history.pushState) {
     window.history.pushState({path:url.href},'',url.href);
+      changeSuffixOptions(selectedStructure)
     }
 
   checkboxes.each(function() {
@@ -333,6 +348,22 @@ $("div.custom-grid-pricing-step-2 .checkbox-wrap").on("click",function(){
 
 })
 
+
+function changeSuffixOptions( structure ) {
+
+  let strLower = structure.toLowerCase();
+  let options = suffix[strLower];
+
+  if(options.length) {
+    let suffId = $("#SSN-or-ITIN-2");
+    suffId.empty()
+    suffId.append(`<option value="">Select</option>`)
+    options.forEach(function(opt) {
+      suffId.append(`<option value="${opt}">${opt}</option>`)
+    })
+  }
+
+}
 
 
 
@@ -574,6 +605,7 @@ let divStep = $(`.custom-step-${step}`);
        data = JSON.parse(localStorage.getItem('data'));
        data.structure = $(this).attr("data-value")
        localStorage.setItem('data', JSON.stringify(data));
+        changeSuffixOptions(data.structure)
     }
   })
 }
