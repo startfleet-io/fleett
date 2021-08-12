@@ -166,6 +166,8 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       formationItems = await productList
         .filter((item) => (item.category == 'formation' && item.is_hide==false));
 
+        formationItems = _.sortBy(formationItems, 'order');
+        
       formationItems.forEach((item, index) => {
 
     
@@ -303,6 +305,9 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         
         .filter((item) => (item.category == 'compliance' && item.is_hide==false));
       //console.log('compliance items', complianceItems);
+      
+      complianceItems = _.sortBy(complianceItems, 'order');
+
       complianceItems.forEach((item, index) => {
 
        
@@ -438,6 +443,9 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       growthItems = productList
         
         .filter((item) => (item.category == 'growth' && item.is_hide==false));
+      
+        growthItems = _.sortBy(growthItems, 'order'); 
+
       growthItems.forEach((item, index) => {
 
         
@@ -572,6 +580,9 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       });
       Addons = productList
         .filter((item) => (item.category == 'addons' && item.is_hide==false));
+      
+      Addons = _.sortBy(Addons, 'order'); 
+
       Addons.forEach((item, index) => {
 
         let corvette = null;
