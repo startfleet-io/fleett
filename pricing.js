@@ -26,8 +26,10 @@ $(function () {
   let FrigateMb = $('#FrigateMb');
   let CruiserMb = $('#CruiserMb');
   let AddonsMb = $('#AddonsMb');
-  let frigateProducts = [1002,1009,1010,1025];
-  let cruiserproducts = [1002,1009,1010,1025,1015,1016,1024];
+  // let frigateProducts = [1002,1009,1010,1025];
+  // let cruiserproducts = [1002,1009,1010,1025,1015,1016,1024];
+  let frigateProducts = [1002,1009,1010,1025,1028,1012];
+  let cruiserproducts = [1002,1009,1010,1025,1024,1021,1028,1012];
   let productList;
 
   let frigatePlanPrice = 0;
@@ -167,7 +169,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         .filter((item) => (item.category == 'formation' && item.is_hide==false));
 
         formationItems = _.sortBy(formationItems, 'order');
-        
+
       formationItems.forEach((item, index) => {
 
     
