@@ -38,7 +38,7 @@
 
     var dataName = 'sf_store_database';
 
-     const API_PRICING = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/pricing`;
+    const API_PRICING = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/pricing`;
 
     const API_EMAIL_VALIDATION =`https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/check-email`;
 
@@ -1097,3 +1097,60 @@ if(plan) {
  }
 
 }
+
+// phone field
+
+var input = document.querySelector("#phone"),
+  dialCode = document.querySelector(".dialCode"),
+  errorMsg = document.querySelector("#error-msg"),
+    validMsg = document.querySelector("#valid-msg");
+var iti = intlTelInput(input, {
+  initialCountry: "us",
+  placeholderNumberType: 'FIXED_LINE',
+});
+var tempCode = '';
+var updateInputValue = function (event) {
+
+        let code = iti.getSelectedCountryData().dialCode;
+        let inptValue = input.value
+        inptValue = inptValue.replace('+','');
+        if(tempCode != code) {
+
+         inptValue = inptValue.replace(tempCode,'');
+        }else {
+          inptValue = inptValue.replace(code,'');
+        }
+        tempCode = code
+        input.value = `+${code}${inptValue}`;
+};
+
+var updateSelectValue = function (event) {
+
+        tempCode = iti.getSelectedCountryData().dialCode;
+};
+
+input.addEventListener('input', updateInputValue, false);
+input.addEventListener('countrychange', updateSelectValue, false);
+
+var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+var reset = function() {
+  input.classList.remove("error");
+  errorMsg.innerHTML = "";
+  errorMsg.classList.add("hide");
+  validMsg.classList.add("hide");
+};
+input.addEventListener('blur', function() {
+  reset();
+  if (input.value.trim()) {
+    if (iti.isValidNumber()) {
+      validMsg.classList.remove("hide");
+    } else {
+      input.classList.add("error");
+      var errorCode = iti.getValidationError();
+      errorMsg.innerHTML = errorMap[errorCode];
+      errorMsg.classList.remove("hide");
+    }
+  }
+});
+input.addEventListener('change', reset);
+input.addEventListener('keyup', reset);
