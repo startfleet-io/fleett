@@ -139,6 +139,9 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       $('#frigatePrice').html('$' + y.price);
       $('#cruiserPrice').html('$' + z.price);
 
+      $('#coverttePrice2').html('$' + x.price);
+      $('#frigatePrice2').html('$' + y.price);
+      $('#cruiserPrice2').html('$' + z.price);
 
       covertteTotal += x.price + 100;
 
@@ -159,6 +162,8 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       $('#frigateTotal').html('$' + frigateTotal);
       $('#covertteTotal').html('$' + covertteTotal);
       $('#cruiserTotal').html('$' + cruiserTotal);
+
+
 
       // state fees
 

@@ -12,7 +12,6 @@
     var cruiserPrice = 0; 
     var addonPrice = 0;
     var totalCost =0;
-    $("#totalCost").html(`$${totalCost}`);
     var suffix = {
       llc:[
         'LLC',
@@ -26,20 +25,40 @@
         'Corp.'
       ]
     };
+    var codes = [];
+    var choosenProducts = [];
+    var x,y,z;
+    var retries = 0;
+
+    var formErrorMsg = '<div class="invalid-insert show-left">';
+    formErrorMsg+='###';
+    formErrorMsg+='</div>';
+
+    var defaultData = JSON.stringify({});
+
+    var dataName = 'sf_store_database';
+
+     const API_PRICING = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/pricing`;
+
+    const API_EMAIL_VALIDATION =`https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/check-email`;
+
+    const API_PHONE_VALIDATION = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/check-phone`
+
+    const API_ORDER = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/order`
 
 // get pricing
 
 function getPricing() {
 
-$.get(`https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/pricing`,{},async function(data, textStatus, jqXHR) {
+$.get(API_PRICING,{},async function(data, textStatus, jqXHR) {
 
     plans = data.plans;
     dt = data.state_fess;
     products = data.products
 
-    let x = plans.filter((item)=> item.name.toLowerCase() == "corvette")
-    let y = plans.filter((item)=> item.name.toLowerCase() == "frigate")
-    let z = plans.filter((item)=> item.name.toLowerCase() == "cruiser")
+     x = plans.filter((item)=> item.name.toLowerCase() == "corvette")
+     y = plans.filter((item)=> item.name.toLowerCase() == "frigate")
+     z = plans.filter((item)=> item.name.toLowerCase() == "cruiser")
 
     convettePrice = x[0].price
     $("#convettePrice").html(`$${x[0].price}`);
@@ -62,6 +81,320 @@ $.get(`https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/pricing`,{},async function
 getPricing()
 
 
+// step1 validation
+
+function stateValidation( divStep ) {
+
+let stateElements = divStep
+            .find("div.wrapper-state")
+            .find("input:checked");
+
+
+if(!stateElements.length) {
+
+      let msg = formErrorMsg;
+      msg = msg.replace('###','Please choose state!');
+
+      divStep
+      .find("div.wrapper-state")
+      .next("div.invalid-insert")
+      .remove();
+
+      divStep
+      .find("div.wrapper-state")
+      .after(msg);
+
+      return false;
+    }else {
+
+      divStep
+      .find("div.wrapper-state")
+      .next("div.invalid-insert")
+      .remove();
+
+       let data = localStorage.getItem(dataName) ? localStorage.getItem(dataName) : defaultData;
+        data = JSON.parse(data);
+        data.state = stateElements.attr("data-value")
+        localStorage.setItem(dataName, JSON.stringify(data));
+        return true
+
+    }
+}
+
+// step2 validation
+
+function structureValidation( divStep ) {
+
+    let structureElements = divStep
+      .find("div.wrapper-structure")
+      .find("input:checked");
+
+      if(!structureElements.length) {
+
+        let msg = formErrorMsg
+        msg = msg.replace('###','Please choose structure!')
+        
+        divStep
+        .find("div.wrapper-structure")
+        .next("div.invalid-insert")
+        .remove();
+
+        divStep
+        .find("div.wrapper-structure")
+        .after(msg);
+
+        return false;
+
+      }else {
+
+        divStep
+        .find("div.wrapper-structure")
+        .next("div.invalid-insert")
+        .remove();
+
+        let data = localStorage.getItem(dataName) ? localStorage.getItem(dataName) : defaultData;
+          data = JSON.parse(data);
+          data.structure = structureElements.attr("data-value")
+          localStorage.setItem(dataName, JSON.stringify(data));
+
+          return true;
+      }
+}
+
+// plan validation
+
+function planValidation( divStep ) {
+
+  let planElements = divStep
+          .find("div.custom-grid-pricing-step-2")
+          .find("input:checked");
+
+    if(!planElements.length) {
+
+      let msg = formErrorMsg.replace('###','Please choose plan!');
+      divStep
+      .find("div.custom-grid-pricing-step-2")
+      .next("div.invalid-insert")
+      .remove();
+
+      divStep
+      .find("div.custom-grid-pricing-step-2")
+      .after(msg);
+
+      return false;
+
+    } else {
+
+      divStep
+      .find("div.custom-grid-pricing-step-2")
+      .next("div.invalid-insert")
+      .remove();
+
+      let data = localStorage.getItem(dataName) ? localStorage.getItem(dataName) : defaultData;
+      data = JSON.parse(data);
+      data.plan = planElements.attr("data-value")
+      let minePlan = plans.filter((p) => p.name.toLowerCase() == data.plan.toLowerCase())
+      data.planId = minePlan[0].id
+      localStorage.setItem(dataName, JSON.stringify(data));
+
+      return true;
+    }
+
+}
+// company details validation
+
+function companyDetailsValidation() {
+
+  let pass = true;
+
+  $("#Company-name-2")
+      .next("div.invalid-insert")
+      .remove();
+
+  if(($("#Company-name-2").val()).trim() == '') {
+
+      let msg = formErrorMsg.replace('###','Please enter company name!')
+
+       $("#Company-name-2")
+       .after(msg);
+       pass = false
+      //return false;
+    }
+
+          
+     $("#SSN-or-ITIN-2")
+      .next("div.invalid-insert")
+      .remove();
+
+    if(($("#SSN-or-ITIN-2").val()).trim() == '') {
+
+      let msg = formErrorMsg.replace('###','Please choose suffix!')
+       $("#SSN-or-ITIN-2")
+       .after(msg);
+       pass = false
+      //return false;
+    }
+
+     $("#Business-desc-form")
+        .next("div.invalid-insert")
+        .remove();
+            
+
+      if(($("#Business-desc-form").val()).trim() == '') {
+
+         let msg = formErrorMsg.replace('###','Please enter business description!')
+         $("#Business-desc-form")
+         .after(msg);
+         pass = false
+        //return false;
+
+      }
+
+      $("#Business-desc-form")
+        .next("div.invalid-insert")
+        .remove();
+
+    if((($("#Business-desc-form").val()).trim()).length < 20) {
+
+      let msg = formErrorMsg.replace('###','Please enter business description at least 20 characters long!')
+       $("#Business-desc-form")
+       .after(msg);
+       pass = false
+       //return false;
+    }
+
+    if(pass) {
+
+    let data = localStorage.getItem(dataName);
+    data = JSON.parse(data);
+    data.companyName = ($("#Company-name-2").val()).trim()
+    data.SSN = ($("#SSN-or-ITIN-2").val()).trim()
+    data.businessDescription = ($("#Business-desc-form").val()).trim()
+    data.members = totalMembers
+    localStorage.setItem(dataName, JSON.stringify(data));
+
+      return true;
+    }
+    return false
+
+} 
+
+// final step validation
+function finalStepValidation() {
+
+return new Promise(async(resolve,reject)=> {
+
+    let pass = true;
+
+    $("#Full-name").next("div.invalid-insert").remove();
+
+    if(($("#Full-name").val()).trim() == '') {
+      pass = false
+      let msg = formErrorMsg.replace('###','Please enter full name!')
+      $("#Full-name").after(msg);
+      //return false;
+
+    }
+
+  
+    $("#Email-field").next("div.invalid-insert").remove();
+
+    if(($("#Email-field").val()).trim() == '') {
+      pass = false
+      let msg = formErrorMsg.replace('###','Please enter valid email!')
+      $("#Email-field").after(msg);
+      //return false;
+
+    }
+
+
+     // validate email
+
+     if(($("#Email-field").val()).trim() !== '') {
+
+          var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+
+          if(!pattern.test($("#Email-field").val().trim()))
+          {
+              pass = false
+              let msg = formErrorMsg.replace('###','Please enter valid email!')
+              $("#Email-field").after(msg);
+              //return false;
+          }
+
+          let isValidEmail = await validate_email();
+
+          if(!isValidEmail) {
+            pass = false
+            let msg = formErrorMsg.replace('###','Please enter valid email!')
+            $("#Email-field").after(msg);
+            //return false;
+          }
+
+     }
+
+
+     $("#phone").next("div.invalid-insert").remove();
+
+     if(($("#phone").val()).trim() == '') {
+      pass = false
+      let msg = formErrorMsg.replace('###','Please enter valid phone number!')
+      
+       $("#phone").after(msg);
+      //return false;
+
+    }
+
+    // validate phone number
+    
+     if(($("#phone").val()).trim()!=='' && retries < 2) {
+
+        let isValidPhone = await validate_phone();
+        if(!isValidPhone) {
+        pass = false
+        let msg = formErrorMsg.replace('###','Please enter valid phone number!')
+        $("#phone").after(msg);
+          //return false;
+        }
+        retries++
+
+     }
+
+
+     $("#SSN-or-ITIN").next("div.invalid-insert").remove();
+
+      if(($("#SSN-or-ITIN").val()).trim() == '') {
+        pass = false
+        let msg = formErrorMsg.replace('###','Please choose!')
+         $("#SSN-or-ITIN").after(msg);
+         //return false;
+      }
+
+
+     if(!$("#error-msg").hasClass("hide")) {
+      pass = false
+      //return false;
+     }
+
+    if(pass) {
+      let data = localStorage.getItem(dataName);
+      data = JSON.parse(data);
+      data.cName = ($("#Full-name").val()).trim()
+      data.cEmail = ($("#Email-field").val()).trim()
+      data.SSNYN = ($("#SSN-or-ITIN").val()).trim()
+      data.cPhone = ($("#phone").val()).trim()
+      data.members = totalMembers
+      localStorage.setItem(dataName, JSON.stringify(data));
+
+       resolve(true);
+   }else {
+      reject(false)
+   }
+  
+   })
+
+}
+
 // step validation
 
 function stepValidation() {
@@ -69,194 +402,63 @@ function stepValidation() {
   let divStep = $(`.custom-step-${step}`);
     if(divStep.length) {
 
+          // step 1
           if(step  == 1) {
-
-            let stateElements = divStep
-            .find("div.wrapper-state")
-            .find("input:checked");
-
-            let structureElements = divStep
-            .find("div.wrapper-structure")
-            .find("input:checked");
-
-            if(!stateElements.length) {
-
-              let msg = '<div class="invalid-insert show-left">'
-              msg+='Please choose state!'
-              msg+='</div>'
-              divStep
-              .find("div.wrapper-state")
-              .next("div.invalid-insert")
-              .remove();
-
-              divStep
-              .find("div.wrapper-state")
-              .after(msg);
-
+             let pass = true;
+             if(!stateValidation(divStep)) {
+              pass = false
               return false;
-            }else {
+             }
 
-              divStep
-              .find("div.wrapper-state")
-              .next("div.invalid-insert")
-              .remove();
-
-            }
-
-            if(!structureElements.length) {
-
-              let msg = '<div class="invalid-insert show-left">'
-              msg+='Please choose structure!'
-              msg+='</div>'
-              divStep
-              .find("div.wrapper-structure")
-              .next("div.invalid-insert")
-              .remove();
-
-              divStep
-              .find("div.wrapper-structure")
-              .after(msg);
-
+             if(!structureValidation(divStep)) {
+              pass = false
               return false;
+             }
 
-            }else {
-              divStep
-              .find("div.wrapper-structure")
-              .next("div.invalid-insert")
-              .remove();
-            }
-
-            data.state = stateElements.attr("data-value")
-            data.structure = structureElements.attr("data-value")
-            localStorage.setItem('data', JSON.stringify(data));
-            
-            callStateFee(data);
-            return true;
-            
+             if(pass) {
+              let data = localStorage.getItem(dataName) ? localStorage.getItem(dataName) : defaultData;
+              data = JSON.parse(data);
+              callStateFee(data);
+              return true;
+             }
+             return false; // default return 
           }
 
+          // step 2
           if(step == 2) {
 
-             let planElements = divStep
-            .find("div.custom-grid-pricing-step-2")
-            .find("input:checked");
+            let pass = true;
 
-            if(!planElements.length) {
+            if(!planValidation(divStep)) {
 
-              let msg = '<div class="invalid-insert show-left">'
-              msg+='Please choose plan!'
-              msg+='</div>'
-              divStep
-              .find("div.custom-grid-pricing-step-2")
-              .next("div.invalid-insert")
-              .remove();
-
-              divStep
-              .find("div.custom-grid-pricing-step-2")
-              .after(msg);
+              pass = false;
 
               return false;
 
-            }else {
-
-              divStep
-              .find("div.custom-grid-pricing-step-2")
-              .next("div.invalid-insert")
-              .remove();
-
-              return true;
             }
+
+            if(pass) {
+                return true;
+            }
+            return false; // default return 
           }
 
+          // step 3
           if(step == 3) {
            
-            if(($("#Company-name-2").val()).trim() == '') {
-              let msg = '<div class="invalid-insert show-left">'
-              msg+='Please enter company name!'
-              msg+='</div>'
+            let pass =  true;
 
-              $("#Company-name-2")
-              .next("div.invalid-insert")
-              .remove();
-
-               $("#Company-name-2")
-               .after(msg);
-
-              return false;
+            if(!companyDetailsValidation()) {
+              pass = false
+              return false
             }
 
-            $("#Company-name-2")
-              .next("div.invalid-insert")
-              .remove();
-
-            if(($("#SSN-or-ITIN-2").val()).trim() == '') {
-              let msg = '<div class="invalid-insert show-left">'
-              msg+='Please choose suffix!'
-              msg+='</div>'
-
-              $("#SSN-or-ITIN-2")
-              .next("div.invalid-insert")
-              .remove();
-
-               $("#SSN-or-ITIN-2")
-               .after(msg);
-              return false;
-            }
-
-             $("#SSN-or-ITIN-2")
-              .next("div.invalid-insert")
-              .remove();
-
-            if(($("#Business-desc-form").val()).trim() == '') {
-
-              let msg = '<div class="invalid-insert show-left">'
-              msg+='Please enter business description!'
-              msg+='</div>'
-
-              $("#Business-desc-form")
-              .next("div.invalid-insert")
-              .remove();
-
-               $("#Business-desc-form")
-               .after(msg);
-
-              return false;
-
-            }
-
-            $("#Business-desc-form")
-              .next("div.invalid-insert")
-              .remove();
-
-            if((($("#Business-desc-form").val()).trim()).length < 20) {
-
-              let msg = '<div class="invalid-insert show-left">'
-              msg+='Please business description at least 20 characters long!'
-              msg+='</div>'
-
-              $("#Business-desc-form")
-              .next("div.invalid-insert")
-              .remove();
-
-               $("#Business-desc-form")
-               .after(msg);
-
-              return false;
-            }
-
-             $("#Business-desc-form")
-              .next("div.invalid-insert")
-              .remove();
-
-            let data = localStorage.getItem('data');
-            data = JSON.parse(data);
-            data.companyName = ($("#Company-name-2").val()).trim()
-            data.SSN = ($("#SSN-or-ITIN-2").val()).trim()
-            data.businessDescription = ($("#Business-desc-form").val()).trim()
-            data.members = totalMembers
-            localStorage.setItem("data", JSON.stringify(data));
+           if(pass) {
             return true;
+           }
 
+           return false; // default return
+            
           }
     }
 }
@@ -300,9 +502,13 @@ $("div.wrapper-structure .checkbox-wrap").on("click",function(){
 
   let url = new URL(window.location.href);
   let search_params = url.searchParams;
+
   let selectedStructure = $(this).next().next().attr("data-value");
 
   search_params.set('ct',selectedStructure)
+
+
+
     if (history.pushState) {
     window.history.pushState({path:url.href},'',url.href);
       changeSuffixOptions(selectedStructure)
@@ -332,6 +538,13 @@ $("div.custom-grid-pricing-step-2 .checkbox-wrap").on("click",function(){
   })
 
   let selectedPlan = $(this).next().next();
+  let choosenProduct = selectedPlan.attr("data-value")
+  console.log(choosenProduct)
+  let minePlan = plans.filter((p)=> p.name.toLowerCase() == choosenProduct.toLowerCase())[0];
+
+
+
+
   var url = new URL(window.location.href);
   var search_params = url.searchParams;
   search_params.set('p',selectedPlan.attr("data-value"))
@@ -341,14 +554,14 @@ $("div.custom-grid-pricing-step-2 .checkbox-wrap").on("click",function(){
     window.history.pushState({path:url.href},'',url.href);
   }
 
-  let data = JSON.parse(localStorage.getItem('data'));
+  let data = JSON.parse(localStorage.getItem(dataName));
 
   data.plan = selectedPlan.attr("data-value")
-  localStorage.setItem('data', JSON.stringify(data));
+  data.planId = minePlan.id;
+  localStorage.setItem(dataName, JSON.stringify(data));
   callTotalFee();
 
 })
-
 
 function changeSuffixOptions( structure ) {
 
@@ -367,7 +580,6 @@ function changeSuffixOptions( structure ) {
 }
 
 
-
 function callStateFee( data ) {
   
   const { state ,structure} = data;
@@ -380,6 +592,12 @@ function callStateFee( data ) {
 
   if(found) {
 
+    let data = JSON.parse(localStorage.getItem(dataName));
+
+    data.stateId = found.id;
+
+    localStorage.setItem(dataName,JSON.stringify(data));
+
     $("#stateText").html(`${found.state.charAt(0).toUpperCase()}${found.state.slice(1)} State Fees`)
     stateFee = found.fee;
     $("#stateFee").html(`$${stateFee}`)
@@ -390,7 +608,7 @@ function callStateFee( data ) {
 
 function callTotalFee() {
 
-let p = JSON.parse(localStorage.getItem("data"));
+let p = JSON.parse(localStorage.getItem(dataName));
 let x = plans.filter((item)=> item.name.toLowerCase() == p.plan)[0]
    console.warn(`state fee ${stateFee}`);
 
@@ -452,86 +670,210 @@ $(document).on("click",".custom-submit",function() {
 })
 
 // final submission
-function finalSubmission() {
+async function finalSubmission() {
 
 //e.preventDefault();
 
+  // step 4
  if(step == 4) {
 
+      let pass = true;
+      let finalStatus = await finalStepValidation()
+      
+      if(!finalStatus) {
 
-    if(($("#Full-name").val()).trim() == '') {
+        pass = false
+        return false;
+      }
+      let startFleet = localStorage.getItem(dataName);
 
-      let msg = '<div class="invalid-insert show-left">'
-      msg+='Please enter full name!'
-      msg+='</div>'
+      // if local storage data is not available
+      if(!startFleet) {
 
-      $("#Full-name").next("div.invalid-insert").remove();
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Form having errors',
+          footer: '<a href="">Please contact us.</a>'
+        })
+        pass = false
+        return false;
 
-       $("#Full-name").after(msg);
-      return false;
+      }
 
-    }
-    $("#Full-name").next("div.invalid-insert").remove();
+      // get local data
 
-    if(($("#Email-field").val()).trim() == '') {
+      let items = JSON.parse(startFleet);
+                
+      const {
+      companyName,
+      cPhone,
+      cName,
+      cEmail,
+      businessDescription,
+      SSNYN,
+      SSN,
+      members,
+      plan,
+      planId,
+      state,
+      stateId,
+      structure } = items;
 
-      let msg = '<div class="invalid-insert show-left">'
-      msg+='Please valid email!'
-      msg+='</div>'
-      $("#Email-field").next("div.invalid-insert").remove();
-       $("#Email-field").after(msg);
-      return false;
+      // set form data 
 
-    }
-     $("#Email-field").next("div.invalid-insert").remove();
+      const form_data = {
 
-     if(($("#phone").val()).trim() == '') {
+        company_name:companyName,
+        company_state:state,
+        company_structure:structure,
+        company_suffix:SSN,
+        company_business_description:businessDescription,
+        company_members:members,
+        phone:cPhone,
+        email:cEmail,
+        full_name:cName,
+        ssn_or_itin:SSNYN,
+        plan,
+        planId,
+        stateId
+      }
 
-      let msg = '<div class="invalid-insert show-left extra-margin">'
-      msg+='Please valid phone number!'
-      msg+='</div>'
-      $("#phone").next("div.invalid-insert").remove();
-       $("#phone").after(msg);
-      return false;
+      // set addons data
 
-    }
+        let selectedItems = [];
+        if(choosenProducts.length > 0) {
+          
+          choosenProducts.forEach((item)=> {
+            let p = {
+              id:item.id,
+              item_type:'addon',
+            }
+            selectedItems.push(p);
 
-    $("#phone").next("div.invalid-insert").remove();
+          })
+          form_data.addons = selectedItems;
+        }
 
-    if(($("#SSN-or-ITIN").val()).trim() == '') {
+        if(pass) {
 
-      let msg = '<div class="invalid-insert show-left">'
-      msg+='Please choose!'
-      msg+='</div>'
-      $("#SSN-or-ITIN").next("div.invalid-insert").remove();
-       $("#SSN-or-ITIN").after(msg);
-      return false;
-
-    }
-     $("#SSN-or-ITIN").next("div.invalid-insert").remove();
-
-     if(!$("#error-msg").hasClass("hide")) {
-
-      return false;
-     }
-
-
-     let data = localStorage.getItem('data');
-            data = JSON.parse(data);
-            data.cName = ($("#Full-name").val()).trim()
-            data.cEmail = ($("#Email-field").val()).trim()
-            data.SSNYN = ($("#SSN-or-ITIN").val()).trim()
-            data.cPhone = ($("#phone").val()).trim()
-            data.members = totalMembers
-            localStorage.setItem("data", JSON.stringify(data));
-
-            alert(localStorage.getItem('data'));
-            console.log(data);
+          makeOrder(form_data);
+          console.warn("submitting.....")
+          return false;
+        }
 
   }
 
-    console.log('finsal submission')
 
+}
+
+// send data to server
+
+function makeOrder(form_data) {
+
+
+Swal.fire({
+  title: 'We are prepairing your purchase order!',
+  html: 'redirecting you for payment...',
+  timerProgressBar: true,
+  didOpen: () => {
+  Swal.showLoading()
+  },
+})
+
+$.ajax({
+
+    url:API_ORDER,
+    type:"POST",
+    data:form_data,
+    dataType:"JSON",
+    success:function(resonse) {
+
+      setTimeout(()=>{
+        Swal.close();
+        const { url } = resonse
+        window.location = url
+      },1500)
+    },
+    error:function( error ) {
+
+      Swal.close();
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+          footer: '<a href="">Please contact us.</a>'
+        })
+
+        console.error( error );
+
+    }
+
+  })
+
+}
+
+
+
+// validate phone
+function validate_phone() {
+
+return new Promise(function(resolve,reject) {
+   //resolve(true);
+   //return;
+      let phone_num = $("#phone").val().trim()
+
+      $.ajax({
+      url:API_PHONE_VALIDATION,
+      type:"GET",
+      data:{ phone_num },
+      dataType:"JSON",
+      success:function( res ) {
+        if(res.code == "VALID") {
+          resolve(true);
+        }else {
+          reject(false)
+        }
+      },
+      error:function( error ) {
+        reject(false)
+      }
+
+      })
+
+})
+ 
+}
+// validate email
+
+function validate_email() {
+
+    return new Promise(function(resolve,reject) {
+      resolve(true);
+      let email = $("#Email-field").val().trim()
+
+         $.ajax({
+          url:API_EMAIL_VALIDATION,
+          type:"GET",
+          data:{ email },
+          dataType:"JSON",
+          success:function( res ) {
+
+              if(res.code == "VALID") {
+                console.warn("returning true")
+                resolve(true)
+              }else {
+                reject(false);
+              }
+          },
+          error:function( error ) {
+            console.warn("returning false")
+            reject(false);
+          }
+         })
+
+    })
 
 }
 
@@ -554,26 +896,60 @@ function init() {
  var companyCity = getParameterByName('cct'); // "company city"
  var refcodes = getParameterByName('ref'); // "refcodes"
  
- if(!plan && !companyType && !companyCity && !refcodes) {
+ // if no values in url
+ if((!plan && !companyType && !companyCity)) {
 
-  let storage = localStorage.getItem('data');
-  if(storage) {
-    let data = JSON.parse(storage);
+    let storage = localStorage.getItem(dataName);
+    let data;
 
-    let url = new URL(window.location.href);
-    let search_params = url.searchParams;
-    search_params.set('p',data.plan)
-    search_params.set('ct',data.structure)
-    search_params.set('cct',data.state)
-    search_params.set('ref',data.refcodes)
+    if(storage) { // if storage is available
+       
+       data = JSON.parse(storage);
 
-    if (history.pushState) {
+        let url = new URL(window.location.href);
+        let search_params = url.searchParams;
 
-      window.history.pushState({path:url.href},'',url.href);
-      window.location = window.location;
+        // if plan exists
+        if(data.plan) {
+
+             search_params.set('p',data.plan)
+             if(!data.planId) {
+              let minePlan = plans.filter((p) => p.name.toLowerCase() == data.plan.toLowerCase())[0]
+              data.planId = minePlan.id;
+
+             }
+        }
+
+        // if structure exists
+        if(data.structure)  {
+           search_params.set('ct',data.structure)
+        }
+
+        // if state exists
+        if(data.state) {
+           search_params.set('cct',data.state)
+        } 
+
+        // if refcodes exists
+        if(data.refcodes && data.refcodes!="" && data.refcodes!="null") {
+          search_params.set('ref',data.refcodes)
+        } 
+
+        // set modify storage
+
+        localStorage.setItem(dataName,JSON.stringify(data));
+        if (history.pushState) {
+        window.history.pushState({path:url.href},'',url.href);
+        window.location = window.location;
+        }
     }
-  }
  }
+
+// if values in url
+
+// remove storage first
+
+localStorage.removeItem('data');
 
 let divStep = $(`.custom-step-${step}`);
 
@@ -590,10 +966,10 @@ let divStep = $(`.custom-step-${step}`);
 
             $(this).prev().addClass("w--redirected-checked")
             $(this).prop("checked",true);
-            data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : {};
+            data = localStorage.getItem(dataName) ? JSON.parse(localStorage.getItem(dataName)) : {};
             data.state = $(this).attr("data-value")
-            localStorage.setItem('data', JSON.stringify(data));
-            callStateFee(data);
+            localStorage.setItem(dataName, JSON.stringify(data));
+            //callStateFee(data);
     }
   })
 }
@@ -604,12 +980,27 @@ let divStep = $(`.custom-step-${step}`);
 
       $(this).prev().addClass("w--redirected-checked")
       $(this).prop("checked",true);
-       data = JSON.parse(localStorage.getItem('data'));
+       data = JSON.parse(localStorage.getItem(dataName));
        data.structure = $(this).attr("data-value")
-       localStorage.setItem('data', JSON.stringify(data));
+       localStorage.setItem(dataName, JSON.stringify(data));
         changeSuffixOptions(data.structure)
     }
   })
+}
+
+if(companyCity && companyType) {
+
+let found = dt.find(function (elm) {
+      return (
+        elm.structure.toLowerCase() == companyType.toLowerCase() &&
+        elm.state.toLowerCase() == companyCity.toLowerCase()
+      );
+    });
+  if(found) {
+    let data = JSON.parse(localStorage.getItem(dataName));
+    data.stateId = found.id;
+    localStorage.setItem(dataName,JSON.stringify(data));
+  }
 }
 
  
@@ -620,13 +1011,23 @@ let divStep = $(`.custom-step-${step}`);
             .find("div.custom-grid-pricing-step-2").find("input[type='checkbox']")
 if(plan) {
   planCheckboxes.each(function() {
-    if($(this).attr("data-value").toLowerCase() == plan.toLowerCase()) {
 
+    if($(this).attr("data-value").toLowerCase() == plan.toLowerCase()) {
+      console.warn("matched")
       $(this).prev().addClass("w--redirected-checked")
       $(this).prop("checked",true);
-       let data = JSON.parse(localStorage.getItem('data'));
+       let data = JSON.parse(localStorage.getItem(dataName));
+
+       console.log($(this).attr("data-value"));
        data.plan = $(this).attr("data-value")
-       localStorage.setItem('data', JSON.stringify(data));
+       
+       // set plan id
+
+        let minePlan = plans.filter((p) => p.name.toLowerCase() == data.plan.toLowerCase())[0]
+              data.planId = minePlan.id;
+
+
+       localStorage.setItem(dataName, JSON.stringify(data));
           callTotalFee();
        
     }
@@ -635,40 +1036,55 @@ if(plan) {
 
  if(refcodes) {
 
-   let codes = refcodes.split("-")
-   let choosenProducts = []
+    codes = refcodes.split("-")
+    choosenProducts = []
    if(codes.length) {
      
-     let data = JSON.parse(localStorage.getItem('data'));
+     let data = JSON.parse(localStorage.getItem(dataName));
      data.refcodes = refcodes;
-     localStorage.setItem('data', JSON.stringify(data));
+     localStorage.setItem(dataName, JSON.stringify(data));
 
      codes.forEach((co)=>{
         choosenProducts.push(products.filter((prod)=> prod.refcode == co )[0])
      })
   }
 
+  // if addons exists
+  
    if(choosenProducts.length) {
 
-   
 
-    let addonsString = `<div class="item-total-pricing-step-2 custom-padding-item-total-price-step-2 addons-pricing">
-                          <div class="title-item-card-list">Add ons:</div>
-                          <div class="subtotal-item-card-list">
-                            <div class="number-subtotal-item-list">$???</div>
-                          </div>
-                        </div>`;
-
-
-
-    choosenProducts.forEach((cp)=>{
-      addonsString+=`<div class="item-total-pricing-step-2 custom-padding-item-total-price-step-2 add-ons-item-pricing">
-      <div class="title-item-card-list custom-weight-title-item-card-list">${cp.name}</div>
+      let addonsString = `<div class="item-total-pricing-step-2 custom-padding-item-total-price-step-2 addons-pricing">
+      <div class="title-item-card-list">Add ons:</div>
       <div class="subtotal-item-card-list">
-      <div class="number-subtotal-item-list custom-weight-title-item-card-list">${cp[plan+'_price']}</div>
+      <div class="number-subtotal-item-list">$???</div>
       </div>
       </div>`;
-      addonPrice+=parseInt(cp[plan+'_price']);
+
+    choosenProducts.forEach((cp)=>{
+
+      let amt = 0;
+
+      if(parseInt(cp.setup_fee) > 0) {
+        amt = parseInt(cp[plan+'_price']) + parseInt(cp.setup_fee)
+      }else {
+        console.warn(plan+'_price');
+
+         amt = parseInt(cp[plan+'_price']);
+      }
+
+      addonsString+=`<div class="item-total-pricing-step-2 custom-padding-item-total-price-step-2 add-ons-item-pricing">
+      <div class="title-item-card-list custom-weight-title-item-card-list">${cp.name}`;
+
+      addonsString+= cp.setup_fee > 0 ? ' + Setup':'';
+      addonsString+=`</div>
+      <div class="subtotal-item-card-list">
+      <div class="number-subtotal-item-list custom-weight-title-item-card-list">${amt}</div>
+      </div>
+      </div>`;
+
+      
+      addonPrice+=amt;
     })
 
     addonsString = addonsString.replace('???',addonPrice);
@@ -681,60 +1097,3 @@ if(plan) {
  }
 
 }
-
-// phone field
-
-var input = document.querySelector("#phone"),
-  dialCode = document.querySelector(".dialCode"),
-  errorMsg = document.querySelector("#error-msg"),
-    validMsg = document.querySelector("#valid-msg");
-var iti = intlTelInput(input, {
-  initialCountry: "us",
-  placeholderNumberType: 'FIXED_LINE',
-});
-var tempCode = '';
-var updateInputValue = function (event) {
-
-        let code = iti.getSelectedCountryData().dialCode;
-        let inptValue = input.value
-        inptValue = inptValue.replace('+','');
-        if(tempCode != code) {
-
-         inptValue = inptValue.replace(tempCode,'');
-        }else {
-          inptValue = inptValue.replace(code,'');
-        }
-        tempCode = code
-        input.value = `+${code}${inptValue}`;
-};
-
-var updateSelectValue = function (event) {
-
-        tempCode = iti.getSelectedCountryData().dialCode;
-};
-
-input.addEventListener('input', updateInputValue, false);
-input.addEventListener('countrychange', updateSelectValue, false);
-
-var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
-var reset = function() {
-  input.classList.remove("error");
-  errorMsg.innerHTML = "";
-  errorMsg.classList.add("hide");
-  validMsg.classList.add("hide");
-};
-input.addEventListener('blur', function() {
-  reset();
-  if (input.value.trim()) {
-    if (iti.isValidNumber()) {
-      validMsg.classList.remove("hide");
-    } else {
-      input.classList.add("error");
-      var errorCode = iti.getValidationError();
-      errorMsg.innerHTML = errorMap[errorCode];
-      errorMsg.classList.remove("hide");
-    }
-  }
-});
-input.addEventListener('change', reset);
-input.addEventListener('keyup', reset);
