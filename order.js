@@ -46,6 +46,9 @@
 
     const API_ORDER = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/order`
 
+    var isEmailTrue = true;
+    var isPhoneTrue = true;
+
 // get pricing
 
 function getPricing() {
@@ -278,6 +281,55 @@ function companyDetailsValidation() {
     return false
 
 } 
+$(document).on("change","#phone",async function() {
+
+    $("#phone").next("div.invalid-insert").remove();
+    
+    try {
+
+      await validate_phone()
+      isPhoneTrue = true;
+
+    }catch(err) {
+
+       let msg = formErrorMsg.replace('###','Please enter valid phone number!')
+       isPhoneTrue = false;
+       $("#phone").after(msg);
+       return false;
+    }
+
+})
+
+$(document).on("change","#Email-field",async function() {
+
+          var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+          
+          $("#Email-field").next("div.invalid-insert").remove();
+
+          if(!pattern.test($("#Email-field").val().trim()))
+          {
+              isEmailTrue =false
+              let msg = formErrorMsg.replace('###','Please enter valid email!')
+              $("#Email-field").after(msg);
+              return false;
+          }
+
+          try {
+              await validate_email();
+               isEmailTrue =true
+          }catch( err ) {
+
+             isEmailTrue =false
+            let msg = formErrorMsg.replace('###','Please enter valid email!')
+            $("#Email-field").after(msg);
+            console.log('placing error')
+            return false;
+         
+
+          }
+
+  //console.log($(this).val())
+});
 
 // final step validation
 function finalStepValidation() {
@@ -310,7 +362,7 @@ return new Promise(async(resolve,reject)=> {
 
      // validate email
 
-     if(($("#Email-field").val()).trim() !== '') {
+     if(($("#Email-field").val()).trim() !== '' && !isEmailTrue) {
 
           var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
 
@@ -322,14 +374,18 @@ return new Promise(async(resolve,reject)=> {
               //return false;
           }
 
-          let isValidEmail = await validate_email();
 
-          if(!isValidEmail) {
+          try {
+             await validate_email();
+          }catch(err) {
+
             pass = false
             let msg = formErrorMsg.replace('###','Please enter valid email!')
             $("#Email-field").after(msg);
             //return false;
+
           }
+  
 
      }
 
@@ -347,15 +403,18 @@ return new Promise(async(resolve,reject)=> {
 
     // validate phone number
     
-     if(($("#phone").val()).trim()!=='' && retries < 2) {
+     if(($("#phone").val()).trim()!=='' && retries < 2 && !isPhoneTrue) {
 
-        let isValidPhone = await validate_phone();
-        if(!isValidPhone) {
-        pass = false
-        let msg = formErrorMsg.replace('###','Please enter valid phone number!')
-        $("#phone").after(msg);
-          //return false;
+        try {
+          await validate_phone();
+        }catch(err) {
+          
+            pass = false
+            let msg = formErrorMsg.replace('###','Please enter valid phone number!')
+            $("#phone").after(msg);
+              //return false;
         }
+        
         retries++
 
      }
@@ -678,13 +737,16 @@ async function finalSubmission() {
  if(step == 4) {
 
       let pass = true;
-      let finalStatus = await finalStepValidation()
-      
-      if(!finalStatus) {
+      try {
 
-        pass = false
-        return false;
+        await finalStepValidation()
+
+      }catch(err) {
+
+         pass = false
+         return false;
       }
+       
       let startFleet = localStorage.getItem(dataName);
 
       // if local storage data is not available
@@ -850,7 +912,7 @@ return new Promise(function(resolve,reject) {
 function validate_email() {
 
     return new Promise(function(resolve,reject) {
-      resolve(true);
+      //resolve(true);
       let email = $("#Email-field").val().trim()
 
          $.ajax({
