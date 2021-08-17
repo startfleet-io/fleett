@@ -28,7 +28,7 @@
     var codes = [];
     var choosenProducts = [];
     var x,y,z;
-    var retries = 0;
+    var retries = 1;
 
     var formErrorMsg = '<div class="invalid-insert show-left">';
     formErrorMsg+='###';
@@ -285,16 +285,22 @@ $(document).on("change","#phone",async function() {
 
     $("#phone").next("div.invalid-insert").remove();
     
+    if(retries >= 2) {
+      return true;
+    }
+
     try {
 
       await validate_phone()
       isPhoneTrue = true;
+      retries++
 
     }catch(err) {
 
        let msg = formErrorMsg.replace('###','Please enter valid phone number!')
        isPhoneTrue = false;
        $("#phone").after(msg);
+       retries++
        return false;
     }
 
