@@ -76,6 +76,7 @@ $(function () {
      $(".tablet-raw-pricing-section-pricing-tablet >  div").not(":eq(0)").each(function(index,el)  {     
 
         let planName = plan_names[index];
+        console.log(planName);
         $(this).find(".plan-name").html(planName)
         $(this).find(".with-product-plan").attr("data-plan",planName.toLowerCase())
      })
