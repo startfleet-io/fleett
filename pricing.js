@@ -78,7 +78,7 @@ $(function () {
         let planName = plan_names[index];
         console.log(planName);
         $(this).find(".plan-name").html(planName)
-        $(this).find(".with-product-plan").attr("data-plan",planName.toLowerCase())
+        //$(this).find(".with-product-plan").attr("data-plan",planName.toLowerCase())
      })
 
      var ind = 0;
