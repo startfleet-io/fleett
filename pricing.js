@@ -81,6 +81,20 @@ $(function () {
         $(this).find(".with-product-plan").attr("data-plan",planName.toLowerCase())
      })
 
+     var ind = 0;
+     $(".grid-top-sticky").find(".cell-center").each(function(index,el) {
+
+      let planName = plan_names[ind];
+
+       $(this).find(".top-title").html(planName);
+
+       ind++;
+       if(ind > 2) {
+        ind = 0;
+       }
+
+     })
+
   }
   setPlanNames();
 
