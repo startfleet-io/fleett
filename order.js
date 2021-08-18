@@ -49,6 +49,29 @@
     var isEmailTrue = true;
     var isPhoneTrue = true;
 
+    var byPassStep3 = false;
+
+    const plan_level_one = "Freelancer" // old one corvette
+    const plan_level_two = "Startup" // old frigate
+    const plan_level_three = "Business" // old cruiser
+    const plan_names = [plan_level_one,plan_level_two,plan_level_three];
+   
+
+// set plan names
+
+function setPlanNames() {
+
+    $(".custom-grid-pricing-step-2").children().each(function(index,el) {
+        
+        let planName = plan_names[index];
+        $(this).find(".custom-title-box-card").html(planName)
+        $(this).find("input[type='checkbox']").attr("data-value", planName.toLowerCase())
+    })
+
+}
+
+setPlanNames();
+
 // get pricing
 
 function getPricing() {
@@ -59,9 +82,13 @@ $.get(API_PRICING,{},async function(data, textStatus, jqXHR) {
     dt = data.state_fess;
     products = data.products
 
-     x = plans.filter((item)=> item.name.toLowerCase() == "corvette")
-     y = plans.filter((item)=> item.name.toLowerCase() == "frigate")
-     z = plans.filter((item)=> item.name.toLowerCase() == "cruiser")
+     // x = plans.filter((item)=> item.name.toLowerCase() == "corvette")
+     // y = plans.filter((item)=> item.name.toLowerCase() == "frigate")
+     // z = plans.filter((item)=> item.name.toLowerCase() == "cruiser")
+
+     x = plans.filter((item)=> item.name.toLowerCase() == plan_level_one.toLowerCase())
+     y = plans.filter((item)=> item.name.toLowerCase() == plan_level_two.toLowerCase())
+     z = plans.filter((item)=> item.name.toLowerCase() == plan_level_three.toLowerCase())
 
     convettePrice = x[0].price
     $("#convettePrice").html(`$${x[0].price}`);
@@ -208,6 +235,7 @@ function planValidation( divStep ) {
 
 function companyDetailsValidation() {
 
+
   let pass = true;
 
   $("#Company-name-2")
@@ -284,7 +312,7 @@ function companyDetailsValidation() {
 $(document).on("change","#phone",async function() {
 
     $("#phone").next("div.invalid-insert").remove();
-    
+    return true;
     if(retries >= 2) {
       return true;
     }
@@ -509,7 +537,7 @@ function stepValidation() {
           }
 
           // step 3
-          if(step == 3) {
+          if(step == 3 && !byPassStep3) {
            
             let pass =  true;
 
@@ -607,7 +635,13 @@ $("div.custom-grid-pricing-step-2 .checkbox-wrap").on("click",function(){
   console.log(choosenProduct)
   let minePlan = plans.filter((p)=> p.name.toLowerCase() == choosenProduct.toLowerCase())[0];
 
+  if(choosenProducts.length) {
 
+
+      setProductPrices(choosenProduct)
+
+    console.warn(choosenProducts);
+  }
 
 
   var url = new URL(window.location.href);
@@ -813,15 +847,27 @@ async function finalSubmission() {
         if(choosenProducts.length > 0) {
           
           choosenProducts.forEach((item)=> {
-            let p = {
-              id:item.id,
-              item_type:'addon',
-            }
-            selectedItems.push(p);
+
+             let is_included = Boolean(item[`included_in_${plan}`]);
+             let price = parseInt(item[`${plan}_price`]);
+              
+              if(!is_included && price > 0) {
+
+                let p = {
+                  id:item.id,
+                  item_type:'addon',
+                }
+                selectedItems.push(p);
+              }
 
           })
-          form_data.addons = selectedItems;
+          
+          if(selectedItems.length)
+            form_data.addons = selectedItems;
         }
+
+        //console.warn(form_data);
+        //return;
 
         if(pass) {
 
@@ -889,7 +935,7 @@ function validate_phone() {
 
 return new Promise(function(resolve,reject) {
    //resolve(true);
-   //return;
+   //return true;
       let phone_num = $("#phone").val().trim()
 
       $.ajax({
@@ -953,6 +999,68 @@ function getParameterByName(name, url = window.location.href) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+
+
+// setup products prices
+
+function setProductPrices( plan ) {
+
+  console.log(plan);
+
+  addonPrice = 0;
+
+ //  $(".total-pricing-card > div:nth-child(1)").after().remove(".addons-pricing, .add-ons-item-pricing");
+   $(".total-pricing-card").find(".addons-pricing, .add-ons-item-pricing").remove();
+
+   let addonsString = `<div class="item-total-pricing-step-2 custom-padding-item-total-price-step-2 addons-pricing">
+      <div class="title-item-card-list">Add ons:</div>
+      <div class="subtotal-item-card-list">
+      <div class="number-subtotal-item-list">$???</div>
+      </div>
+      </div>`;
+
+    choosenProducts.forEach((cp)=>{
+
+      let amt = 0;
+
+      if(parseInt(cp.setup_fee) > 0) {
+        amt = parseInt(cp[plan+'_price']) + parseInt(cp.setup_fee)
+      }else {
+        console.warn(plan+'_price');
+         amt = parseInt(cp[plan+'_price']);
+      }
+
+      let is_included = Boolean(cp[`included_in_${plan}`]);
+
+      
+
+      //console.warn(`included_in_${plan}`);
+
+      // console.log(Boolean(cp[`included_in_${plan}`]))
+
+      addonsString+=`<div class="item-total-pricing-step-2 custom-padding-item-total-price-step-2 add-ons-item-pricing">
+      <div class="title-item-card-list custom-weight-title-item-card-list">${cp.name}`;
+
+      addonsString+= cp.setup_fee > 0 ? ' + Setup':'';
+      addonsString+= is_included ? ' (Included) ':'';
+      addonsString+=`</div>
+      <div class="subtotal-item-card-list">
+      <div class="number-subtotal-item-list custom-weight-title-item-card-list">${amt}</div>
+      </div>
+      </div>`;
+
+      
+      addonPrice+=amt;
+    })
+
+    addonsString = addonsString.replace('???',addonPrice);
+
+    $(".total-pricing-card > div:nth-child(1)").after(addonsString);
+    totalCost+=addonPrice;
+    $("#totalCost").html(`$${totalCost}`)
+
 }
 
 
@@ -1121,49 +1229,30 @@ if(plan) {
   
    if(choosenProducts.length) {
 
+    // set product prices
 
-      let addonsString = `<div class="item-total-pricing-step-2 custom-padding-item-total-price-step-2 addons-pricing">
-      <div class="title-item-card-list">Add ons:</div>
-      <div class="subtotal-item-card-list">
-      <div class="number-subtotal-item-list">$???</div>
-      </div>
-      </div>`;
-
-    choosenProducts.forEach((cp)=>{
-
-      let amt = 0;
-
-      if(parseInt(cp.setup_fee) > 0) {
-        amt = parseInt(cp[plan+'_price']) + parseInt(cp.setup_fee)
-      }else {
-        console.warn(plan+'_price');
-
-         amt = parseInt(cp[plan+'_price']);
-      }
-
-      addonsString+=`<div class="item-total-pricing-step-2 custom-padding-item-total-price-step-2 add-ons-item-pricing">
-      <div class="title-item-card-list custom-weight-title-item-card-list">${cp.name}`;
-
-      addonsString+= cp.setup_fee > 0 ? ' + Setup':'';
-      addonsString+=`</div>
-      <div class="subtotal-item-card-list">
-      <div class="number-subtotal-item-list custom-weight-title-item-card-list">${amt}</div>
-      </div>
-      </div>`;
-
-      
-      addonPrice+=amt;
-    })
-
-    addonsString = addonsString.replace('???',addonPrice);
-
-    $(".total-pricing-card > div:nth-child(1)").after(addonsString);
-    totalCost+=addonPrice;
-    $("#totalCost").html(`$${totalCost}`)
+      setProductPrices( plan );
+     
    }
    
  }
+ // skip first time validation for company details
+ if(plan) {
 
+      Swal.fire({
+        title: 'Please wait a moment... !',
+        timerProgressBar: true,
+        timer:1000,
+        didOpen: () => {
+        Swal.showLoading()
+        },
+      })
+
+    byPassStep3 = true; // set by pass true so validation won't be trigger
+    $(".next-button-venom").trigger("click"); // pass the next step
+    byPassStep3 = false; // set by pass false so validation would trigger
+    
+  }
 }
 
 // phone field

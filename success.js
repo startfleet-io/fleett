@@ -13,7 +13,7 @@ function getParameterByName(name, url = window.location.href) {
 // get order information by session id
 function getOrderInformation() {
 
-	var sessionId = getParameterByName('session'); // "session id"
+	var sessionId = getParameterByName('session_id'); // "session id"
 
 	$.ajax({
 
