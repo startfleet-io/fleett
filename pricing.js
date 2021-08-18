@@ -85,7 +85,6 @@ $(function () {
      $(".grid-top-sticky").find(".cell-center").each(function(index,el) {
 
       let planName = plan_names[ind];
-
        $(this).find(".top-title").html(planName);
 
        ind++;
