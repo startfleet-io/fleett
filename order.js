@@ -1072,6 +1072,7 @@ function init() {
  var companyType = getParameterByName('ct'); // "company type"
  var companyCity = getParameterByName('cct'); // "company city"
  var refcodes = getParameterByName('ref'); // "refcodes"
+ var skip = getParameterByName('skip'); // "refcodes"
  
  // if no values in url
  if((!plan && !companyType && !companyCity)) {
