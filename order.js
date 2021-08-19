@@ -50,6 +50,7 @@
     var isPhoneTrue = true;
 
     var byPassStep3 = false;
+    var byPassStep2 = false;
 
     const plan_level_one = "Freelancer" // old one corvette
     const plan_level_two = "Startup" // old frigate
@@ -518,7 +519,7 @@ function stepValidation() {
           }
 
           // step 2
-          if(step == 2) {
+          if(step == 2 && !byPassStep2) {
 
             let pass = true;
 
@@ -1237,7 +1238,7 @@ if(plan) {
    
  }
  // skip first time validation for company details
- if(plan) {
+ if(plan && !skip) {
 
       Swal.fire({
         title: 'Please wait a moment... !',
@@ -1251,6 +1252,24 @@ if(plan) {
     byPassStep3 = true; // set by pass true so validation won't be trigger
     $(".next-button-venom").trigger("click"); // pass the next step
     byPassStep3 = false; // set by pass false so validation would trigger
+    
+  }
+
+    // skip first step
+ if(parseInt(skip) == 1) {
+
+      Swal.fire({
+        title: 'Please wait a moment... !',
+        timerProgressBar: true,
+        timer:1000,
+        didOpen: () => {
+        Swal.showLoading()
+        },
+      })
+
+    byPassStep2 = true; // set by pass true so validation won't be trigger
+    $(".next-button-venom").trigger("click"); // pass the next step
+    byPassStep2 = false; // set by pass false so validation would trigger
     
   }
 }
