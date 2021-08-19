@@ -73,6 +73,8 @@ $(function () {
         // $(this).find("input[type='checkbox']").attr("data-value", planName.toLowerCase())
     })
 
+     var indx = 0
+     
      $(".tablet-raw-pricing-section-pricing-tablet >  div").not(":eq(0)").each(function(index,el)  {     
 
         console.log(index);
@@ -80,7 +82,11 @@ $(function () {
         let planName = plan_names[index];
         console.log(planName);
         $(this).find(".plan-name").html(planName)
-        //$(this).find(".with-product-plan").attr("data-plan",planName.toLowerCase())
+        $(this).find(".with-product-plan").attr("data-plan",planName.toLowerCase())
+
+        if(indx >= 2) {
+        indx = 0;
+        }
      })
 
      var ind = 0;
