@@ -1008,8 +1008,7 @@ function getParameterByName(name, url = window.location.href) {
 
 function setProductPrices( plan ) {
 
-  console.log(plan);
-
+ 
   addonPrice = 0;
 
  //  $(".total-pricing-card > div:nth-child(1)").after().remove(".addons-pricing, .add-ons-item-pricing");
@@ -1044,12 +1043,17 @@ function setProductPrices( plan ) {
       addonsString+=`<div class="item-total-pricing-step-2 custom-padding-item-total-price-step-2 add-ons-item-pricing">
       <div class="title-item-card-list custom-weight-title-item-card-list">${cp.name}`;
 
-      addonsString+= cp.setup_fee > 0 ? ' + Setup':'';
-      addonsString+= is_included ? ' (Included) ':'';
+     addonsString+= cp.setup_fee > 0 ? ' + Setup':'';
+      //addonsString+= is_included ? ' (Included) ':'';
       addonsString+=`</div>
-      <div class="subtotal-item-card-list">
-      <div class="number-subtotal-item-list custom-weight-title-item-card-list">${amt}</div>
-      </div>
+      <div class="subtotal-item-card-list">`;
+      if(!is_included) {
+        addonsString+=`<div class="number-subtotal-item-list custom-weight-title-item-card-list">$${amt}</div>`
+      }else {
+            addonsString+=`<div class="number-subtotal-item-list custom-weight-title-item-card-list">Included</div>`
+      }
+      
+      addonsString+=`</div>
       </div>`;
 
       
