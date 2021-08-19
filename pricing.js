@@ -74,17 +74,19 @@ $(function () {
     })
 
      var indx = 0
-     
+
      $(".tablet-raw-pricing-section-pricing-tablet >  div").not(":eq(0)").each(function(index,el)  {     
 
-        console.log(index);
+      
         
         let planName = plan_names[indx];
         console.log(planName);
         $(this).find(".plan-name").html(planName)
         $(this).find(".with-product-plan").attr("data-plan",planName.toLowerCase())
 
-        if(indx >= 2) {
+        indx++;
+
+        if(indx > 2) {
         indx = 0;
         }
      })
