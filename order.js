@@ -56,7 +56,18 @@
     const plan_level_two = "Startup" // old frigate
     const plan_level_three = "Business" // old cruiser
     const plan_names = [plan_level_one,plan_level_two,plan_level_three];
-   
+
+// is mobile
+
+function isMobile() {
+
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      return true;
+  }else {
+    return false;
+  }
+}
+
 
 // set plan names
 
@@ -202,9 +213,19 @@ function structureValidation( divStep ) {
 
 function planValidation( divStep ) {
 
-  let planElements = divStep
+ var planElements;
+
+  if(!isMobile()) {
+
+   planElements = divStep
           .find("div.custom-grid-pricing-step-2")
           .find("input:checked");
+  }else {
+
+      planElements = divStep
+            .find("div.slider-2")
+            .find("input:checked");
+  }
 
     if(!planElements.length) {
 
