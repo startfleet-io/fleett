@@ -67,6 +67,9 @@ function setPlanNames() {
         let planName = plan_names[index];
         $(this).find(".custom-title-box-card").html(planName)
         $(this).find("input[type='checkbox']").attr("data-value", planName.toLowerCase())
+
+        
+
     })
 
 }
@@ -93,12 +96,15 @@ $.get(API_PRICING,{},async function(data, textStatus, jqXHR) {
 
     convettePrice = x[0].price
     $("#convettePrice").html(`$${x[0].price}`);
+    $("#mobile-freelancer-top-price").html(`$${x[0].price}`);
 
     frigatePrice = y[0].price
     $("#frigatePrice").html(`$${y[0].price}`);
+    $("#mobile-startup-top-price").html(`$${y[0].price}`);
 
     cruiserPrice = z[0].price
     $("#cruiserPrice").html(`$${z[0].price}`);
+    $("#mobile-business-top-price").html(`$${z[0].price}`);
    
     // initialise
     init();
@@ -663,6 +669,56 @@ $("div.custom-grid-pricing-step-2 .checkbox-wrap").on("click",function(){
 
 })
 
+// mobile
+
+// make single selection plan
+
+$("div.slider-2 .checkbox-wrap").on("click",function(){
+
+  let divStep = $(`.custom-step-${step}`);
+
+  let checkboxes = divStep
+            .find("div.slider-2")
+            .find("input[type='checkbox']")
+            //console.warn(checkboxes)
+
+  checkboxes.each(function() {
+    $(this).prev("div.w-checkbox-input").removeClass("w--redirected-checked")
+    $(this).prop("checked",false);
+  })
+
+  //console.log($(this));
+  //return
+  let selectedPlan = $(this).next().next();
+  let choosenProduct = selectedPlan.attr("data-value")
+  console.log(choosenProduct)
+  let minePlan = plans.filter((p)=> p.name.toLowerCase() == choosenProduct.toLowerCase())[0];
+
+  if(choosenProducts.length) {
+      setProductPrices(choosenProduct)
+    console.warn(choosenProducts);
+  }
+
+
+  var url = new URL(window.location.href);
+  var search_params = url.searchParams;
+  search_params.set('p',selectedPlan.attr("data-value"))
+
+    if (history.pushState) {
+
+    window.history.pushState({path:url.href},'',url.href);
+  }
+
+  let data = JSON.parse(localStorage.getItem(dataName));
+
+  data.plan = selectedPlan.attr("data-value")
+  data.planId = minePlan.id;
+  localStorage.setItem(dataName, JSON.stringify(data));
+  callTotalFee();
+
+})
+
+
 function changeSuffixOptions( structure ) {
 
   let strLower = structure.toLowerCase();
@@ -1191,8 +1247,38 @@ let found = dt.find(function (elm) {
 
  let planCheckboxes = planScreen
             .find("div.custom-grid-pricing-step-2").find("input[type='checkbox']")
+
+  let mobilePlanCheckboxes = planScreen.find("div.slider-2").find("input[type='checkbox']");
+
+  //console.log('mobile fiel');
+ // console.log(mobilePlanCheckboxes);
+
+
 if(plan) {
   planCheckboxes.each(function() {
+
+    if($(this).attr("data-value").toLowerCase() == plan.toLowerCase()) {
+      console.warn("matched")
+      $(this).prev().addClass("w--redirected-checked")
+      $(this).prop("checked",true);
+       let data = JSON.parse(localStorage.getItem(dataName));
+
+       console.log($(this).attr("data-value"));
+       data.plan = $(this).attr("data-value")
+       
+       // set plan id
+
+        let minePlan = plans.filter((p) => p.name.toLowerCase() == data.plan.toLowerCase())[0]
+              data.planId = minePlan.id;
+
+
+       localStorage.setItem(dataName, JSON.stringify(data));
+          callTotalFee();
+       
+    }
+  })
+
+  mobilePlanCheckboxes.each(function(){
 
     if($(this).attr("data-value").toLowerCase() == plan.toLowerCase()) {
       console.warn("matched")

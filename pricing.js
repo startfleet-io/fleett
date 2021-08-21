@@ -1,4 +1,4 @@
-$(function () {
+  $(function () {
   let companyType = $('#companyType');
   let companyState = $('#companyCity');
   let FeeText = $('.feetext');
@@ -75,34 +75,34 @@ $(function () {
 
      var indx = 0
 
-     $(".tablet-raw-pricing-section-pricing-tablet >  div").not(":eq(0)").each(function(index,el)  {     
+     // $(".tablet-raw-pricing-section-pricing-tablet >  div").not(":eq(0)").each(function(index,el)  {     
 
       
         
-        let planName = plan_names[indx];
-        console.log(planName);
-        $(this).find(".plan-name").html(planName)
-        $(this).find(".with-product-plan").attr("data-plan",planName.toLowerCase())
+     //    let planName = plan_names[indx];
+     //    console.log(planName);
+     //    $(this).find(".plan-name").html(planName)
+     //    $(this).find(".with-product-plan").attr("data-plan",planName.toLowerCase())
 
-        indx++;
+     //    indx++;
 
-        if(indx > 2) {
-        indx = 0;
-        }
-     })
+     //    if(indx > 2) {
+     //    indx = 0;
+     //    }
+     // })
 
-     var ind = 0;
-     $(".grid-top-sticky").find(".cell-center").each(function(index,el) {
+     // var ind = 0;
+     // $(".grid-top-sticky").find(".cell-center").each(function(index,el) {
 
-      let planName = plan_names[ind];
-       $(this).find(".top-title").html(planName);
+     //  let planName = plan_names[ind];
+     //   $(this).find(".top-title").html(planName);
 
-       ind++;
-       if(ind > 2) {
-        ind = 0;
-       }
+     //   ind++;
+     //   if(ind > 2) {
+     //    ind = 0;
+     //   }
 
-     })
+     // })
 
   }
   setPlanNames();
@@ -200,6 +200,12 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       $('#coverttePrice2').html('$' + x.price);
       $('#frigatePrice2').html('$' + y.price);
       $('#cruiserPrice2').html('$' + z.price);
+
+      $('#mobile-freelancer-price').html('$' + x.price);
+      $('#mobile-startup-price').html('$' + y.price);
+      $('#mobile-business-price').html('$' + z.price);
+
+      
 
       covertteTotal += x.price + 100;
 
@@ -917,7 +923,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
 
 
 
-  $('.grid-pricing').on('click', '.priceBox', function () {
+  $(document).on('click', '.priceBox', function () {
     if (this.checked) {
       let planName = $(this).data('plan').toLowerCase();
 
@@ -937,25 +943,28 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         })
 
       }
-      //console.log(url_products);
+      console.log(url_products);
 
       if (planName == plan_level_one.toLowerCase()) {
-
+        alert('here')
         
         corvetteAddOnFee += parseInt(planPrice);
-        $('#corvetteAddOn').html('$' + parseInt(corvetteAddOnFee));
+        // $('#corvetteAddOn').html('$' + parseInt(corvetteAddOnFee));
+        // $('#freelancerAddOn').html('$' + parseInt(corvetteAddOnFee));
         covertteTotal += parseInt(planPrice);
-        $('#covertteTotal').html('$' + parseInt(covertteTotal));
+        //$('#covertteTotal').html('$' + parseInt(covertteTotal));
       } else if (planName == plan_level_two.toLowerCase()) {
         frigateAddOnFee += parseInt(planPrice);
-        $('#frigateAddOn').html('$' + frigateAddOnFee);
+        // $('#frigateAddOn').html('$' + frigateAddOnFee);
+        // $('#startupAddOn').html('$' + frigateAddOnFee);
         frigateTotal += parseInt(planPrice);
-        $('#frigateTotal').html('$' + frigateTotal);
+        //$('#frigateTotal').html('$' + frigateTotal);
       } else if (planName == plan_level_three.toLowerCase()) {
         cruiserAddOnFee += parseInt(planPrice);
-        $('#cruiserAddOn').html('$' + cruiserAddOnFee);
+        // $('#cruiserAddOn').html('$' + cruiserAddOnFee);
+        // $('#businessAddOn').html('$' + cruiserAddOnFee);
         cruiserTotal += parseInt(planPrice);
-        $('#cruiserTotal').html('$' + cruiserTotal);
+       // $('#cruiserTotal').html('$' + cruiserTotal);
       }
     } else {
       let planName = $(this).data('plan').toLowerCase();
@@ -973,29 +982,48 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
           return;
         }
         corvetteAddOnFee -= parseInt(planPrice);
-        $('#corvetteAddOn').html('$' + parseInt(corvetteAddOnFee));
+        // $('#corvetteAddOn').html('$' + parseInt(corvetteAddOnFee));
+        // $('#freelancerAddOn').html('$' + parseInt(corvetteAddOnFee));
         covertteTotal -= parseInt(planPrice);
-        $('#covertteTotal').html('$' + parseInt(covertteTotal));
+        //$('#covertteTotal').html('$' + parseInt(covertteTotal));
       } else if (planName == plan_level_two.toLowerCase()) {
         if (frigateAddOnFee < 0) {
           frigateAddOnFee = 0;
           return;
         }
         frigateAddOnFee -= parseInt(planPrice);
-        $('#frigateAddOn').html('$' + parseInt(frigateAddOnFee));
+        // $('#frigateAddOn').html('$' + parseInt(frigateAddOnFee));
+        // $('#startupAddOn').html('$' + parseInt(frigateAddOnFee));
         frigateTotal -= parseInt(planPrice);
-        $('#frigateTotal').html('$' + parseInt(frigateTotal));
+        //$('#frigateTotal').html('$' + parseInt(frigateTotal));
       } else if (planName == plan_level_three.toLowerCase()) {
         if (cruiserAddOnFee < 0) {
           cruiserAddOnFee = 0;
           return;
         }
         cruiserAddOnFee -= parseInt(planPrice);
-        $('#cruiserAddOn').html('$' + parseInt(cruiserAddOnFee));
+        // $('#cruiserAddOn').html('$' + parseInt(cruiserAddOnFee));
+        // $('#businessAddOn').html('$' + parseInt(cruiserAddOnFee));
         cruiserTotal -= parseInt(planPrice);
-        $('#cruiserTotal').html('$' + parseInt(cruiserTotal));
+        //$('#cruiserTotal').html('$' + parseInt(cruiserTotal));
       }
     }
+
+    $('#corvetteAddOn').html('$' + parseInt(corvetteAddOnFee));
+    $('#freelancerAddOn').html('$' + parseInt(corvetteAddOnFee));
+    $('#covertteTotal').html('$' + parseInt(covertteTotal));
+    $('#freelancerTotal').html('$' + parseInt(covertteTotal));
+
+    $('#frigateAddOn').html('$' + frigateAddOnFee);
+    $('#startupAddOn').html('$' + frigateAddOnFee);
+    $('#frigateTotal').html('$' + frigateTotal);
+    $('#startupTotal').html('$' + frigateTotal);
+
+    $('#cruiserAddOn').html('$' + cruiserAddOnFee);
+    $('#businessAddOn').html('$' + cruiserAddOnFee);
+    $('#cruiserTotal').html('$' + cruiserTotal);
+    $('#businessTotal').html('$' + cruiserTotal);
+
   });
 
   // new code
@@ -1098,4 +1126,3 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       });
 
 });
-
