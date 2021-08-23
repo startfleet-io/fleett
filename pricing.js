@@ -946,7 +946,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       console.log(url_products);
 
       if (planName == plan_level_one.toLowerCase()) {
-        alert('here')
+       // alert('here')
         
         corvetteAddOnFee += parseInt(planPrice);
         // $('#corvetteAddOn').html('$' + parseInt(corvetteAddOnFee));
