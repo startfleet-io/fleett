@@ -59,7 +59,9 @@
     const plan_level_three = "Business" // old cruiser
     const plan_names = [plan_level_one,plan_level_two,plan_level_three];
    
+    var dataName = 'sf_store_database';
     
+    localStorage.removeItem(dataName);
 
 
   function setPlanNames() {

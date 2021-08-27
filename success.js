@@ -44,6 +44,9 @@ function getOrderInformation() {
 // 
 $(function() {
 
+
+localStorage.removeItem(dataName);
+
 getOrderInformation();
 
 })
