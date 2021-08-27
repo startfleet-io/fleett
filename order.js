@@ -491,6 +491,15 @@ return new Promise(async(resolve,reject)=> {
          //return false;
       }
 
+      $("#terms-agree").next().next("div.invalid-insert").remove();
+
+      if(!$("#terms-agree").is(":checked")) {
+        pass = false
+        let msg = formErrorMsg.replace('###','Please agree!')
+         $("#terms-agree").next().after(msg);
+         //return false;
+      }
+
 
      if(!$("#error-msg").hasClass("hide")) {
       pass = false
@@ -505,6 +514,7 @@ return new Promise(async(resolve,reject)=> {
       data.SSNYN = ($("#SSN-or-ITIN").val()).trim()
       data.cPhone = ($("#phone").val()).trim()
       data.members = totalMembers
+      data.agree = $("#terms-agree").is(":checked") ? 'Yes' : 'No'
       localStorage.setItem(dataName, JSON.stringify(data));
 
        resolve(true);
@@ -898,7 +908,8 @@ async function finalSubmission() {
       planId,
       state,
       stateId,
-      structure } = items;
+      structure,
+      agree } = items;
 
       // set form data 
 
@@ -916,7 +927,8 @@ async function finalSubmission() {
         ssn_or_itin:SSNYN,
         plan,
         planId,
-        stateId
+        stateId,
+        termsAgree:agree
       }
 
       // set addons data
