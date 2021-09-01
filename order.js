@@ -1396,6 +1396,67 @@ if(plan) {
     byPassStep2 = false; // set by pass false so validation would trigger
     
   }
+
+  // check if other fields data is stored in localstorage
+   checkOtherFieldsDefault();
+}
+
+function checkOtherFieldsDefault() {
+
+let otherFieldsData = localStorage.getItem(dataName) ? JSON.parse(localStorage.getItem(dataName)) : false;
+
+  // is localstaorge exists
+  if(otherFieldsData) {
+
+    // if companyname exists then set
+    if(otherFieldsData.companyName) {
+      $("#Company-name-2").val(otherFieldsData.companyName);
+    }
+
+    // if suffix exists then set
+    if(otherFieldsData.SSN) {
+      $("#SSN-or-ITIN-2").val(otherFieldsData.SSN)
+    }
+
+    // if business description exists then set
+    if(otherFieldsData.businessDescription) {
+      $("#Business-desc-form").val(otherFieldsData.businessDescription)
+    }
+
+    // if members exists then set
+    if(otherFieldsData.members) {
+
+      let cntMember = 0;
+      $("div.wrapper-option-member-step-3 label.w-checkbox").each(function() {
+
+        if(parseInt(otherFieldsData.members) > cntMember) {
+
+           $(this).find("div.w-checkbox-input").addClass("w--redirected-checked")
+           $(this).find("input[type='checkbox']").prop("checked",true);
+        }
+        cntMember++;
+
+      });
+    }
+
+    // if customer name exists then set
+    if(otherFieldsData.cName) {
+      $("#Full-name").val(otherFieldsData.cName)
+    }
+
+    // if customer email exists then set
+    if(otherFieldsData.cEmail) {
+      $("#Email-field").val(otherFieldsData.cEmail)
+    }
+    
+    // if itin or ssn exists then set
+    if(otherFieldsData.SSNYN) {
+      $("#SSN-or-ITIN").val(otherFieldsData.SSNYN)
+    }
+
+
+  }
+
 }
 
 // phone field
