@@ -1167,10 +1167,15 @@ function init() {
  var refcodes = getParameterByName('ref'); // "refcodes"
  var skip = getParameterByName('skip'); // "refcodes"
  
+ console.warn("init called");
+ console.warn(!plan && !companyType && !companyCity)
+
  // if no values in url
  if((!plan && !companyType && !companyCity)) {
 
     let storage = localStorage.getItem(dataName);
+    console.warn("storage")
+    console.warn(storage)
     let data;
 
     if(storage) { // if storage is available
