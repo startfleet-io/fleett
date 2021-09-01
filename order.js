@@ -1443,6 +1443,20 @@ let otherFieldsData = localStorage.getItem(dataName) ? JSON.parse(localStorage.g
         cntMember++;
 
       });
+
+       let divStep = $(`.custom-step-${step}`);
+       let checkboxes = divStep
+             .find("div.wrapper-option-member-step-3").find("input:checked")
+       let newMembers = parseInt(checkboxes.length);
+       totalMembers = newMembers
+       $("#totalMembers").html(`${newMembers}`);
+
+       if(newMembers > 1) {
+          $("#memberText").html("Members")
+       }else {
+          $("#memberText").html("Member")
+       }
+
     }
 
     // if customer name exists then set
