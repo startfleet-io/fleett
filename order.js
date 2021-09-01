@@ -118,6 +118,7 @@ $.get(API_PRICING,{},async function(data, textStatus, jqXHR) {
     $("#mobile-business-top-price").html(`$${z[0].price}`);
    
     // initialise
+    console.warn("lets init")
     init();
 
 
