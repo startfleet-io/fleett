@@ -31,7 +31,7 @@ TripettoClassic.run({
 
         form_data.company_industry = fields.filter((item)=> item.name == "company_industry")[0].value;
 
-        form_data.company_description = fields.filter((item)=> item.name == "Please describe ___ ___ under 300 characters?")[0].value;
+        form_data.company_description = fields.filter((item)=> item.name == "company_description")[0].value;
 
 
         if (structure.toLowerCase() == 'corporation') {
