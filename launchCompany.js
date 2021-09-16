@@ -1,5 +1,8 @@
 var city = geotargeto_city()
-document.getElementById('user-city').innerHTML = city
+
+if(document.getElementById('user-city').length) {
+  document.getElementById('user-city').innerHTML = city
+}
 
 $(function() {
 const API_EMAIL_VALIDATION =`https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/check-email`;
