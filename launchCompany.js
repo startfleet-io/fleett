@@ -1,6 +1,6 @@
 var city = geotargeto_city()
 
-if(document.getElementById('user-city').length) {
+if(document.getElementById('user-city')) {
   document.getElementById('user-city').innerHTML = city
 }
 
