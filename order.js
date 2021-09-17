@@ -1162,6 +1162,7 @@ function setProductPrices( plan ) {
 // initialize function
 function init() {
 
+console.warn("init called");
  var plan        = getParameterByName('p'); // "plan"
  var companyType = getParameterByName('ct'); // "company type"
  var companyCity = getParameterByName('cct'); // "company city"
@@ -1493,6 +1494,12 @@ var tempCode = '';
 var updateInputValue = function (event) {
 
         let code = iti.getSelectedCountryData().dialCode;
+
+        let data = localStorage.getItem(dataName) 
+        ? JSON.parse(localStorage.getItem(dataName)) : {}
+
+        data.countryCode = code;
+
         let inptValue = input.value
         inptValue = inptValue.replace('+','');
         if(tempCode != code) {
