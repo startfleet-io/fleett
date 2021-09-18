@@ -57,6 +57,20 @@
     const plan_level_three = "Business" // old cruiser
     const plan_names = [plan_level_one,plan_level_two,plan_level_three];
 
+    var planIndex = 0;
+
+// set plan index for mobile
+
+function setPlanIndex( planName ) {
+
+        if(planName.toLowerCase() == 'freelancer'){
+          planIndex = 0;
+        }else if(planName.toLowerCase() == 'startup') {
+          planIndex = 1;
+        }else {
+           planIndex = 2;
+        }
+}
 // scroll to top
 
 function focusOnTop() {
@@ -735,6 +749,9 @@ $("div.slider-2 .checkbox-wrap").on("click",function(){
   console.log(choosenProduct)
   let minePlan = plans.filter((p)=> p.name.toLowerCase() == choosenProduct.toLowerCase())[0];
 
+       // call setPlanIndex
+       setPlanIndex(minePlan.name)
+
   if(choosenProducts.length) {
       setProductPrices(choosenProduct)
     console.warn(choosenProducts);
@@ -1343,6 +1360,8 @@ if(plan) {
         let minePlan = plans.filter((p) => p.name.toLowerCase() == data.plan.toLowerCase())[0]
               data.planId = minePlan.id;
 
+       // call setPlanIndex
+       setPlanIndex(minePlan.name)
 
        localStorage.setItem(dataName, JSON.stringify(data));
           callTotalFee();
