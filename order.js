@@ -119,7 +119,7 @@ $.get(API_PRICING,{},async function(data, textStatus, jqXHR) {
    
     // initialise
     console.warn("lets init")
-    init();
+    myinit();
 
 
 });
@@ -1160,7 +1160,7 @@ function setProductPrices( plan ) {
 
 
 // initialize function
-function init() {
+function myinit() {
 
 console.warn("init called");
  var plan        = getParameterByName('p'); // "plan"
