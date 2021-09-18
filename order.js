@@ -57,6 +57,15 @@
     const plan_level_three = "Business" // old cruiser
     const plan_names = [plan_level_one,plan_level_two,plan_level_three];
 
+// scroll to top
+
+function focusOnTop() {
+
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $(".paragraph-11").offset().top
+      }, 1000);
+}
+
 // is mobile
 
 function isMobile() {
@@ -295,33 +304,33 @@ function companyDetailsValidation() {
       //return false;
     }
 
-     $("#Business-desc-form")
-        .next("div.invalid-insert")
-        .remove();
+    //  $("#Business-desc-form")
+    //     .next("div.invalid-insert")
+    //     .remove();
             
 
-      if(($("#Business-desc-form").val()).trim() == '') {
+    //   if(($("#Business-desc-form").val()).trim() == '') {
 
-         let msg = formErrorMsg.replace('###','Please enter business description!')
-         $("#Business-desc-form")
-         .after(msg);
-         pass = false
-        //return false;
+    //      let msg = formErrorMsg.replace('###','Please enter business description!')
+    //      $("#Business-desc-form")
+    //      .after(msg);
+    //      pass = false
+    //     //return false;
 
-      }
+    //   }
 
-      $("#Business-desc-form")
-        .next("div.invalid-insert")
-        .remove();
+    //   $("#Business-desc-form")
+    //     .next("div.invalid-insert")
+    //     .remove();
 
-    if((($("#Business-desc-form").val()).trim()).length < 20) {
+    // if((($("#Business-desc-form").val()).trim()).length < 20) {
 
-      let msg = formErrorMsg.replace('###','Please enter business description at least 20 characters long!')
-       $("#Business-desc-form")
-       .after(msg);
-       pass = false
-       //return false;
-    }
+    //   let msg = formErrorMsg.replace('###','Please enter business description at least 20 characters long!')
+    //    $("#Business-desc-form")
+    //    .after(msg);
+    //    pass = false
+    //    //return false;
+    // }
 
     if(pass) {
 
@@ -329,7 +338,7 @@ function companyDetailsValidation() {
     data = JSON.parse(data);
     data.companyName = ($("#Company-name-2").val()).trim()
     data.SSN = ($("#SSN-or-ITIN-2").val()).trim()
-    data.businessDescription = ($("#Business-desc-form").val()).trim()
+    //data.businessDescription = ($("#Business-desc-form").val()).trim()
     data.members = totalMembers
     localStorage.setItem(dataName, JSON.stringify(data));
 
@@ -901,7 +910,7 @@ async function finalSubmission() {
       cPhone,
       cName,
       cEmail,
-      businessDescription,
+      // businessDescription,
       SSNYN,
       SSN,
       members,
@@ -920,7 +929,7 @@ async function finalSubmission() {
         company_state:state,
         company_structure:structure,
         company_suffix:SSN,
-        company_business_description:businessDescription,
+        // company_business_description:businessDescription,
         company_members:members,
         phone:cPhone,
         email:cEmail,
@@ -1427,7 +1436,7 @@ let otherFieldsData = localStorage.getItem(dataName) ? JSON.parse(localStorage.g
 
     // if business description exists then set
     if(otherFieldsData.businessDescription) {
-      $("#Business-desc-form").val(otherFieldsData.businessDescription)
+      //$("#Business-desc-form").val(otherFieldsData.businessDescription)
     }
 
     // if members exists then set
