@@ -80,6 +80,14 @@ function focusOnTop() {
       }, 1000);
     console.warn(planIndex);
     console.log($('.slider-2').find(".w-round").children()[planIndex])
+    let els = $('.slider-2').find(".w-round").children();
+    els.each(function(indx,el) {
+      if(indx == planIndex) {
+        $(this).trigger( 'tap' )
+        return true;
+      }
+
+    })
      $('.slider-2').find(".w-round").children()[planIndex].click()
 }
 
