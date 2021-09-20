@@ -78,7 +78,7 @@ function focusOnTop() {
     $([document.documentElement, document.body]).animate({
         scrollTop: $(".paragraph-11").offset().top
       }, 1000);
-
+    console.warn(planIndex);
      $('.slider-2').find(".w-round").children()[planIndex].click()
 }
 
