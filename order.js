@@ -79,6 +79,7 @@ function focusOnTop() {
         scrollTop: $(".paragraph-11").offset().top
       }, 1000);
     console.warn(planIndex);
+    console.log($('.slider-2').find(".w-round").children()[planIndex])
      $('.slider-2').find(".w-round").children()[planIndex].click()
 }
 
