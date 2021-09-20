@@ -112,6 +112,11 @@ function getParameterByName(name, url = window.location.href) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function init() {
   
     let coldStop = getParameterByName('coldStop')
@@ -156,10 +161,10 @@ function init() {
                     structure = 'LLC'
                 }
                 localStorage.setItem('orderId',purchase_order_id)
-                localStorage.setItem('state',company_state)
+                localStorage.setItem('state',capitalizeFirstLetter(company_state))
                 localStorage.setItem('structure',structure)
-                search_params.set('companyName',company_name)
-                search_params.set('state',company_state)
+                search_params.set('companyName',capitalizeFirstLetter(company_name))
+                search_params.set('state',capitalizeFirstLetter(company_state))
                 search_params.set('structure',structure)
                 search_params.set('suffix',company_suffix)
                 search_params.set('coldStop','yes')
