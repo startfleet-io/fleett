@@ -1436,6 +1436,11 @@ if(plan) {
 
   // check if other fields data is stored in localstorage
    checkOtherFieldsDefault();
+
+   if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+
+      $('.slider-2').find(".w-round").children()[planIndex].click()
+    }
 }
 
 function checkOtherFieldsDefault() {
