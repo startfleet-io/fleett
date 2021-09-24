@@ -83,12 +83,13 @@ function focusOnTop() {
     let els = $('.slider-2').find(".w-round").children();
     els.each(function(indx,el) {
       if(indx == planIndex) {
+        console.warn('should tap')
         $(this).trigger( 'tap' )
         return true;
       }
 
     })
-     $('.slider-2').find(".w-round").children()[planIndex].click()
+     //$('.slider-2').find(".w-round").children()[planIndex].click()
 }
 
 // is mobile
