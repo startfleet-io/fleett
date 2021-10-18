@@ -1016,7 +1016,7 @@ function makeOrder(form_data) {
 
 
 Swal.fire({
-  title: 'We are prepairing your purchase order!',
+  title: 'We are preparing your purchase order!',
   html: 'redirecting you for payment...',
   timerProgressBar: true,
   didOpen: () => {
