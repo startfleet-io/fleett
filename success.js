@@ -33,8 +33,8 @@ function getOrderInformation() {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: "Could not found the order",
-        footer: '<a href="">Please contact us.</a>'
+        text: "Could not find the order",
+        footer: '<a href="mailto:hello@startfleet.io">Please contact us.</a>'
       })
     }
   })
