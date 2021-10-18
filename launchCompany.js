@@ -55,7 +55,7 @@ fieldEmail.on("change",async function() {
 
           var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
           
-          fieldEmail.next("div.invalid-insert").remove();
+          fieldEmail.nextAll("div.invalid-insert").remove();
 
           if(!pattern.test(fieldEmail.val().trim()))
           {
@@ -93,7 +93,7 @@ $(document).on("click",".formbtn-2" ,async function() {
        pass = false
       
     }
-    fieldEmail.next("div.invalid-insert").remove();
+    fieldEmail.nextAll("div.invalid-insert").remove();
     if((fieldEmail.val()).trim() == '') {
 
         let msg = formErrorMsg.replace('###','Please enter your email!')
