@@ -1024,13 +1024,13 @@ function callEncharge( form_data ) {
     company_state
   } = form_data;
 
-  const resultIdentify = window.EncTracking.identify({ 
+  const resultIdentify = EncTracking.identify({ 
     email, 
     phone
   });
 
   // Make sure this code is placed after the Encharge Tracking JS snippet
-const resultTrack = window.EncTracking.track(
+const resultTrack = EncTracking.track(
   {
     // Name of this event (required)
     "name": "Checkout action", 
