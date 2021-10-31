@@ -14,8 +14,6 @@ function getParameterByName(name, url = window.location.href) {
 
 function callEncharge( form_data ) {
 
-console.warn(`hey here`);
-return false;
 const  {
     phone,
     email,
