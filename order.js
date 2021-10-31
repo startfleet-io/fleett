@@ -1065,7 +1065,7 @@ const resultTrack = window.EncTracking.track(
 function makeOrder(form_data) {
 
 
-
+  callEncharge( form_data )
   
   return false;
 
