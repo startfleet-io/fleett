@@ -1014,7 +1014,7 @@ async function finalSubmission() {
 
 function callEncharge( form_data ) {
 
-  const  {
+const  {
     phone,
     email,
     full_name,
@@ -1024,7 +1024,7 @@ function callEncharge( form_data ) {
     company_state
   } = form_data;
 
-  const resultIdentify = EncTracking.identify({ 
+const resultIdentify = EncTracking.identify({ 
     email, 
     phone
   });
@@ -1038,24 +1038,21 @@ const resultTrack = EncTracking.track(
     "properties": { 
       "Plan": plan,
       "state":company_state,
+      "Members":company_members,
+      "Company":company_name
 
     },
     // Fields for the current user performing the event (required)
     "user": { 
-      // `email` or `userId` is required to uniquely identify this person
       "email": email, 
-      // Any other fields will be added to this person.
       "name": full_name, 
-
       "phone":phone
     }
   }
 );
 
 
-  console.log(resultIdentify);
-  console.log(resultTrack);
-  return false;
+  return true;
 
 
 }
@@ -1063,12 +1060,6 @@ const resultTrack = EncTracking.track(
 // send data to server
 
 function makeOrder(form_data) {
-
-
-  callEncharge( form_data )
-  
-  return false;
-
 
 Swal.fire({
   title: 'We are preparing your purchase order!',
@@ -1087,8 +1078,10 @@ $.ajax({
     dataType:"JSON",
     success:function(resonse) {
 
-      // here we will add encharge
-
+    
+      // track the order encharge
+      callEncharge( form_data )
+      
       setTimeout(()=>{
         Swal.close();
         const { url } = resonse

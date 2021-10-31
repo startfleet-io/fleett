@@ -10,6 +10,46 @@ function getParameterByName(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+// encharge 
+
+function callEncharge( form_data ) {
+
+console.warn(`hey here`);
+return false;
+const  {
+    phone,
+    email,
+    full_name,
+    order_id
+  } = form_data;
+
+const resultIdentify = EncTracking.identify({ 
+    email, 
+    phone
+  });
+
+  // Make sure this code is placed after the Encharge Tracking JS snippet
+const resultTrack = EncTracking.track(
+  {
+    // Name of this event (required)
+    "name": "Purchase action", 
+    // Properties of this event (optional)
+    "properties": { 
+      "OrderId": order_id,
+
+    },
+    // Fields for the current user performing the event (required)
+    "user": { 
+      "email": email, 
+      "name": full_name, 
+      "phone":phone
+    }
+  }
+);
+
+  return true;
+}
+
 // get order information by session id
 function getOrderInformation() {
 
@@ -28,6 +68,8 @@ function getOrderInformation() {
         $("#customer-email").html(email)
         localStorage.removeItem(dataName);
         setSurveyValues(response);
+        // track the order encharge
+        callEncharge(response);
     },
     error:function( error ) {
       Swal.fire({
