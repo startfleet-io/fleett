@@ -1032,6 +1032,8 @@ $.ajax({
     dataType:"JSON",
     success:function(resonse) {
 
+      // here we will add encharge
+
       setTimeout(()=>{
         Swal.close();
         const { url } = resonse
