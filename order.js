@@ -1010,9 +1010,64 @@ async function finalSubmission() {
 
 }
 
+// encharge 
+
+function callEncharge( form_data ) {
+
+  const  {
+    phone,
+    email,
+    full_name,
+    plan,
+    company_name,
+    company_members,
+    company_state
+  } = form_data;
+
+  const resultIdentify = window.EncTracking.identify({ 
+    email, 
+    phone
+  });
+
+  // Make sure this code is placed after the Encharge Tracking JS snippet
+const resultTrack = window.EncTracking.track(
+  {
+    // Name of this event (required)
+    "name": "Checkout action", 
+    // Properties of this event (optional)
+    "properties": { 
+      "Plan": plan,
+      "state":company_state,
+
+    },
+    // Fields for the current user performing the event (required)
+    "user": { 
+      // `email` or `userId` is required to uniquely identify this person
+      "email": email, 
+      // Any other fields will be added to this person.
+      "name": full_name, 
+
+      "phone":phone
+    }
+  }
+);
+
+
+  console.log(resultIdentify);
+  console.log(resultTrack);
+  return false;
+
+
+}
+
 // send data to server
 
 function makeOrder(form_data) {
+
+
+
+  
+  return false;
 
 
 Swal.fire({
