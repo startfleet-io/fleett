@@ -61,13 +61,16 @@ function getOrderInformation() {
     dataType:"JSON",
     success:function(response) {
         //console.log(resonse)
-        const { order_id, email } = response;
+        const { order_id, email, tracked } = response;
         $("#order-number").html(order_id)
         $("#customer-email").html(email)
         localStorage.removeItem(dataName);
         setSurveyValues(response);
         // track the order encharge
-        callEncharge(response);
+        if(tracked!='yes') {
+          callEncharge(response);
+        }
+        
     },
     error:function( error ) {
       Swal.fire({
