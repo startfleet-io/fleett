@@ -69,9 +69,9 @@ function getOrderInformation() {
         setSurveyValues(response);
         // track the order encharge
 
-         console.warn(tracked)
-         console.log(tracked!='yes');
-         
+        // console.warn(tracked)
+         //console.log(tracked!='yes');
+
         if(tracked!='yes') {
           callEncharge(response);
         }
