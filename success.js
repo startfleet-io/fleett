@@ -62,6 +62,7 @@ function getOrderInformation() {
     success:function(response) {
         //console.log(resonse)
         const { order_id, email, tracked } = response;
+        console.log(tracked)
         $("#order-number").html(order_id)
         $("#customer-email").html(email)
         localStorage.removeItem(dataName);
