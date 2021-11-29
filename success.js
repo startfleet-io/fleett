@@ -18,7 +18,8 @@ const  {
     phone,
     email,
     full_name,
-    order_id
+    order_id,
+    totalCost
   } = form_data;
 
 const resultIdentify = EncTracking.identify({ 
@@ -62,7 +63,7 @@ function getOrderInformation() {
     dataType:"JSON",
     success:function(response) {
         //console.log(resonse)
-        const { order_id, email, tracked } = response;
+        const { order_id, email, tracked,totalCost } = response;
        
         $("#order-number").html(order_id)
         $("#customer-email").html(email)
