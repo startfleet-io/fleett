@@ -1039,7 +1039,8 @@ const resultTrack = EncTracking.track(
       "Plan": plan,
       "state":company_state,
       "Members":company_members,
-      "Company":company_name
+      "Company":company_name,
+      "orderValue":totalCost ? `$${totalCost}` : 0
 
     },
     // Fields for the current user performing the event (required)

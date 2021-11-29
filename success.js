@@ -34,6 +34,7 @@ const resultTrack = EncTracking.track(
     // Properties of this event (optional)
     "properties": { 
       "OrderId": order_id,
+      "orderValue":totalCost ? `$${totalCost}` : 0
 
     },
     // Fields for the current user performing the event (required)
