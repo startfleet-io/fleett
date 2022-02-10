@@ -1,5 +1,5 @@
 var city = geotargeto_city()
-
+var launchDomain = `https://launch.startfleet.io/`
 if(document.getElementById('user-city')) {
   document.getElementById('user-city').innerHTML = city
 }
@@ -17,6 +17,7 @@ var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
 var pass = true;
 var isEmailValid = false
 // validate email
+
 
 function validate_email() {
 
@@ -144,7 +145,8 @@ $(document).on("click",".formbtn-2" ,async function() {
     }
 	if(pass) {
   
-      let order_url = 'order?';
+     // let order_url = 'order?';
+      let order_url = `${launchDomain}?`;
      // order_url+= 'p=startup';
       order_url+= '&ct='+(fieldCompanyType.val()).toLowerCase();
       order_url+= '&cct='+(fieldCompanyCity.val()).toLowerCase();
