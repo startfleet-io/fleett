@@ -906,7 +906,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
     let stateName = (found.state.charAt(0).toUpperCase()+ found.state.slice(1));
       console.log(stateName);
       
-    let em = 'Plus $' + found.fee + ' ' + found.state + ' fee';
+    let em = 'Plus $' + found.fee + ' ' + stateName + ' fee';
     console.log(em);
     FeeText.html(em);
     stateFee.html('$' + found.fee);
