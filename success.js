@@ -149,7 +149,7 @@ let val = {
   'id': item.refcode,
   'price': item.item_price,
   //'brand': 'Google',
-  //'category': 'Apparel',
+  'category': item.item_type,
   //'variant': 'Gray',
   'quantity': 1,
   'coupon': '' 
