@@ -903,7 +903,9 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         elm.state.toLowerCase() == state.toLowerCase()
       );
     });
-    //console.log(found);
+    let stateName = (found.state.charAt(0).toUpperCase()+ found.state.slice(1));
+      console.log(stateName);
+      
     let em = 'Plus $' + found.fee + ' ' + found.state + ' fee';
     console.log(em);
     FeeText.html(em);
