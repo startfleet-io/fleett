@@ -128,3 +128,10 @@ function setSurveyValues( response ) {
 window.qwary.survey();
 
 }
+
+function callDataLayer( form_data ) {
+
+
+  console.log( form_data );
+
+}
