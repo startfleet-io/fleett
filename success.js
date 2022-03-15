@@ -73,10 +73,10 @@ function getOrderInformation() {
 
         // console.warn(tracked)
          //console.log(tracked!='yes');
-
+          callDataLayer( response )
         if(tracked!='yes') {
           callEncharge(response);
-          callDataLayer( response )
+         
         }
         
     },
