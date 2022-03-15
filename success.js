@@ -76,6 +76,7 @@ function getOrderInformation() {
 
         if(tracked!='yes') {
           callEncharge(response);
+          callDataLayer( response )
         }
         
     },
