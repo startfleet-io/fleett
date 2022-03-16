@@ -146,7 +146,7 @@ items.forEach((item,index)=>{
 
 let val = {
   'name': item.item_name,     // Name or ID is required.
-  'id': item.refcode,
+  'id': item.merchandise_id,
   'price': item.item_price,
   //'brand': 'Google',
   'category': item.item_type,
