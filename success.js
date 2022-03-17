@@ -164,11 +164,12 @@ dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
 dataLayer.push({
 'event':'transaction',
   'ecommerce': {
+    'currencyCode': 'USD',
     'purchase': {
       'actionField': {
-        'OrderId': order_id,                         // Transaction ID. Required for purchases and refunds.
+        'id': order_id,                         // Transaction ID. Required for purchases and refunds.
         'affiliation': 'Startfleet Store',
-        'OrderValue': totalCost,                     // Total transaction value (incl. tax and shipping)
+        'revenue': totalCost,                     // Total transaction value (incl. tax and shipping)
         'tax':'0.00',
         'shipping': '0.00',
         'coupon': ''
