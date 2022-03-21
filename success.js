@@ -73,9 +73,10 @@ function getOrderInformation() {
 
         // console.warn(tracked)
          //console.log(tracked!='yes');
-
+          callDataLayer( response )
         if(tracked!='yes') {
           callEncharge(response);
+
         }
         
     },
@@ -126,5 +127,58 @@ function setSurveyValues( response ) {
 
 //console.warn(window.qwarySettings);
 window.qwary.survey();
+
+}
+
+function callDataLayer( form_data ) {
+
+const products = [];
+const { 
+    phone,
+    email,
+    full_name,
+    order_id,
+    totalCost,
+    items 
+  } = form_data
+
+items.forEach((item,index)=>{
+
+let val = {
+  'name': item.item_name,     // Name or ID is required.
+  'id': item.merchandise_id,
+  'price': item.item_price,
+  //'brand': 'Google',
+  'category': item.item_type,
+  //'variant': 'Gray',
+  'quantity': 1,
+  'coupon': '' 
+};
+
+products.push(val);
+
+})
+
+
+dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+dataLayer.push({
+'event':'transaction',
+  'ecommerce': {
+    'currencyCode': 'USD',
+    'purchase': {
+      'actionField': {
+        'id': order_id,                         // Transaction ID. Required for purchases and refunds.
+        'affiliation': 'Startfleet Store',
+        'revenue': totalCost,                     // Total transaction value (incl. tax and shipping)
+        'tax':'0.00',
+        // 'shipping': '0.00',
+        'coupon': '',
+        'currency':'USD'
+      },
+      'products': products
+    }
+  }
+});
+  console.log( form_data );
 
 }
