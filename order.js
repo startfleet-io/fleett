@@ -622,6 +622,7 @@ function stepValidation() {
 
            if(pass) {
             console.log('step 3 passed')
+            onCheckout();
             return true;
            }
 
@@ -1639,3 +1640,35 @@ input.addEventListener('blur', function() {
 });
 input.addEventListener('change', reset);
 input.addEventListener('keyup', reset);
+
+
+// datalayer work
+
+function onCheckout( ) {
+
+  let data = JSON.parse(localStorage.getItem(dataName));
+
+  console.log(data);
+
+  dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+  dataLayer.push({
+    'event': 'checkout',
+    'ecommerce': {
+      'checkout': {
+        'actionField': {'step': 1},
+        'products': [{
+          'name': 'Triblend Android T-Shirt',
+          'id': '12345',
+          'price': '15.25',
+          'brand': 'Google',
+          'category': 'Apparel',
+          'variant': 'Gray',
+          'quantity': 1
+       }]
+     }
+   },
+   'eventCallback': function() {
+      console.log('datalayer event triggered')
+   }
+  });
+}
