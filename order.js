@@ -621,6 +621,7 @@ function stepValidation() {
             }
 
            if(pass) {
+            console.log('step 3 passed')
             return true;
            }
 
