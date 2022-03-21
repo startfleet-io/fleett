@@ -171,8 +171,9 @@ dataLayer.push({
         'affiliation': 'Startfleet Store',
         'revenue': totalCost,                     // Total transaction value (incl. tax and shipping)
         'tax':'0.00',
-        'shipping': '0.00',
-        'coupon': ''
+        // 'shipping': '0.00',
+        'coupon': '',
+        'currency':'USD'
       },
       'products': products
     }
