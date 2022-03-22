@@ -1,4 +1,4 @@
-// all variables
+ // all variables
 
  var step = 1;
     var plans;
@@ -58,6 +58,7 @@
     const plan_names = [plan_level_one,plan_level_two,plan_level_three];
 
     var planIndex = 0;
+    var bucketProducts = [];
 
 // set plan index for mobile
 
@@ -622,7 +623,7 @@ function stepValidation() {
 
            if(pass) {
             console.log('step 3 passed')
-            onCheckout();
+            onCheckout( 1 );
             return true;
            }
 
@@ -1073,6 +1074,9 @@ Swal.fire({
   },
 })
 
+onCheckout( 2 );
+return;
+
 $.ajax({
 
     url:API_ORDER,
@@ -1085,6 +1089,8 @@ $.ajax({
       // track the order encharge
       callEncharge( form_data )
       
+      
+
       setTimeout(()=>{
         Swal.close();
         const { url } = resonse
@@ -1644,34 +1650,105 @@ input.addEventListener('keyup', reset);
 
 // datalayer work
 
-function onCheckout( ) {
+function onCheckout( step ) {
 
   let data = JSON.parse(localStorage.getItem(dataName));
 
-  console.log(data);
-  console.log(plans)
-  console.log(dt)
-  console.log(products)
+  const { planId, stateId, refcodes } = data;
+
+  if(!planId || !stateId) {
+   console.log('sorry skipping plan/state not available in');
+   return false;
+  }
+
+  let selectedPlan = plans.filter((plan)=> plan.id === planId)[0]
+  let selectedState = dt.filter((state)=> state.id === stateId)[0]
+  let selectedProducts =[]
+
+  if(step!=2) {
+     if(selectedPlan) {
+      bucketProducts.push({
+             'name': selectedPlan.name,
+             'id': selectedPlan.merchandise_id,
+             'price': selectedPlan.price,
+            // 'brand': 'Google',
+             'category': 'plan',
+           //  'variant': 'Gray',
+             'quantity': 1
+      })
+     }
+  if(selectedState) {
+   bucketProducts.push({
+          'name': `${selectedState.state}/${selectedState.structure}`,
+          'id': selectedState.merchandise_id,
+          'price': selectedState.fee,
+         // 'brand': 'Google',
+          'category': 'state',
+        //  'variant': 'Gray',
+          'quantity': 1
+   })
+  }
+  //console.warn(selectedPlan)
+  //console.warn(selectedState)
+  //console.warn(refcodes)
+
+  if(refcodes) {
+
+   let addonsIds = refcodes.split("-")
+
+   addonsIds.forEach((add)=>{
+
+      let product =products.filter((product) => parseInt(product.refcode) === parseInt(add))[0];
+
+      selectedProducts.push(product)
+   })
+
+   //console.error(addonsIds);
+  }
+
+  if(selectedProducts.length) {
+
+   let pkey = (selectedPlan.name).toLowerCase();
+
+      selectedProducts.forEach((product)=> {
+
+          bucketProducts.push({
+             'name': `${product.name}`,
+             'id': product.merchandise_id,
+             'price': product[pkey+'_price'],
+            // 'brand': 'Google',
+             'category': 'addon',
+           //  'variant': 'Gray',
+             'quantity': 1
+         })
+      })
+  }
+} // if step !=2
+
+  console.error(bucketProducts);
+  //console.log(selectedProducts);
+  //console.log(data);
+  //console.log(plans)
+  //console.log(dt)
+  //console.log(products)
 
   dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
   dataLayer.push({
     'event': 'checkout',
     'ecommerce': {
       'checkout': {
-        'actionField': {'step': 1},
-        'products': [{
-          'name': 'Triblend Android T-Shirt',
-          'id': '12345',
-          'price': '15.25',
-          'brand': 'Google',
-          'category': 'Apparel',
-          'variant': 'Gray',
-          'quantity': 1
-       }]
+        'actionField': {'step': step },
+        'products': bucketProducts
      }
    },
-   'eventCallback': function() {
-      console.log('datalayer event triggered')
-   }
+   // 'eventCallback': function() {
+   //    console.log('datalayer event triggered')
+   // }
   });
+}
+
+function cleanBucket() {
+
+   bucketProducts = [];
+
 }
