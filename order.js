@@ -59,6 +59,7 @@
 
     var planIndex = 0;
     var bucketProducts = [];
+    var bucketPrice = 0;
 
 // set plan index for mobile
 
@@ -1676,6 +1677,7 @@ function onCheckout( step ) {
            //  'variant': 'Gray',
              'quantity': 1
       })
+      bucketPrice = parseFloat(bucketPrice) + parseFloat(selectedPlan.price)
      }
   if(selectedState) {
    bucketProducts.push({
@@ -1687,6 +1689,9 @@ function onCheckout( step ) {
         //  'variant': 'Gray',
           'quantity': 1
    })
+
+   bucketPrice = parseFloat(bucketPrice) + parseFloat(selectedState.fee)
+
   }
   //console.warn(selectedPlan)
   //console.warn(selectedState)
@@ -1721,6 +1726,9 @@ function onCheckout( step ) {
            //  'variant': 'Gray',
              'quantity': 1
          })
+
+           bucketPrice = parseFloat(bucketPrice) + parseFloat(product[pkey+'_price'])
+ 
       })
   }
 } // if step !=2
@@ -1737,7 +1745,11 @@ function onCheckout( step ) {
     'event': 'checkout',
     'ecommerce': {
       'checkout': {
-        'actionField': {'step': step },
+        'actionField': {
+         'step': step ,
+         'revenue': bucketPrice,
+         'currency':'USD'   
+      },
         'products': bucketProducts
      }
    },
@@ -1750,5 +1762,6 @@ function onCheckout( step ) {
 function cleanBucket() {
 
    bucketProducts = [];
+   bucketPrice = 0;
 
 }
