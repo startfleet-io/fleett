@@ -1649,6 +1649,9 @@ function onCheckout( ) {
   let data = JSON.parse(localStorage.getItem(dataName));
 
   console.log(data);
+  console.log(plans)
+  console.log(dt)
+  console.log(products)
 
   dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
   dataLayer.push({
