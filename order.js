@@ -1075,8 +1075,8 @@ Swal.fire({
   },
 })
 
-onCheckout( 2 );
-return;
+
+//return;
 
 $.ajax({
 
@@ -1090,7 +1090,7 @@ $.ajax({
       // track the order encharge
       callEncharge( form_data )
       
-      
+      onCheckout( 2 );
 
       setTimeout(()=>{
         Swal.close();
