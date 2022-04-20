@@ -206,7 +206,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       launchDomain = `http://localhost/joe-work/fleett/order.html?v=${version}&source=${source
       }`;
 
-    } else if(window.location.hostname === 'https://staging-startfleet.webflow.io') {
+    } else if(window.location.hostname === 'staging-startfleet.webflow.io') {
 
       launchDomain = `https://staging-startfleet.webflow.io/order.html?v=${version}&source=${source
       }`;
