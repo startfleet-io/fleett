@@ -38,14 +38,22 @@
 
     var dataName = 'sf_store_database';
 
-    const API_PRICING = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/pricing`;
+    var API_BASE = `https://xe5a-injf-5wxp.n7.xano.io`;
 
-    const API_EMAIL_VALIDATION =`https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/check-email`;
 
-    const API_PHONE_VALIDATION = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/check-phone`
+    //  const API_PRICING = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/pricing`;
+    var API_PRICING = ``;
 
-    const API_ORDER = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/order`
+    // const API_EMAIL_VALIDATION =`https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/check-email`;
+    var API_EMAIL_VALIDATION =``;
 
+    //const API_PHONE_VALIDATION = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/check-phone`
+    var API_PHONE_VALIDATION = ``
+
+    //const API_ORDER = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/order`
+    var API_ORDER = ``
+
+   
     var isEmailTrue = true;
     var isPhoneTrue = true;
 
@@ -60,6 +68,45 @@
     var planIndex = 0;
     var bucketProducts = [];
     var bucketPrice = 0;
+
+    var version,source;
+
+    
+function setUpTestEnv() {
+
+     version = getParameterByName('v')
+     source  = getParameterByName('source')
+
+    if(version && source) {
+
+      API_VERSION = `:v${version}`;
+      API_PRICING = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/pricing`
+      API_EMAIL_VALIDATION = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/check-email`
+      API_PHONE_VALIDATION = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/check-phone`
+      API_ORDER = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/order`
+
+      $.ajaxSetup({
+      beforeSend: function (xhr)
+      {
+       xhr.setRequestHeader("X-Data-Source","test");
+      // xhr.setRequestHeader("Authorization","Token token=\"FuHCLyY46\"");        
+      }
+    });
+      
+      console.warn('test mode')
+    }else {
+
+      API_PRICING = `${API_BASE}/api:z9NOXVAQ/pricing`
+      API_EMAIL_VALIDATION = `${API_BASE}/api:z9NOXVAQ/check-email`
+      API_PHONE_VALIDATION = `${API_BASE}/api:z9NOXVAQ/check-phone`
+      API_ORDER = `${API_BASE}/api:z9NOXVAQ/order`
+      
+      console.warn('live mode')
+    }
+
+
+  }
+
 
 // set plan index for mobile
 
@@ -127,6 +174,8 @@ setPlanNames();
 // get pricing
 
 function getPricing() {
+
+setUpTestEnv();
 
 $.get(API_PRICING,{},async function(data, textStatus, jqXHR) {
 
@@ -1075,6 +1124,11 @@ Swal.fire({
   },
 })
 
+form_data.test = false;
+if(version && source === 'test') {
+
+   form_data.test = true;
+}
 
 //return;
 
@@ -1123,9 +1177,14 @@ $.ajax({
 function validate_phone() {
 
 return new Promise(function(resolve,reject) {
-   //resolve(true);
-   //return true;
-      let phone_num = $("#phone").val().trim()
+  
+
+      if(version && source === 'test') {
+
+         return resolve(true);
+      }
+
+     let phone_num = $("#phone").val().trim()
 
       $.ajax({
       url:API_PHONE_VALIDATION,
@@ -1153,7 +1212,12 @@ return new Promise(function(resolve,reject) {
 function validate_email() {
 
     return new Promise(function(resolve,reject) {
-      //resolve(true);
+
+      if(version && source === 'test') {
+
+         return resolve(true);
+      }
+     
       let email = $("#Email-field").val().trim()
 
          $.ajax({
@@ -1260,13 +1324,16 @@ function setProductPrices( plan ) {
 // initialize function
 function myinit() {
 
+
+
 console.warn("init called");
  var plan        = getParameterByName('p'); // "plan"
  var companyType = getParameterByName('ct'); // "company type"
  var companyCity = getParameterByName('cct'); // "company city"
  var refcodes = getParameterByName('ref'); // "refcodes"
  var skip = getParameterByName('skip'); // "refcodes"
- 
+  version = getParameterByName('v')
+  source  = getParameterByName('source')
  console.warn("init called");
  console.warn(!plan && !companyType && !companyCity)
 
@@ -1310,6 +1377,14 @@ console.warn("init called");
         if(data.refcodes && data.refcodes!="" && data.refcodes!="null") {
           search_params.set('ref',data.refcodes)
         } 
+
+        if(version) {
+          search_params.set('version',version)
+        }
+
+        if(source) {
+          search_params.set('source',source)
+        }
 
         // set modify storage
 
