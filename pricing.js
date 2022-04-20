@@ -64,6 +64,24 @@
     
     localStorage.removeItem(dataName);
 
+    const API_BASE = `https://xe5a-injf-5wxp.n7.xano.io`
+
+    let API_VERSION = ``;
+
+    //https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ:v2/pricing
+
+    let API_PRICING = ``;
+
+// extract query string
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 
   function setPlanNames() {
 
@@ -161,7 +179,60 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
          
   }
 
-  $.get(`https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/pricing`,{},async function(data, textStatus, jqXHR) {
+  function setUpTestEnv() {
+
+    console.log(window.location.href.indexOf('?'))
+    console.log(window.location)
+    console.log("i m working.....")
+
+    let version = getParameterByName('v')
+    let source  = getParameterByName('source')
+
+    if(version && source) {
+
+      API_VERSION = `:v${version}`;
+      API_PRICING = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/pricing`
+
+    $.ajaxSetup({
+      beforeSend: function (xhr)
+      {
+       xhr.setRequestHeader("X-Data-Source","test");
+      // xhr.setRequestHeader("Authorization","Token token=\"FuHCLyY46\"");        
+      }
+    });
+
+    if(window.location.hostname === 'localhost') {
+
+      launchDomain = `http://localhost/joe-work/fleett/order.html?v=${version}&source=${source
+      }`;
+
+    } else if(window.location.hostname === 'https://staging-startfleet.webflow.io') {
+
+      launchDomain = `https://staging-startfleet.webflow.io/order.html?v=${version}&source=${source
+      }`;
+    }
+
+    console.log(launchDomain)
+
+      console.log('you are trying to use test env')
+
+
+
+
+    }else {
+
+      API_PRICING = `${API_BASE}/api:z9NOXVAQ/pricing`
+      console.log('you are trying to use live env')
+    }
+
+
+  }
+  function initWrap() {
+
+    setUpTestEnv();
+
+
+    $.get(API_PRICING,{},async function(data, textStatus, jqXHR) {
 
     const { plans, state_fess, products } = data;
 
@@ -892,6 +963,15 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
         }
   });
 
+
+
+  }
+
+
+// call it default
+initWrap();
+  
+
   $('select').on('change', function () {
     state = companyState.val();
     company = companyType.val();
@@ -1036,23 +1116,28 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
 
 
     
-    $(".without-product-plan").click(function() {
+    $(".without-product-plan").click(function(e) {
+
+       e.preventDefault();
 
       //without_product_url = 'order?';
-      without_product_url = `${launchDomain}?`;
+      without_product_url = (launchDomain.indexOf('?') <= 0) ? `${launchDomain}?` : `${launchDomain}&`;
 
       without_product_url+= 'p='+$(this).attr("data-plan");
       without_product_url+= '&ct='+$("#companyType").val();
       without_product_url+= '&cct='+$("#companyCity").val();
-
+     
       window.location.href = without_product_url;
 
     })
 
-     $(".with-product-plan").click(function() {
+     $(".with-product-plan").click(function(e) {
+
+      e.preventDefault();
 
     //  with_product_url = 'order?';
-      with_product_url = `${launchDomain}?`;
+       with_product_url = (launchDomain.indexOf('?') <= 0) ? `${launchDomain}?` : `${launchDomain}&`;
+
 
       let pLaN = $(this).attr("data-plan");
 
@@ -1080,7 +1165,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
       }
 
       //console.log(with_product_url);
-
+      // alert(with_product_url)
       window.location.href = with_product_url;
 
     });

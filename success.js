@@ -1,4 +1,4 @@
- const API_ORDER_INFO = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/order-details-by-session`
+ var API_ORDER_INFO = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/order-details-by-session`
 var dataName = 'sf_store_database';
 // extract query string
 function getParameterByName(name, url = window.location.href) {
@@ -54,12 +54,19 @@ const resultTrack = EncTracking.track(
 function getOrderInformation() {
 
   var sessionId = getParameterByName('session_id'); // "session id"
+  var source = getParameterByName('source'); // "session id"
+  var data = { sessionId }
+  if(source && source === 'test') {
+
+    data['x-data-source'] = `test`
+
+  }
 
   $.ajax({
 
     url:API_ORDER_INFO,
     type:"GET",
-    data:{ sessionId },
+    data:data,
     dataType:"JSON",
     success:function(response) {
         //console.log(resonse)
