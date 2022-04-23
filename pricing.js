@@ -1186,10 +1186,12 @@ initWrap();
       $("#content-01").hide();
       });
       $(document).on("click",".show-desc",function(event){
+        //alert('hey')
        event.stopPropagation();
-      let pdtxt = $(this).prev("h4").text()
+      let pdtxt = $(this).prev("h4").text() ? $(this).prev("h4").text() : $(this).prev("div.feature-head").text()
+      console.log(pdtxt)
       let found = productList.filter((p)=> p.name == pdtxt)
-
+      console.log(found.length)
       if(found.length) {
       $("#productTitle").html(found[0].name);
       $("#productDescription").html(found[0].description);
