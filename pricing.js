@@ -130,12 +130,19 @@ function getParameterByName(name, url = window.location.href) {
 
   function displayCell( params ) {
 
-   // console.log(params)
+   
+    //console.warn(params.item.name)
 
-    let numberPlan = 0;
-    let price = parseInt(params.price) + parseInt(params.item['setup_fee']);
+        if(params.item.name == 'Address with Electricity Bill') {
+          
+         let  cell = `<span class="single-plans" style="padding-left:24px">Contact Us</span>`;
+          return `<div class="tb 2-plans">${cell}</div>`;
+        }else {
+          //console.log('iminelse')
+        let numberPlan = 0;
+        let price = parseInt(params.price) + parseInt(params.item['setup_fee']);
 
-let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.plan}" data-price="${
+        let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.plan}" data-price="${
             price
           }"  id="${params.item['id']}" data-ref="${params.item['refcode']}" />`; 
 
@@ -176,6 +183,7 @@ let cell = `<input class="mr-5 priceBox" type="checkbox" data-plan="${params.pla
 
                   return `<div class="tb">${cell}</div>`;
                 }
+        }
          
   }
 
