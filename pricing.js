@@ -1188,14 +1188,14 @@ initWrap();
       $(document).on("click",".show-desc",function(event){
         //alert('hey')
        event.stopPropagation();
-      let pdtxt = $(this).prev("h4").text() ? $(this).prev("h4").text() : $(this).prev("div.feature-head").text()
-      console.log(pdtxt)
+      let pdtxt = $(this).prev("h4").text() ? $(this).prev("h4").text() : $(this).prev("div.feature-head").attr("data-value")
+      console.warn(pdtxt)
       let found = productList.filter((p)=> p.name == pdtxt)
-      console.log(found.length)
+      console.warn(found.length)
       if(found.length) {
       $("#productTitle").html(found[0].name);
       $("#productDescription").html(found[0].description);
-      console.log(found)
+      console.warn(found)
       $("#content-01").show();
 
       }
