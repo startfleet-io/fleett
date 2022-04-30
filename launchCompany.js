@@ -16,6 +16,7 @@ var formErrorMsg = '<div class="invalid-insert show-left">';
 var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
 var pass = true;
 var isEmailValid = false
+var dataName = 'sf_store_database';
 // validate email
 
 
@@ -151,7 +152,13 @@ $(document).on("click",".formbtn-2" ,async function() {
       order_url+= '&ct='+(fieldCompanyType.val()).toLowerCase();
       order_url+= '&cct='+(fieldCompanyCity.val()).toLowerCase();
       order_url+= '&skip=1';
-
+      let name = (fieldName.val()).trim()
+      let email = (fieldEmail.val()).trim()
+      let data = {
+        name,
+        email
+      }
+      localStorage.setItem(dataName, JSON.stringify(data));
 
       window.location.href = order_url;
   
