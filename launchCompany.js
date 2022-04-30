@@ -1,5 +1,7 @@
 var city = geotargeto_city()
+
 var launchDomain = `https://launch.startfleet.io/`
+
 if(document.getElementById('user-city')) {
   document.getElementById('user-city').innerHTML = city
 }
@@ -19,10 +21,55 @@ var isEmailValid = false
 var dataName = 'sf_store_database';
 // validate email
 
+    var version,source;
+
+// extract query string
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function setUpTestEnv() {
+
+     version = getParameterByName('v')
+     source  = getParameterByName('source')
+
+    if(version && source) {
+
+        if(window.location.hostname === 'localhost') {
+
+          launchDomain = `http://localhost/joe-work/fleett/order.html?v=${version}&source=${source
+          }`;
+
+        } else if(window.location.hostname === 'staging-startfleet.webflow.io') {
+
+          launchDomain = `https://staging-startfleet.webflow.io/order?v=${version}&source=${source
+          }`;
+        }
+
+        console.log('you are trying to use test env')
+
+    }else {
+      console.log('you are trying to use live env')
+    }
+
+  }
+
+setUpTestEnv();
 
 function validate_email() {
 
     return new Promise(function(resolve,reject) {
+
+      if(version && source === 'test') {
+
+         return resolve(true);
+      }
+
       //resolve(true);
       let email = fieldEmail.val().trim()
 
@@ -147,27 +194,26 @@ $(document).on("click",".formbtn-2" ,async function() {
 	if(pass) {
   
      // let order_url = 'order?';
-      let order_url = `${launchDomain}?`;
+      let order_url = (launchDomain.indexOf('?') <= 0) ? `${launchDomain}?` : `${launchDomain}`;
      // order_url+= 'p=startup';
       order_url+= '&ct='+(fieldCompanyType.val()).toLowerCase();
       order_url+= '&cct='+(fieldCompanyCity.val()).toLowerCase();
       order_url+= '&skip=1';
       let name = (fieldName.val()).trim()
       let email = (fieldEmail.val()).trim()
-      let data = {
-        name,
-        email
-      }
+      
 
+      // set cookie
       const d = new Date();
       d.setTime(d.getTime() + (1*24*60*60*1000));
       let expires = "expires="+ d.toUTCString();
 
-      document.cookie = `cname=${name};cemail=${email}; ${expires}; path=/`
+      document.cookie = `cname=${name}; ${expires}; path=/`
+      document.cookie = `cemail=${email}; ${expires}; path=/`
       //localStorage.setItem(dataName, JSON.stringify(data));
-      console.warn(document.cookie);
+      //console.warn(document.cookie);
 
-      //window.location.href = order_url;
+      window.location.href = order_url;
   
   }
 
