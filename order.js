@@ -1,5 +1,27 @@
  // all variables
 
+// getCookie
+function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+// removeCookie
+
+function removeCookie(name) {
+  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
  var step = 1;
     var plans;
     var data = {}
@@ -414,7 +436,7 @@ function companyDetailsValidation() {
     let data = localStorage.getItem(dataName);
     data = JSON.parse(data);
     data.companyName = ($("#Company-name-2").val()).trim()
-    data.SSN = ($("#SSN-or-ITIN-2").val()).trim()
+    data.suffix = ($("#SSN-or-ITIN-2").val()).trim()
     //data.businessDescription = ($("#Business-desc-form").val()).trim()
     data.members = totalMembers
     localStorage.setItem(dataName, JSON.stringify(data));
@@ -994,7 +1016,7 @@ async function finalSubmission() {
       cEmail,
       // businessDescription,
       SSNYN,
-      SSN,
+      suffix,
       members,
       plan,
       planId,
@@ -1010,7 +1032,7 @@ async function finalSubmission() {
         company_name:companyName,
         company_state:state,
         company_structure:structure,
-        company_suffix:SSN,
+        company_suffix:suffix,
         // company_business_description:businessDescription,
         company_members:members,
         phone:cPhone,
@@ -1149,6 +1171,11 @@ $.ajax({
       setTimeout(()=>{
         Swal.close();
         const { url } = resonse
+        
+        // remove cookie if exists
+        removeCookie('cname');
+        removeCookie('cemail');
+
         window.location = url
       },1500)
     },
@@ -1399,8 +1426,17 @@ console.warn("init called");
 // if values in url
 
 // remove storage first
-if(!skip) {
+if(skip) {
   localStorage.removeItem(dataName);
+  if(getCookie('cname')!=="" && getCookie("cemail") !=="") {
+    let data = {
+        cName:getCookie('cname'),
+        cEmail:getCookie("cemail")
+    }
+    localStorage.setItem(dataName,JSON.stringify(data));
+
+  }
+  
 }
 
 let divStep = $(`.custom-step-${step}`);
@@ -1602,8 +1638,8 @@ let otherFieldsData = localStorage.getItem(dataName) ? JSON.parse(localStorage.g
     }
 
     // if suffix exists then set
-    if(otherFieldsData.SSN) {
-      $("#SSN-or-ITIN-2").val(otherFieldsData.SSN)
+    if(otherFieldsData.suffix) {
+      $("#SSN-or-ITIN-2").val(otherFieldsData.suffix)
     }
 
     // if business description exists then set
