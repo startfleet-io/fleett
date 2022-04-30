@@ -158,8 +158,14 @@ $(document).on("click",".formbtn-2" ,async function() {
         name,
         email
       }
-      localStorage.setItem(dataName, JSON.stringify(data));
-      console.warn(localStorage.getItem(dataName));
+
+      const d = new Date();
+      d.setTime(d.getTime() + (1*24*60*60*1000));
+      let expires = "expires="+ d.toUTCString();
+
+      document.cookie = `cname=${name};cemail=${email}; ${expires}; path=/`
+      //localStorage.setItem(dataName, JSON.stringify(data));
+      console.warn(document.cookie);
 
       //window.location.href = order_url;
   

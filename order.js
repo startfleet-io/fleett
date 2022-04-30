@@ -1399,8 +1399,9 @@ console.warn("init called");
 // if values in url
 
 // remove storage first
-
-localStorage.removeItem('data');
+if(!skip) {
+  localStorage.removeItem(dataName);
+}
 
 let divStep = $(`.custom-step-${step}`);
 
