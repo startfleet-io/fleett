@@ -215,7 +215,6 @@ $(document).on("click",".formbtn-2" ,async function() {
       document.cookie = `cemail=${email}; ${expires}; path=/;domain=${domain}`
       //localStorage.setItem(dataName, JSON.stringify(data));
       //console.warn(document.cookie);
-
       window.location.href = order_url;
   
   }
