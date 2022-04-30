@@ -159,8 +159,9 @@ $(document).on("click",".formbtn-2" ,async function() {
         email
       }
       localStorage.setItem(dataName, JSON.stringify(data));
+      console.warn(localStorage.getItem(dataName));
 
-      window.location.href = order_url;
+      //window.location.href = order_url;
   
   }
 
