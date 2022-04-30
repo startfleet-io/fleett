@@ -1,7 +1,7 @@
 var city = geotargeto_city()
 
 var launchDomain = `https://launch.startfleet.io/`
-
+var domain = `startfleet.io`;
 if(document.getElementById('user-city')) {
   document.getElementById('user-city').innerHTML = city
 }
@@ -44,11 +44,14 @@ function setUpTestEnv() {
 
           launchDomain = `http://localhost/joe-work/fleett/order.html?v=${version}&source=${source
           }`;
+          domain = `localhost`
 
         } else if(window.location.hostname === 'staging-startfleet.webflow.io') {
 
           launchDomain = `https://staging-startfleet.webflow.io/order?v=${version}&source=${source
           }`;
+
+          domain=`staging-startfleet.webflow.io`
         }
 
         console.log('you are trying to use test env')
@@ -208,8 +211,8 @@ $(document).on("click",".formbtn-2" ,async function() {
       d.setTime(d.getTime() + (1*24*60*60*1000));
       let expires = "expires="+ d.toUTCString();
 
-      document.cookie = `cname=${name}; ${expires}; path=/`
-      document.cookie = `cemail=${email}; ${expires}; path=/`
+      document.cookie = `cname=${name}; ${expires}; path=/;domain=${domain}`
+      document.cookie = `cemail=${email}; ${expires}; path=/;domain=${domain}`
       //localStorage.setItem(dataName, JSON.stringify(data));
       //console.warn(document.cookie);
 
