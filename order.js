@@ -1311,7 +1311,9 @@ function setProductPrices( plan ) {
          amt = parseInt(cp[plan+'_price']);
       }
 
-      let is_included = Boolean(cp[`included_in_${plan}`]);
+      let is_included = cp[`included_in_${plan}`] === 'true' ? true:
+      cp[`included_in_${plan}`] === 'false' ? false :
+      Boolean(cp[`included_in_${plan}`]);
 
       
 
