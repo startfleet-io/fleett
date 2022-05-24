@@ -1,5 +1,11 @@
  // all variables
 
+var city = geotargeto_city()
+var region = geotargeto_region();
+var postalCode = geotargeto_postalCode()
+var countryCode= geotargeto_countryCode()
+
+
 // getCookie
 function getCookie(cname) {
   let name = cname + "=";
@@ -1769,7 +1775,7 @@ function onCheckout( step ) {
 
   let data = JSON.parse(localStorage.getItem(dataName));
 
-  const { planId, stateId, refcodes } = data;
+  const { planId, stateId, refcodes, cEmail, cName, cPhone } = data;
 
   if(!planId || !stateId) {
    console.log('sorry skipping plan/state not available in');
@@ -1846,7 +1852,7 @@ function onCheckout( step ) {
       })
   }
 } // if step !=2
-
+else {
   console.error(bucketProducts);
   //console.log(selectedProducts);
   //console.log(data);
@@ -1871,6 +1877,26 @@ function onCheckout( step ) {
    //    console.log('datalayer event triggered')
    // }
   });
+
+    const updValues = {
+
+    "email": cEmail , // replace yourEmailVariable with variable name that captures your user’s email
+     "phone_number": cPhone , // repeat for yourPhoneVariable and following variable names below
+      "address": {
+      "first_name": cName,
+      "last_name": cName ,
+      // "street": yourStreetAddressVariable ,
+      "city": city ,
+      "region": region ,
+      "postal_code": postalCode ,
+      "country": countryCode
+      }
+    }
+
+    dataLayer.push({
+    'upd':updValues,
+    });
+  }
 }
 
 function cleanBucket() {

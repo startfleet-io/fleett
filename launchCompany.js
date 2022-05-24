@@ -1,4 +1,7 @@
 var city = geotargeto_city()
+var region = geotargeto_region();
+var postalCode = geotargeto_postalCode()
+var countryCode= geotargeto_countryCode()
 
 var launchDomain = `https://launch.startfleet.io/`
 var domain = `startfleet.io`;
@@ -213,6 +216,9 @@ $(document).on("click",".formbtn-2" ,async function() {
 
       document.cookie = `cname=${name}; ${expires}; path=/;domain=${domain}`
       document.cookie = `cemail=${email}; ${expires}; path=/;domain=${domain}`
+      
+      await callDataLayer(name, email);
+
       //localStorage.setItem(dataName, JSON.stringify(data));
       //console.warn(document.cookie);
       window.location.href = order_url;
@@ -221,6 +227,35 @@ $(document).on("click",".formbtn-2" ,async function() {
 
 })
 
+function callDataLayer(name, email) {
+
+    return new Promise((resolve, reject)=>{
+
+const updValues = {
+
+    "email": email , // replace yourEmailVariable with variable name that captures your user’s email
+   // phone_number: yourPhoneVariable , // repeat for yourPhoneVariable and following variable names below
+    "address": {
+    "first_name": name,
+    "last_name": name ,
+   // "street": yourStreetAddressVariable ,
+    "city": city ,
+    "region": region ,
+    "postal_code": postalCode ,
+    "country": countryCode
+    }
+}
+
+
+    dataLayer.push({
+    'upd':updValues,
+    });
+
+        resolve(true)
+    })
+
+
+}
 
 })
 
