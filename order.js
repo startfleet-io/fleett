@@ -1,9 +1,9 @@
  // all variables
 
-var city = geotargeto_city()
-var region = geotargeto_region();
-var postalCode = geotargeto_postalCode()
-var countryCode= geotargeto_countryCode()
+//var city = geotargeto_city()
+//var region = geotargeto_region();
+//var postalCode = geotargeto_postalCode()
+//var countryCode= geotargeto_countryCode()
 
 
 // getCookie
@@ -1886,10 +1886,10 @@ else {
       "first_name": cName,
       "last_name": cName ,
       // "street": yourStreetAddressVariable ,
-      "city": city ,
-      "region": region ,
-      "postal_code": postalCode ,
-      "country": countryCode
+     // "city": city ,
+     // "region": region ,
+     // "postal_code": postalCode ,
+     // "country": countryCode
       }
     }
 
