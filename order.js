@@ -596,6 +596,28 @@ return new Promise(async(resolve,reject)=> {
 
      }
 
+     // new fields validation
+
+    $("#Country-Citizenship").next("div.invalid-insert").remove();
+
+    if(($("#Country-Citizenship").val()).trim() == '') {
+      pass = false
+      let msg = formErrorMsg.replace('###','Choose a Country')
+      $("#Country-Citizenship").after(msg);
+      //return false;
+
+    }
+
+    $("#Country-Residence").next("div.invalid-insert").remove();
+
+    if(($("#Country-Residence").val()).trim() == '') {
+      pass = false
+      let msg = formErrorMsg.replace('###','Choose a Country')
+      $("#Country-Residence").after(msg);
+      //return false;
+
+    }
+
 
      $("#SSN-or-ITIN").next("div.invalid-insert").remove();
 
