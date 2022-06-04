@@ -632,7 +632,9 @@ return new Promise(async(resolve,reject)=> {
 
       if(!$("#terms-agree").is(":checked")) {
         pass = false
-        let msg = formErrorMsg.replace('###','Please agree!')
+        console.warn(`see here`)
+        let msg = formErrorMsg.replace("show-left",'s-left');
+         msg = msg.replace('###','Please agree!')
          $("#terms-agree").next().after(msg);
          //return false;
       }
