@@ -1851,6 +1851,26 @@ function onCheckout( step ) {
  
       })
   }
+
+  dataLayer.push({ ecommerce: null });  // Clear the previous ecommerce object.
+  dataLayer.push({
+    'event': 'checkout',
+    'ecommerce': {
+      'checkout': {
+        'actionField': {
+         'step': step ,
+         'revenue': bucketPrice,
+         'currency':'USD'   
+      },
+        'products': bucketProducts
+     }
+   },
+   // 'eventCallback': function() {
+   //    console.log('datalayer event triggered')
+   // }
+  });
+
+
 } // if step !=2
 else {
   console.error(bucketProducts);
