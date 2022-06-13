@@ -2,6 +2,9 @@ var version,source;
 var API_BASE = `https://xe5a-injf-5wxp.n7.xano.io`;
 var API_GET_ORDER_INFO;
 var API_POST_MORE_INFO;
+var form_data = {  };
+
+form_data.test = false;
 
 function setUpTestEnv() {
 
@@ -13,6 +16,7 @@ function setUpTestEnv() {
       API_VERSION = `:v${version}`;
       API_GET_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/orderInfo`
       API_POST_MORE_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/tripetto_form`
+      form_data.test = true;
       $.ajaxSetup({
       beforeSend: function (xhr)
       {
@@ -52,7 +56,7 @@ TripettoClassic.run({
         var structure        = getParameterByName('structure'); // "structure"
 
         var { fields } = fields;
-        var form_data = {  };
+        
        
         form_data.company_name = fields.filter((item)=> item.name == "company_name")[0].value;
 
@@ -156,7 +160,7 @@ function init() {
   
 
     setUpTestEnv();
-    
+
     let coldStop = getParameterByName('coldStop')
     let orderID = getParameterByName('orderId')
     let pstate = getParameterByName('state')
