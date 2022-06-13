@@ -32,8 +32,6 @@ function setUpTestEnv() {
       API_POST_MORE_INFO = `${API_BASE}/api:z9NOXVAQ/tripetto_form`
       console.warn('live mode')
     }
-
-
   }
 
 
@@ -46,7 +44,7 @@ TripettoClassic.run({
     translations: tripetto.translations,
     attachments: tripetto.attachments,
     //onSubmit: tripetto.onSubmit
-    onSubmit: function(instance) {
+    onSubmit: function(instance, form_data) {
         // TODO: Handle the results
         // For example retrieve the results as a CSV-file:
         var csv = TripettoRunner.Export.CSV(instance);
