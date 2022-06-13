@@ -1,3 +1,38 @@
+var version,source;
+var API_BASE = `https://xe5a-injf-5wxp.n7.xano.io`;
+var API_GET_ORDER_INFO;
+var API_POST_MORE_INFO;
+
+function setUpTestEnv() {
+
+     version = getParameterByName('v')
+     source  = getParameterByName('source')
+
+    if(version && source) {
+
+      API_VERSION = `:v${version}`;
+      API_GET_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/orderInfo`
+      API_POST_MORE_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/tripetto_form`
+      $.ajaxSetup({
+      beforeSend: function (xhr)
+      {
+       xhr.setRequestHeader("X-Data-Source","test");
+      // xhr.setRequestHeader("Authorization","Token token=\"FuHCLyY46\"");        
+      }
+    });
+      
+      console.warn('test mode')
+    }else {
+
+      API_GET_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ/orderInfo`
+      API_POST_MORE_INFO = `${API_BASE}/api:z9NOXVAQ/tripetto_form`
+      console.warn('live mode')
+    }
+
+
+  }
+
+
 TripettoClassic.run({
     element: document.getElementById("tripetto"),
     definition: tripetto.definition,
@@ -87,7 +122,7 @@ TripettoClassic.run({
         console.warn(form_data);
         $.ajax({
 
-            url:"https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/tripetto_form",
+            url:API_POST_MORE_INFO,
             type:"POST",
             data:{form_data} ,
             dataType:"JSON",
@@ -119,6 +154,9 @@ function capitalizeFirstLetter(string) {
 
 function init() {
   
+
+    setUpTestEnv();
+    
     let coldStop = getParameterByName('coldStop')
     let orderID = getParameterByName('orderId')
     let pstate = getParameterByName('state')
@@ -141,7 +179,7 @@ function init() {
 
       $.ajax({
 
-            url:"https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/orderInfo",
+            url:API_GET_ORDER_INFO,
             type:"POST",
             data:{orderID} ,
             dataType:"JSON",
