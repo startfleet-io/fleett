@@ -141,7 +141,13 @@ TripettoClassic.run({
 
             },
             error:function( error ) {
-
+                const { message } = error
+                Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `${message} - please contact us.`,
+                footer: '<a href="">Please contact us.</a>'
+                })
              }
 
           })
