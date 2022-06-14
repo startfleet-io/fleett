@@ -2,9 +2,7 @@ var version,source;
 var API_BASE = `https://xe5a-injf-5wxp.n7.xano.io`;
 var API_GET_ORDER_INFO;
 var API_POST_MORE_INFO;
-var form_data = {  };
 
-form_data.test = false;
 
 function setUpTestEnv() {
 
@@ -52,6 +50,18 @@ TripettoClassic.run({
         var fields = TripettoRunner.Export.fields(instance);
 
         var structure        = getParameterByName('structure'); // "structure"
+
+        let version = getParameterByName('v')
+        let source  = getParameterByName('source')
+
+        var form_data = {  };
+
+        form_data.test = false;
+
+        if(version && source) {
+
+            form_data.test = true;
+        }
 
         var { fields } = fields;
         
