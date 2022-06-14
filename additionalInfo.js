@@ -14,12 +14,12 @@ function setUpTestEnv() {
       API_VERSION = `:v${version}`;
       API_GET_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/orderInfo`
       API_POST_MORE_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/tripetto_form`
-      form_data.test = true;
+      
       $.ajaxSetup({
       beforeSend: function (xhr)
       {
        xhr.setRequestHeader("X-Data-Source","test");
-      // xhr.setRequestHeader("Authorization","Token token=\"FuHCLyY46\"");        
+      
       }
     });
       
