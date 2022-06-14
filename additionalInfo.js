@@ -32,7 +32,6 @@ function setUpTestEnv() {
     }
   }
 
-
 TripettoClassic.run({
     element: document.getElementById("tripetto"),
     definition: tripetto.definition,
@@ -42,7 +41,7 @@ TripettoClassic.run({
     translations: tripetto.translations,
     attachments: tripetto.attachments,
     //onSubmit: tripetto.onSubmit
-    onSubmit: function(instance, form_data) {
+    onSubmit: function(instance) {
         // TODO: Handle the results
         // For example retrieve the results as a CSV-file:
         var csv = TripettoRunner.Export.CSV(instance);
