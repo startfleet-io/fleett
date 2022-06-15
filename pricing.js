@@ -216,7 +216,8 @@ function getParameterByName(name, url = window.location.href) {
 
     } else if(window.location.hostname === 'staging-startfleet.webflow.io') {
 
-      launchDomain = `https://staging-startfleet.webflow.io/order?v=${version}&source=${source
+      //launchDomain = `https://staging-startfleet.webflow.io/order?v=${version}&source=${source
+      launchDomain = `https://staging-order-form.onrender.com/?v=${version}&source=${source
       }`;
     }
 
