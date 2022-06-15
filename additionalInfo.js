@@ -142,7 +142,7 @@ TripettoClassic.run({
             },
             error:function( error ) {
                 console.log( error )
-                const { message } = error
+                const { message } = error.responseJSON
                 Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
