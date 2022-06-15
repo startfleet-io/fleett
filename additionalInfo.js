@@ -141,6 +141,7 @@ TripettoClassic.run({
 
             },
             error:function( error ) {
+                console.log( error )
                 const { message } = error
                 Swal.fire({
                 icon: 'error',
