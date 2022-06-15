@@ -1,3 +1,37 @@
+var version,source;
+var API_BASE = `https://xe5a-injf-5wxp.n7.xano.io`;
+var API_GET_ORDER_INFO;
+var API_POST_MORE_INFO;
+
+
+function setUpTestEnv() {
+
+     version = getParameterByName('v')
+     source  = getParameterByName('source')
+
+    if(version && source) {
+
+      API_VERSION = `:v${version}`;
+      API_GET_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/orderInfo`
+      API_POST_MORE_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/tripetto_form`
+      
+      $.ajaxSetup({
+      beforeSend: function (xhr)
+      {
+       xhr.setRequestHeader("X-Data-Source","test");
+      
+      }
+    });
+      
+      console.warn('test mode')
+    }else {
+
+      API_GET_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ/orderInfo`
+      API_POST_MORE_INFO = `${API_BASE}/api:z9NOXVAQ/tripetto_form`
+      console.warn('live mode')
+    }
+  }
+
 TripettoClassic.run({
     element: document.getElementById("tripetto"),
     definition: tripetto.definition,
@@ -16,8 +50,20 @@ TripettoClassic.run({
 
         var structure        = getParameterByName('structure'); // "structure"
 
-        var { fields } = fields;
+        let version = getParameterByName('v')
+        let source  = getParameterByName('source')
+
         var form_data = {  };
+
+        form_data.test = false;
+
+        if(version && source) {
+
+            form_data.test = true;
+        }
+
+        var { fields } = fields;
+        
        
         form_data.company_name = fields.filter((item)=> item.name == "company_name")[0].value;
 
@@ -87,7 +133,7 @@ TripettoClassic.run({
         console.warn(form_data);
         $.ajax({
 
-            url:"https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/tripetto_form",
+            url:API_POST_MORE_INFO,
             type:"POST",
             data:{form_data} ,
             dataType:"JSON",
@@ -95,7 +141,14 @@ TripettoClassic.run({
 
             },
             error:function( error ) {
-
+                console.log( error )
+                const { message } = error.responseJSON
+                Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `${message} - please contact us.`,
+                footer: '<a href="">Please contact us.</a>'
+                })
              }
 
           })
@@ -119,6 +172,9 @@ function capitalizeFirstLetter(string) {
 
 function init() {
   
+
+    setUpTestEnv();
+
     let coldStop = getParameterByName('coldStop')
     let orderID = getParameterByName('orderId')
     let pstate = getParameterByName('state')
@@ -141,7 +197,7 @@ function init() {
 
       $.ajax({
 
-            url:"https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/orderInfo",
+            url:API_GET_ORDER_INFO,
             type:"POST",
             data:{orderID} ,
             dataType:"JSON",
