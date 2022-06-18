@@ -596,6 +596,28 @@ return new Promise(async(resolve,reject)=> {
 
      }
 
+     // new fields validation
+
+    $("#Country-Citizenship").next("div.invalid-insert").remove();
+
+    if(($("#Country-Citizenship").val()).trim() == '') {
+      pass = false
+      let msg = formErrorMsg.replace('###','Choose a Country')
+      $("#Country-Citizenship").after(msg);
+      //return false;
+
+    }
+
+    $("#Country-Residence").next("div.invalid-insert").remove();
+
+    if(($("#Country-Residence").val()).trim() == '') {
+      pass = false
+      let msg = formErrorMsg.replace('###','Choose a Country')
+      $("#Country-Residence").after(msg);
+      //return false;
+
+    }
+
 
      $("#SSN-or-ITIN").next("div.invalid-insert").remove();
 
@@ -610,7 +632,9 @@ return new Promise(async(resolve,reject)=> {
 
       if(!$("#terms-agree").is(":checked")) {
         pass = false
-        let msg = formErrorMsg.replace('###','Please agree!')
+        console.warn(`see here`)
+        let msg = formErrorMsg.replace("show-left",'s-left');
+         msg = msg.replace('###','Please agree!')
          $("#terms-agree").next().after(msg);
          //return false;
       }
@@ -630,6 +654,11 @@ return new Promise(async(resolve,reject)=> {
       data.cPhone = ($("#phone").val()).trim()
       data.members = totalMembers
       data.agree = $("#terms-agree").is(":checked") ? 'Yes' : 'No'
+      // new fields
+
+      data.country_c = ($("#Country-Citizenship").val()).trim()
+      data.country_r = ($("#Country-Residence").val()).trim()
+
       localStorage.setItem(dataName, JSON.stringify(data));
 
        resolve(true);
@@ -1029,7 +1058,10 @@ async function finalSubmission() {
       state,
       stateId,
       structure,
-      agree } = items;
+      agree,
+      country_c,
+      country_r
+       } = items;
 
       // set form data 
 
@@ -1048,7 +1080,9 @@ async function finalSubmission() {
         plan,
         planId,
         stateId,
-        termsAgree:agree
+        termsAgree:agree,
+        country_c,
+        country_r
       }
 
       // set addons data
@@ -1142,6 +1176,9 @@ const resultTrack = EncTracking.track(
 // send data to server
 
 function makeOrder(form_data) {
+
+  console.log(form_data);
+  //return;
 
 Swal.fire({
   title: 'We are preparing your purchase order!',
@@ -1775,7 +1812,17 @@ function onCheckout( step ) {
 
   let data = JSON.parse(localStorage.getItem(dataName));
 
-  const { planId, stateId, refcodes, cEmail, cName, cPhone } = data;
+  const { 
+    
+    planId, 
+    stateId, 
+    refcodes, 
+    cEmail, 
+    cName, 
+    cPhone, 
+    country_c, 
+    country_r 
+  } = data;
 
   if(!planId || !stateId) {
    console.log('sorry skipping plan/state not available in');
@@ -1909,7 +1956,7 @@ else {
      // "city": city ,
      // "region": region ,
      // "postal_code": postalCode ,
-     // "country": countryCode
+      "country": country_r
       }
     }
 
