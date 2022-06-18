@@ -221,7 +221,7 @@ function getParameterByName(name, url = window.location.href) {
       }`;
     }else {
 
-         launchDomain = `https://startfleet.io/?v=${version}&source=${source}`;
+         launchDomain = `https://launch.startfleet.io/?v=${version}&source=${source}`;
    
     }
 
