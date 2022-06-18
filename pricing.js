@@ -219,6 +219,10 @@ function getParameterByName(name, url = window.location.href) {
       //launchDomain = `https://staging-startfleet.webflow.io/order?v=${version}&source=${source
       launchDomain = `https://staging-order-form.onrender.com/?v=${version}&source=${source
       }`;
+    }else {
+
+         launchDomain = `https://startfleet.io/?v=${version}&source=${source}`;
+   
     }
 
     console.log(launchDomain)
