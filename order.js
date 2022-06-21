@@ -1195,7 +1195,9 @@ if(version && source === 'test') {
    form_data.test = true;
 }
 
-//return;
+const { email } = form_data
+gr('track', 'conversion', { email });
+return;
 
 $.ajax({
 
@@ -1215,10 +1217,11 @@ $.ajax({
         Swal.close();
         const { url } = resonse
         
+        
         // remove cookie if exists
         removeCookie('cname');
         removeCookie('cemail');
-
+        
         window.location = url
       },1500)
     },
