@@ -1800,7 +1800,7 @@ input.addEventListener('blur', function() {
     } else {
       input.classList.add("error");
       var errorCode = iti.getValidationError();
-      errorMsg.innerHTML = errorMap[errorCode];
+      errorMsg.innerHTML = errorMap[errorCode]?? 'Invalid number';
       errorMsg.classList.remove("hide");
     }
   }
