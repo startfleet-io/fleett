@@ -1813,6 +1813,8 @@ input.addEventListener('keyup', reset);
 
 function onCheckout( step ) {
 
+  return true;
+
   let data = JSON.parse(localStorage.getItem(dataName));
 
   const { 
