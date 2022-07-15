@@ -58,6 +58,15 @@ function getOrderInformation() {
   var data = { sessionId }
   if(source && source === 'test') {
 
+    $.ajaxSetup({
+      beforeSend: function (xhr)
+      {
+       xhr.setRequestHeader("X-Data-Source","test");
+      // xhr.setRequestHeader("Authorization","Token token=\"FuHCLyY46\"");        
+      }
+    });
+
+
     data['x-data-source'] = `test`
 
   }
