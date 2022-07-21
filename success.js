@@ -92,7 +92,7 @@ function getOrderInformation() {
           callDataLayer( response )
         if(tracked!='yes') {
           callEncharge(response);
-
+          gr('track', 'conversion', { email:email });
         }
         
     },
