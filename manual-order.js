@@ -427,7 +427,7 @@ $.ajax({
         Swal.fire({
           icon: 'success',
           title: 'Great! Order is ready..',
-          showCloseButton: true,
+          showCloseButton: false,
           showCancelButton: false,
           focusConfirm: false,
           confirmButtonText:
@@ -437,9 +437,9 @@ $.ajax({
           `You can use this link to pay ==> <a href="${response.result.url}" target="_blank">Pay Here</a> `,
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
-          if (result.isConfirmed) {
+          //if (result.isConfirmed) {
               window.location =window.location
-          }
+          //}
         })
 
         }else {
