@@ -434,7 +434,7 @@ $.ajax({
           '<i class="fa fa-thumbs-up"></i> Great!',
           confirmButtonAriaLabel: 'Thumbs up, great!',
           html:
-          `You can use this link to pay ==> <a href="${response.result.url}" target="_blank">Pay Here</a> `,
+          `Order Number Is: <b>${response.result.metadata.purchase_order_id}</b> <br />You can use this link to pay ==> <a href="${response.result.url}" target="_blank">Pay Here</a> `,
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           //if (result.isConfirmed) {
