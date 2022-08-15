@@ -1,5 +1,20 @@
 $(document).ready(function(){
 
+$("#company_structure").empty()
+ var suffix = {
+    llc:[
+      'LLC',
+      'L.L.C.',
+      'Limited Liability Company'
+    ],
+    corporation:[
+      'Corporation',
+      'Incorporated',
+      'Inc.',
+      'Corp.'
+    ]
+  };
+
 var API_BASE = `https://xe5a-injf-5wxp.n7.xano.io`;
 
 var API_EMAIL_VALIDATION = `${API_BASE}/api:z9NOXVAQ/check-email`
@@ -14,6 +29,22 @@ function getParameterByName(name, url = window.location.href) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function changeSuffixOptions( structure ) {
+
+  let strLower = structure.toLowerCase();
+  let options = suffix[strLower];
+
+  if(options.length) {
+    let suffId = $("#company_suffix");
+    suffId.empty()
+    suffId.append(`<option value="">Select</option>`)
+    options.forEach(function(opt) {
+      suffId.append(`<option value="${opt}">${opt}</option>`)
+    })
+  }
+
 }
 
 
@@ -135,6 +166,7 @@ function setStates() {
 function setStructures(states) {
 
   $("#company_structure").empty();
+   $("#company_structure").append(`<option value="">select</option>`);
   let exists = new Array();
   states.forEach(function(state) {
 
@@ -153,7 +185,7 @@ function setStructures(states) {
   suffixes.forEach(function(suffix) {
 
       
-        $("#company_suffix").append(`<option value="${suffix}">${suffix}</option>`);
+       // $("#company_suffix").append(`<option value="${suffix}">${suffix}</option>`);
 
     })
 
@@ -468,6 +500,13 @@ $.ajax({
   })
 
 }
+
+$(document).on("click","#company_structure",function() {
+
+  changeSuffixOptions($(this).val())
+
+})
+
 
 
 
