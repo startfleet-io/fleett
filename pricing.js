@@ -240,6 +240,28 @@ function getParameterByName(name, url = window.location.href) {
 
 
   }
+  function setStates( state_fess ) {
+
+    companyState.empty();
+
+   let states = _.filter(state_fess, function(sf){ return sf.is_show === true; });
+
+   states = _.sortBy(states, 'state'); 
+
+   let uniques = [...new Set(states.map(item => item.state))]; // [ 'A', 'B']
+
+   uniques.forEach(( n )=> {
+
+      let sname = n.charAt(0).toUpperCase() + n.slice(1)
+      companyState.append(`<option value="${sname}">${sname}</option>`)
+   })
+   
+   console.log( uniques )
+
+
+
+
+  }
   function initWrap() {
 
     setUpTestEnv();
@@ -249,9 +271,11 @@ function getParameterByName(name, url = window.location.href) {
 
     const { plans, state_fess, products } = data;
 
+      setStates( state_fess );
+
       productList = _.sortBy(products, 'order'); 
 
-     
+      
       // plans
 
       // let x = plans.filter((p)=> p.name.toLowerCase() == 'corvette')[0];
@@ -984,7 +1008,10 @@ function getParameterByName(name, url = window.location.href) {
   });
 
 
-
+      setTimeout(()=> {
+        $('select').trigger("change");
+      },500);
+      
   }
 
 
