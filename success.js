@@ -1,5 +1,9 @@
- var API_ORDER_INFO = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/order-details-by-session`
+// var API_ORDER_INFO = `https://xe5a-injf-5wxp.n7.xano.io/api:z9NOXVAQ/order-details-by-session`
+
+ var API_ORDER_INFO = ``
+ var API_ORDER_REDITUS = ``
 var dataName = 'sf_store_database';
+ const API_BASE = `https://xe5a-injf-5wxp.n7.xano.io`
 // extract query string
 function getParameterByName(name, url = window.location.href) {
     name = name.replace(/[\[\]]/g, '\\$&');
@@ -9,6 +13,39 @@ function getParameterByName(name, url = window.location.href) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+
+function setUpTestEnv() {
+
+    
+    let version = getParameterByName('v')
+    let source  = getParameterByName('source')
+
+    if(version && source) {
+
+      API_VERSION = `:v${version}`;
+      API_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/order-details-by-session`
+      API_ORDER_REDITUS = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/api_new_reditus_conversion_payment`
+
+    $.ajaxSetup({
+      beforeSend: function (xhr)
+      {
+       xhr.setRequestHeader("X-Data-Source","test");
+      // xhr.setRequestHeader("Authorization","Token token=\"FuHCLyY46\"");        
+      }
+    });
+
+    }else {
+
+      API_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ/order-details-by-session`
+      API_ORDER_REDITUS = `${API_BASE}/api:z9NOXVAQ/api_new_reditus_conversion_payment`
+      console.log('you are trying to use live env')
+    }
+
+
+  }
+
+  setUpTestEnv();
 
 // encharge 
 
@@ -93,6 +130,7 @@ function getOrderInformation() {
         if(tracked!='yes') {
           callEncharge(response);
           gr('track', 'conversion', { email:email });
+          sendToReditus( order_id )
         }
         
     },
@@ -197,4 +235,20 @@ dataLayer.push({
 });
   console.log( form_data );
 
+}
+
+function sendToReditus( order_id ) {
+      $.ajax({
+
+        url:API_ORDER_REDITUS,
+        type:"POST",
+        data:{ order_id },
+        dataType:"JSON",
+        success:function(response) {
+          console.log( response );
+        },
+        error:function( error ) {
+          console.log( error )
+        }
+      })
 }
