@@ -132,6 +132,7 @@ function getOrderInformation() {
           //gr('track', 'conversion', { email:email });
           //sendToReditus( order_id )
         }
+        console.warn('lets send');
         gr('track', 'conversion', { email:email });
         
     },
