@@ -129,9 +129,10 @@ function getOrderInformation() {
           callDataLayer( response )
         if(tracked!='yes') {
           callEncharge(response);
-          gr('track', 'conversion', { email:email });
-          sendToReditus( order_id )
+          //gr('track', 'conversion', { email:email });
+          //sendToReditus( order_id )
         }
+        gr('track', 'conversion', { email:email });
         
     },
     error:function( error ) {
