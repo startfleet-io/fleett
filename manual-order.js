@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
- $("#company_structure").empty()
+$("#company_structure").empty()
+
  var suffix = {
     llc:[
       'LLC',

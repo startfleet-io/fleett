@@ -1,4 +1,4 @@
- // all variables
+// all variables
 
 //var city = geotargeto_city()
 //var region = geotargeto_region();
@@ -199,6 +199,38 @@ function setPlanNames() {
 
 setPlanNames();
 
+function setStates( dt ) {
+
+   var resArr = [];
+   dt.filter(function(item){
+     var i = resArr.findIndex(x => (x.state == item.state));
+     if(i <= -1 && (item.state!==null && item.is_show === true)){
+           resArr.push(item);
+     }
+     return null;
+   });
+   console.log(resArr)
+   if(resArr.length >= 1) {
+      $("#state-list-main-wrap").empty();
+      resArr.forEach(function(ite) {
+
+         
+         console.log(ite)
+
+       let st =  `<div class="state-list-details-wrap">
+         <input type="radio" name="State" data-value="${ite.state}">
+         <div class="state-list-details">
+         <img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/60f95270749977197e5d4ee7_delaware.svg" loading="lazy" alt="">
+         <span>${ite.state.charAt(0).toUpperCase()}${ite.state.slice(1)}</span>      
+         </div> 
+         </div>`;
+         $("#state-list-main-wrap").append(st);
+
+
+      })
+   }
+
+}
 // get pricing
 
 function getPricing() {
@@ -210,6 +242,8 @@ $.get(API_PRICING,{},async function(data, textStatus, jqXHR) {
     plans = data.plans;
     dt = data.state_fess;
     products = data.products
+
+    console.log(dt);
 
      // x = plans.filter((item)=> item.name.toLowerCase() == "corvette")
      // y = plans.filter((item)=> item.name.toLowerCase() == "frigate")
@@ -233,6 +267,7 @@ $.get(API_PRICING,{},async function(data, textStatus, jqXHR) {
    
     // initialise
     console.warn("lets init")
+    setStates( dt );
     myinit();
 
 
@@ -251,7 +286,7 @@ function stateValidation( divStep ) {
 let stateElements = divStep
             .find("div.wrapper-state")
             .find("input:checked");
-
+//alert(stateElements.length);
 
 if(!stateElements.length) {
 
@@ -743,20 +778,26 @@ function stepValidation() {
 
 
 // make single selection state
-$("div.wrapper-state .checkbox-wrap").click(function(){
+//$("div.wrapper-state .checkbox-wrap").click(function(){
+$(document).on("click", "div.state-list-details-wrap", function(){
 
   let divStep = $(`.custom-step-${step}`);
-  let checkboxes = divStep
-            .find("div.wrapper-state").find("input[type='checkbox']")
+  // let checkboxes = divStep
+  //           .find("div.wrapper-state").find("input[type='checkbox']")
+
+            let checkboxes = divStep
+            .find("div.wrapper-state").find("input[type='radio']")
 
   checkboxes.each(function() {
-    $(this).prev("div.w-checkbox-input").removeClass("w--redirected-checked")
-    $(this).prop("checked",false);
+   // $(this).prev("div.w-checkbox-input").removeClass("w--redirected-checked")
+   // $(this).prop("checked",false);
   })
 
   let url = new URL(window.location.href);
   let search_params = url.searchParams;
-  search_params.set('cct',$(this).next().next().attr("data-value"))
+ // search_params.set('cct',$(this).next().next().attr("data-value"))
+ console.log($(this).find("input[type='radio']").attr("data-value"))
+  search_params.set('cct',$(this).find("input[type='radio']").attr("data-value"))
 
   if (history.pushState) {
     window.history.pushState({path:url.href},'',url.href);
@@ -1195,9 +1236,7 @@ if(version && source === 'test') {
    form_data.test = true;
 }
 
-const { email } = form_data
-gr('track', 'conversion', { email });
-return;
+//return;
 
 $.ajax({
 
@@ -1217,11 +1256,10 @@ $.ajax({
         Swal.close();
         const { url } = resonse
         
-        
         // remove cookie if exists
         removeCookie('cname');
         removeCookie('cemail');
-        
+
         window.location = url
       },1500)
     },
@@ -1489,10 +1527,14 @@ if(skip) {
 
 let divStep = $(`.custom-step-${step}`);
 
-  let stateCheckboxes = divStep
-            .find("div.wrapper-state").find("input[type='checkbox']")
+  // let stateCheckboxes = divStep
+  //           .find("div.wrapper-state").find("input[type='checkbox']")
 
+    let stateCheckboxes = divStep
+            .find("#state-list-main-wrap").find("input[type='radio']")
   
+  
+
   let structureCheckboxes = divStep
             .find("div.wrapper-structure").find("input[type='checkbox']")
 
@@ -1500,7 +1542,7 @@ let divStep = $(`.custom-step-${step}`);
   stateCheckboxes.each(function() {
     if($(this).attr("data-value").toLowerCase() == companyCity.toLowerCase()) {
 
-            $(this).prev().addClass("w--redirected-checked")
+           // $(this).prev().addClass("w--redirected-checked")
             $(this).prop("checked",true);
             data = localStorage.getItem(dataName) ? JSON.parse(localStorage.getItem(dataName)) : {};
             data.state = $(this).attr("data-value")
@@ -1813,8 +1855,6 @@ input.addEventListener('keyup', reset);
 
 function onCheckout( step ) {
 
-  return true;
-
   let data = JSON.parse(localStorage.getItem(dataName));
 
   const { 
@@ -1976,4 +2016,28 @@ function cleanBucket() {
    bucketProducts = [];
    bucketPrice = 0;
 
+}
+
+function myFunction() {
+  // Declare variables
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById('myInput');
+  filter = input.value.toLowerCase();
+  console.log(filter)
+  ul = $("#state-list-main-wrap");
+  
+  li = ul.find('div.state-list-details-wrap');
+
+  // Loop through all list items, and hide those who don't match the search query
+  li.each(function(i,el) {
+   txtValue = $(this).find("input[type='radio']").attr("data-value").toLowerCase()
+      console.log($(this).find("input[type='radio']").attr("data-value"))
+
+      if (txtValue.indexOf(filter) > -1) {
+        $(this).show()
+      } else {
+        $(this).hide()
+      }
+   //console.log(el.find("input[type='radio']").attr("data-value"));
+  })
 }
