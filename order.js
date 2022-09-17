@@ -220,7 +220,7 @@ function setStates( dt ) {
        let st =  `<div class="state-list-details-wrap">
          <input type="radio" name="State" data-value="${ite.state}">
          <div class="state-list-details">
-         <img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/60f95270749977197e5d4ee7_delaware.svg" loading="lazy" alt="">
+         <img src="${ite.flag}" loading="lazy" alt="">
          <span>${ite.state.charAt(0).toUpperCase()}${ite.state.slice(1)}</span>      
          </div> 
          </div>`;
@@ -960,7 +960,7 @@ function changeSuffixOptions( structure ) {
 function callStateFee( data ) {
   
   const { state ,structure} = data;
-  let found = dt.find(function (elm) {
+  let found = dt.filter((t)=> t.state!==null).find(function (elm) {
       return (
         elm.structure.toLowerCase() == structure &&
         elm.state.toLowerCase() == state
@@ -1568,7 +1568,7 @@ let divStep = $(`.custom-step-${step}`);
 
 if(companyCity && companyType) {
 
-let found = dt.find(function (elm) {
+let found = dt.filter((t)=> t.state!==null).find(function (elm) {
       return (
         elm.structure.toLowerCase() == companyType.toLowerCase() &&
         elm.state.toLowerCase() == companyCity.toLowerCase()
@@ -2028,16 +2028,29 @@ function myFunction() {
   
   li = ul.find('div.state-list-details-wrap');
 
+  let foundCount = 0;
+
+  $("#last-row").remove();
+
   // Loop through all list items, and hide those who don't match the search query
   li.each(function(i,el) {
    txtValue = $(this).find("input[type='radio']").attr("data-value").toLowerCase()
-      console.log($(this).find("input[type='radio']").attr("data-value"))
-
+      
       if (txtValue.indexOf(filter) > -1) {
         $(this).show()
+        foundCount+=1;
       } else {
         $(this).hide()
+       
       }
+
    //console.log(el.find("input[type='radio']").attr("data-value"));
   })
+   console.warn(`foundcount ${foundCount}`);
+      if(foundCount <= 0) {
+        ul.append(`<div class="last-row-wrap" id="last-row">
+         <p>Sorry no found.</p>
+         <small>Please reach to us if you couldn't find the state.</small>     
+         </div>`)
+      }
 }
