@@ -221,7 +221,7 @@ function setStates( dt ) {
          <input type="radio" name="State" data-value="${ite.state}">
          <div class="state-list-details">
          <img src="${ite.flag}" loading="lazy" alt="" class="simple">
-         <img src="${ite.flag-green}" loading="lazy" alt="" class="simple-color">
+         <img src="${ite.flag_green}" loading="lazy" alt="" class="simple-color">
          <span>${ite.state.charAt(0).toUpperCase()}${ite.state.slice(1)}</span>      
          </div> 
          </div>`;
@@ -2050,8 +2050,8 @@ function myFunction() {
    console.warn(`foundcount ${foundCount}`);
       if(foundCount <= 0) {
         ul.append(`<div class="last-row-wrap" id="last-row">
-         <p>Sorry no found.</p>
-         <small>Please reach to us if you couldn't find the state.</small>     
+         <p>If you are interested in a state that is not found on our list,</p>
+         <p>please talk to us on chat.</p>     
          </div>`)
       }
 }
