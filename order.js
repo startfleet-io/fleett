@@ -797,10 +797,35 @@ $(document).on("click", "div.state-list-details-wrap", function(){
   let url = new URL(window.location.href);
   let search_params = url.searchParams;
  // search_params.set('cct',$(this).next().next().attr("data-value"))
- console.log($(this).find("input[type='radio']").attr("data-value"))
-  search_params.set('cct',$(this).find("input[type='radio']").attr("data-value"))
+  let selectedState = $(this).find("input[type='radio']").attr("data-value");
 
-  if (history.pushState) {
+  search_params.set('cct',selectedState)
+
+ 
+
+  let llc = $(".wrapper-structure").find("[data-value='llc']")
+  let corporation = $(".wrapper-structure").find("[data-value='corporation']")
+
+  if(selectedState.toLowerCase() === 'michigan') {
+    
+    llc.closest("label").show();
+    llc.prev("div.w-checkbox-input").addClass("w--redirected-checked");
+    llc.prop("checked",true);
+    corporation.closest("label").hide();
+    corporation.prev("div.w-checkbox-input").removeClass("w--redirected-checked");
+    corporation.prop("checked",false);
+
+    search_params.set('ct','llc')
+    changeSuffixOptions( 'llc' );
+
+  }else {
+
+    corporation.closest("label").show();
+    //corporation.prev("div.w-checkbox-input").removeClass("w--redirected-checked");
+    //corporation.prop("checked",false);
+  }
+
+   if (history.pushState) {
     window.history.pushState({path:url.href},'',url.href);
   }
 
@@ -1554,17 +1579,85 @@ let divStep = $(`.custom-step-${step}`);
 }
 
   if(companyType) {
-  structureCheckboxes.each(function() {
-    if($(this).attr("data-value").toLowerCase() == companyType.toLowerCase()) {
 
-      $(this).prev().addClass("w--redirected-checked")
-      $(this).prop("checked",true);
-       data = JSON.parse(localStorage.getItem(dataName));
-       data.structure = $(this).attr("data-value")
-       localStorage.setItem(dataName, JSON.stringify(data));
+  let llc         = $(".wrapper-structure").find("[data-value='llc']")
+  let corporation = $(".wrapper-structure").find("[data-value='corporation']")
+
+  if (companyCity.toLowerCase() === 'michigan') {
+
+        llc.prev().addClass("w--redirected-checked")
+        llc.prop("checked",true);
+
+        corporation.closest("label").hide();
+        corporation.prev().removeClass("w--redirected-checked")
+        corporation.prop("checked",false);
+
+        data = JSON.parse(localStorage.getItem(dataName));
+        data.structure = llc.attr("data-value")
+        localStorage.setItem(dataName, JSON.stringify(data));
         changeSuffixOptions(data.structure)
-    }
-  })
+
+  }else {
+      if(companyType.toLowerCase() === 'llc') {
+
+        llc.prev().addClass("w--redirected-checked")
+        llc.prop("checked",true);
+
+       
+        corporation.prev().removeClass("w--redirected-checked")
+        corporation.prop("checked",false);
+
+        data = JSON.parse(localStorage.getItem(dataName));
+        data.structure = llc.attr("data-value")
+        localStorage.setItem(dataName, JSON.stringify(data));
+        changeSuffixOptions(data.structure)
+
+      }else {
+
+        llc.prev().removeClass("w--redirected-checked")
+        llc.prop("checked",false);
+
+       
+        corporation.prev().addClass("w--redirected-checked")
+        corporation.prop("checked",true);
+
+        data = JSON.parse(localStorage.getItem(dataName));
+        data.structure = corporation.attr("data-value")
+        localStorage.setItem(dataName, JSON.stringify(data));
+        changeSuffixOptions(data.structure)
+
+      }
+  }
+
+  // structureCheckboxes.each(function() {
+
+  //   // if(companyCity.toLowerCase() !== 'michigan') {
+  //       if($(this).attr("data-value").toLowerCase() == companyType.toLowerCase()) {
+
+  //       $(this).prev().addClass("w--redirected-checked")
+  //       $(this).prop("checked",true);
+  //       data = JSON.parse(localStorage.getItem(dataName));
+  //       data.structure = $(this).attr("data-value")
+  //       localStorage.setItem(dataName, JSON.stringify(data));
+  //       changeSuffixOptions(data.structure)
+  //       }
+  //   // }else {
+
+  //   //       let llc = $(".wrapper-structure").find("[data-value='llc']")
+  //   //       let corporation = $(".wrapper-structure").find("[data-value='corporation']")
+  //   //       llc.closest("label").show();
+  //   //       llc.prev("div.w-checkbox-input").addClass("w--redirected-checked");
+  //   //       llc.prop("checked",true);
+  //   //       corporation.closest("label").hide();
+  //   //       corporation.prev("div.w-checkbox-input").removeClass("w--redirected-checked");
+  //   //       corporation.prop("checked",false);
+  //   //       data = JSON.parse(localStorage.getItem(dataName));
+  //   //       data.structure = $(this).attr("data-value")
+  //   //       localStorage.setItem(dataName, JSON.stringify(data));
+  //   //       changeSuffixOptions(data.structure)
+  //   // }
+
+  // })
 }
 
 if(companyCity && companyType) {
