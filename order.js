@@ -221,7 +221,7 @@ function setStates( dt ) {
          <input type="radio" name="State" data-value="${ite.state}">
          <div class="state-list-details">
          <img src="${ite.flag}" loading="lazy" alt="" class="simple">
-         <img src="${ite.flag_green}" loading="lazy" alt="" class="simple-color">
+         <img src="${ite.flag_green}" alt="" class="simple-color">
          <span>${ite.state.charAt(0).toUpperCase()}${ite.state.slice(1)}</span>      
          </div> 
          </div>`;
