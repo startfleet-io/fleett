@@ -832,6 +832,8 @@ $(document).on("click", "div.state-list-details-wrap", function(){
   let stateElements = divStep
             .find("div.wrapper-state")
             .find("input:checked");
+            
+            stateValidation(divStep)
 })
 
 // make single selection structure
@@ -1576,6 +1578,7 @@ let divStep = $(`.custom-step-${step}`);
             //callStateFee(data);
     }
   })
+  stateValidation( divStep );
 }
 
   if(companyType) {
