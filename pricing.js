@@ -1024,6 +1024,10 @@ initWrap();
     company = companyType.val();
     if (state == '' || company == '') return;
 
+    if (state === 'Michigan' && company === 'corporation') {
+      return false;
+    }
+
     let found = dt.find(function (elm) {
       return (
         elm.structure.toLowerCase() == company.toLowerCase() &&
