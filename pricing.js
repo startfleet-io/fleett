@@ -1025,6 +1025,7 @@ initWrap();
     if (state == '' || company == '') return;
 
     if (state === 'Michigan' && company === 'corporation') {
+      companyState.val('llc');
       return false;
     }
 
