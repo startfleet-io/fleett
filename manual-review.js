@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
   $( "#review_date" ).datepicker();
-  
   $( "#review_date" ).datepicker( "option", "dateFormat", "M d, yy" );
 
 $("#label_review_video_link").hide();
