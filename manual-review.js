@@ -137,7 +137,11 @@ if(requireReviewVideo === true && requireReviewTex === true) {
     if(field.name === 'review_rating') {
       formData.form.review_rating = field.value;
     }
-   
+    
+    if(field.name === 'review_type') {
+      formData.form.review_type = field.value;
+    }
+
     })
 
     //formData.form.test = test;
