@@ -21,7 +21,10 @@ $(document).ready(function() {
     .then(res => res.json())
 		.then(jsons => {
       Swal.close();
-    	jsons.map((post)=> {
+     
+     let myarray =  _.orderBy(jsons, ['review_date'],['desc']);
+
+    	myarray.map((post)=> {
       let fullname = post.review_user;
       let fullnameArray = fullname.split(' ');
       let shortName;
