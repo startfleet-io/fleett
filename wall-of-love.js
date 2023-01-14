@@ -23,6 +23,7 @@ $(document).ready(function() {
       Swal.close();
      
      let myarray =  _.orderBy(jsons, ['review_date'],['desc']);
+     console.log(myarray)
 
     	myarray.map((post)=> {
       let fullname = post.review_user;
