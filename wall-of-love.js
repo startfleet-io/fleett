@@ -22,7 +22,10 @@ $(document).ready(function() {
 		.then(jsons => {
       Swal.close();
      
-     let myarray =  _.orderBy(jsons, ['review_date'],['desc']);
+     let myarray =  _.orderBy(jsons, function(o) {
+        return new Date(o.review_date)
+     },['desc']);
+     
      console.log(myarray)
 
     	myarray.map((post)=> {
