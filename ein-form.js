@@ -76,6 +76,12 @@ TripettoClassic.run({
                 form_data['4b_cityStateZip'] = 'Austin, TX 78731'
                 form_data['6_countyState'] = 'Travis County'
                 
+            }else if(form_data['state'].toLowerCase() == 'nevada') {
+                
+                form_data['4a_mailingAddress'] = '401 Ryland St. STE 200-A'
+                form_data['4b_cityStateZip'] = 'Reno, NV 89502'
+                form_data['6_countyState'] = 'Washoe County'
+                
             }else {
 
                 form_data['4a_mailingAddress'] = '7901 4th St N STE 300'
