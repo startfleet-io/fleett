@@ -199,6 +199,17 @@ function setPlanNames() {
 
 setPlanNames();
 
+function titleCase(str) {
+   var splitStr = str.toLowerCase().split(' ');
+   for (var i = 0; i < splitStr.length; i++) {
+       // You do not need to check if i is larger than splitStr length, as your for does that for you
+       // Assign it back to the array
+       splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+   }
+   // Directly return the joined string
+   return splitStr.join(' '); 
+}
+
 function setStates( dt ) {
 
    var resArr = [];
@@ -214,6 +225,7 @@ function setStates( dt ) {
       $("#state-list-main-wrap").empty();
       resArr.forEach(function(ite) {
 
+       let stateName = titleCase(ite.state);
          
          console.log(ite)
 
@@ -222,7 +234,7 @@ function setStates( dt ) {
          <div class="state-list-details">
          <img src="${ite.flag}" loading="lazy" alt="" class="simple">
          <img src="${ite.flag_green}" alt="" class="simple-color">
-         <span>${ite.state.charAt(0).toUpperCase()}${ite.state.slice(1)}</span>      
+         <span>${stateName}</span>      
          </div> 
          </div>`;
          $("#state-list-main-wrap").append(st);
