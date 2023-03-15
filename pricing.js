@@ -28,8 +28,8 @@
   let AddonsMb = $('#AddonsMb');
   // let frigateProducts = [1002,1009,1010,1025];
   // let cruiserproducts = [1002,1009,1010,1025,1015,1016,1024];
-  let frigateProducts = [1002,1009,1010,1025,1028,1012,1013];
-  let cruiserproducts = [1002,1009,1010,1025,1024,1021,1028,1012,1013];
+  let frigateProducts = [1002,1009,1010,1025,1028,1012,1013, 1026];
+  let cruiserproducts = [1002,1009,1010,1025,1024,1021,1028,1012,1013, 1026];
   let productList;
 
   let frigatePlanPrice = 0;
