@@ -92,7 +92,7 @@ $(document).ready(function() {
       img = `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f6159311672cbe493ad9_1-star.png" loading="lazy" width="20" alt="" class="image-54">`;
       }
       
-			 let bottom = `<div>
+			 let bottom = `<div class="review-flex-item-right">
        <div class="div-block-8">
        <div class="text-block-56">reviewed on</div>`;
        if(post.review_platform !== 'manual') {
@@ -108,11 +108,11 @@ $(document).ready(function() {
       bottom+=`</div>
        </div>`;
        
-       let publishDate = `<div class="bold-text-12">
+       let publishDate = `<div class="review-flex-item-left">
        <div>Date: <b>${post.review_date}</b></div>
        </div>`;
 
-       let bottomRow = `<div class="w-layout-grid grid-8 bold-text-12">
+       let bottomRow = `<div class="review-flex-container">
        ${publishDate} ${bottom}
        </div>`
 
