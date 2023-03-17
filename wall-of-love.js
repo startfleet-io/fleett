@@ -92,7 +92,9 @@ $(document).ready(function() {
       img = `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f6159311672cbe493ad9_1-star.png" loading="lazy" width="20" alt="" class="image-54">`;
       }
       
-			 let bottom = `<div class="w-layout-grid grid-8"><div id="w-node-dbac72b4-30dd-550a-45f4-2637fb25e92a-b1e06150" class="country-name"><img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/62191431f13ea620419c665f_location.png" loading="lazy" width="20" height="20" alt="" class="image-59"><div class="text-block-54">Thailand</div></div><div id="w-node-dbac72b4-30dd-550a-45f4-2637fb25e92e-b1e06150" class="div-block-8"><div class="text-block-56">reviewed on</div>`;
+			 let bottom = `<div>
+       <div class="div-block-8">
+       <div class="text-block-56">reviewed on</div>`;
        if(post.review_platform !== 'manual') {
         bottom+= `<a href="${post.review_link}" target="_blank" class="image-link w-inline-block">
       <img src="${imgSrc}" loading="lazy" width="${imgWidth}" alt="${imgAlt}" class="image-52"></a>`;
@@ -106,18 +108,22 @@ $(document).ready(function() {
       bottom+=`</div>
        </div>`;
        
-       let publishDate = `<div class="w-layout-grid grid-8 bold-text-12">
-       <div>Date of Experience: </div>
-       <div>${post.review_date}</div>
+       let publishDate = `<div class="bold-text-12">
+       <div>Date: <b>${post.review_date}</b></div>
        </div>`;
+
+       let bottomRow = `<div class="w-layout-grid grid-8 bold-text-12">
+       ${publishDate} ${bottom}
+       </div>`
+
        if(post.review_type === 'text') {
        item.innerHTML = profile + 
        `<div>${img}</div>` + 
        '<p class="text-normal">'+
        post.review_text+
        '</p>' + 
-       publishDate +
-       bottom;
+       
+       bottomRow;
        } else {
         item.innerHTML = profile + 
        `<div>${img}</div>` + 
@@ -132,8 +138,8 @@ $(document).ready(function() {
        </div>`+
  
        '</div>' + 
-       publishDate +
-       bottom;
+       
+       bottomRow;
        
        }
        //item.style.backgroundColor = "#" + randomColor;
