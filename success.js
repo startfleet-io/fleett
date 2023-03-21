@@ -130,10 +130,10 @@ function getOrderInformation() {
         if(tracked!='yes') {
           callEncharge(response);
           //gr('track', 'conversion', { email:email });
-          //sendToReditus( order_id )
+          sendToReditus( order_id, email )
         }
-        console.warn('lets send');
-        gr('track', 'conversion', { email:email });
+        //console.warn('lets send');
+        //gr('track', 'conversion', { email:email });
         
     },
     error:function( error ) {
@@ -239,7 +239,11 @@ dataLayer.push({
 
 }
 
-function sendToReditus( order_id ) {
+function sendToReditus( order_id, email ) {
+
+      gr('track', 'conversion', { email:email });
+      console.log('sending too reditus');
+      setTimeout(()=> {
       $.ajax({
 
         url:API_ORDER_REDITUS,
@@ -253,4 +257,5 @@ function sendToReditus( order_id ) {
           console.log( error )
         }
       })
+    }, 5000);
 }
