@@ -64,9 +64,11 @@ $(document).ready(function() {
       //var randomColor = Math.floor(Math.random()*16777215).toString(16);
        let item = document.createElement('article');
     	let profile = `<div class="div-block-6">
+      <a href="${post.review_user_link}" target="_self">
       <div class="div-block-13 div-block-14" style="background-color:${shortColor}">
       <div class="text-block-57 custom-color-white">${shortName.toUpperCase()}</div>
       </div>
+      </a>
       <div id="w-node-_804547d8-3a61-a817-465b-37e4ab63d45a-b1e06150" class="div-block-7"><div>`;
       if(post.review_platform!=='manual') {
       profile+=`<a href="${post.review_user_link}" target="_self">
@@ -77,20 +79,21 @@ $(document).ready(function() {
       profile+=`</div>
       </div>
       </div>`;
-      let img ;
+      let img = `<a href="${post.review_user_link}" target="_self">`;
       if(post.review_rating === "5" || post.review_rating == 5.0) {
-      img = `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6215e337569c1e29ddcbd813_stars-5.svg" loading="lazy" width="100" alt="" class="image-54">`;
+      img.= `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6215e337569c1e29ddcbd813_stars-5.svg" loading="lazy" width="100" alt="" class="image-54">`;
       } else if(post.review_rating === "4" || post.review_rating == 4.0) {
-      img = `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f6165cf3b1a2b07ddb25_4-star.png" loading="lazy" width="80" alt="" class="image-54">`;
+      img.= `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f6165cf3b1a2b07ddb25_4-star.png" loading="lazy" width="80" alt="" class="image-54">`;
       
       } else if(post.review_rating === "3" || post.review_rating == 3.0) {
       
-      img = `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f61510c582528bf040d7_3-star.png" loading="lazy" width="60" alt="" class="image-54">`;
+      img.= `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f61510c582528bf040d7_3-star.png" loading="lazy" width="60" alt="" class="image-54">`;
       } else if (post.review_rating === "2" || post.review_rating == 2.0) {
-      img = `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f615c92e133b3aa9f668_2-star.png" loading="lazy" width="40" alt="" class="image-54">`;
+      img.= `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f615c92e133b3aa9f668_2-star.png" loading="lazy" width="40" alt="" class="image-54">`;
       } else {
-      img = `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f6159311672cbe493ad9_1-star.png" loading="lazy" width="20" alt="" class="image-54">`;
+      img.= `<img src="https://uploads-ssl.webflow.com/60e439b8e0c58b64b4496671/6396f6159311672cbe493ad9_1-star.png" loading="lazy" width="20" alt="" class="image-54">`;
       }
+      img.= `</a>`;
       
 			 let bottom = `<div class="review-flex-item-right">
        <div class="div-block-8">
