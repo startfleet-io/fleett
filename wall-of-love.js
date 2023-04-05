@@ -111,9 +111,11 @@ $(document).ready(function() {
       bottom+=`</div>
        </div>`;
        
-       let publishDate = `<div class="review-flex-item-left">
-       <div>Date: <b>${post.review_date}</b></div>
-       </div>`;
+       // let publishDate = `<div class="review-flex-item-left">
+       // <div>Date: <b>${post.review_date}</b></div>
+       // </div>`;
+
+       let publishDate = `<div class="review-flex-item-left"></div>`;
 
        let bottomRow = `<div class="review-flex-container">
        ${publishDate} ${bottom}
