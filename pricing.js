@@ -1045,15 +1045,43 @@ initWrap();
 
     covertteTotal = corvetteBasePrice-100;
     covertteTotal += found.fee;
-    $('#covertteTotal').html('$' + covertteTotal);
+    
 
     frigateTotal = frigateBasePrice-100;
     frigateTotal += found.fee;
-    $('#frigateTotal').html('$' + frigateTotal);
+
 
     cruiserTotal = cruiserBasePrice-100;
     cruiserTotal += found.fee;
+
+    if(Object.keys(url_products).length) {
+      console.log('here')
+        for (const [key, value] of Object.entries(url_products)) {
+          //console.log(`${key}:`);
+          //console.log(value)
+          let addonPrice = 0;
+          value.map((item)=> {
+            let prod = productList.filter((p)=> p.refcode === item.productRef)[0]
+            addonPrice+=prod[`${key}_price`]
+          })
+          if (key === 'freelancer') {
+            covertteTotal+=addonPrice
+          } else if(key === 'startup') {
+            frigateTotal+=addonPrice
+          }else {
+            cruiserTotal+=addonPrice
+          }
+        }
+    }
+
+    $('#covertteTotal').html('$' + covertteTotal);
+    $('#frigateTotal').html('$' + frigateTotal);
     $('#cruiserTotal').html('$' + cruiserTotal);
+
+
+    //console.log(url_products)
+
+    //console.log(productList)
 
 
   });
