@@ -66,9 +66,9 @@ TripettoClassic.run({
 
             }else if(form_data['state'].toLowerCase() == 'new mexico') {
                 
-                form_data['4a_mailingAddress'] = '530-B HARKLE ROAD, STE 100'
-                form_data['4b_cityStateZip'] = 'SANTA FE, NM 87505'
-                form_data['6_countyState'] = 'Santa Fe County'
+                form_data['4a_mailingAddress'] = '2201 MENAUL BLVD NE STE A'
+                form_data['4b_cityStateZip'] = 'ALBUQUERQUE, NM 87107'
+                form_data['6_countyState'] = 'Bernalillo county, New Mexico'
 
             }else if(form_data['state'].toLowerCase() == 'texas') {
                 
