@@ -82,6 +82,12 @@ TripettoClassic.run({
                 form_data['4b_cityStateZip'] = 'Reno, NV 89502'
                 form_data['6_countyState'] = 'Washoe County'
                 
+            }else if(form_data['state'].toLowerCase() == 'new jearsy') {
+                
+                form_data['4a_mailingAddress'] = 'FIVE GREENTREE CENTRE 525 ROUTE 73 NORTH STE 104'
+                form_data['4b_cityStateZip'] = 'MARLTON, NJ 08053'
+                form_data['6_countyState'] = 'Burlington County'
+                
             }else {
 
                 form_data['4a_mailingAddress'] = '7901 4th St N STE 300'
