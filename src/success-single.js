@@ -75,6 +75,8 @@ function displayOrderInfo(){
     $('#customer-email').html(email);
 }
 
+displayOrderInfo();
+
 // get order information by session id
 // function getOrderInformation() {
 //     var sessionId = getParameterByName('session_id'); // "session id"
