@@ -52,9 +52,12 @@ TripettoClassic.run({
                 form_data['4b_cityStateZip'] = 'BOULDER, CO 80302';
                 form_data['6_countyState'] = 'Boulder County';
             } else if (form_data['state'].toLowerCase() == 'new mexico') {
-                form_data['4a_mailingAddress'] = '2201 MENAUL BLVD NE STE A';
-                form_data['4b_cityStateZip'] = 'ALBUQUERQUE, NM 87107';
-                form_data['6_countyState'] = 'Bernalillo county, New Mexico';
+                // form_data['4a_mailingAddress'] = '2201 MENAUL BLVD NE STE A';
+                // form_data['4b_cityStateZip'] = 'ALBUQUERQUE, NM 87107';
+                // form_data['6_countyState'] = 'Bernalillo county, New Mexico';
+                form_data['4a_mailingAddress'] = '1209 MOUNTAIN ROAD PL NE STE R';
+                form_data['4b_cityStateZip'] = 'ALBUQUERQUE NM 87110';
+                form_data['6_countyState'] = 'USA';
             } else if (form_data['state'].toLowerCase() == 'texas') {
                 form_data['4a_mailingAddress'] = '5900 Balcones Drive STE 100';
                 form_data['4b_cityStateZip'] = 'Austin, TX 78731';
