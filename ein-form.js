@@ -70,6 +70,10 @@ TripettoClassic.run({
                 form_data['4a_mailingAddress'] = 'FIVE GREENTREE CENTRE 525 ROUTE 73 NORTH STE 104';
                 form_data['4b_cityStateZip'] = 'MARLTON, NJ 08053';
                 form_data['6_countyState'] = 'Burlington County';
+            } else if (form_data['state'].toLowerCase() == 'illinois') {
+                form_data['4a_mailingAddress'] = '2501 Chatham Rd Suite R';
+                form_data['4b_cityStateZip'] = 'Springfield, IL 62704';
+                form_data['6_countyState'] = 'Hampden County';
             } else {
                 form_data['4a_mailingAddress'] = '7901 4th St N STE 300';
                 form_data['4b_cityStateZip'] = 'St. Petersburg, FL 33702';
