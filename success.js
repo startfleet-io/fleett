@@ -2,6 +2,7 @@
 
 var API_ORDER_INFO = ``;
 var API_ORDER_REDITUS = ``;
+var API_ORDER_PARTNERO = ``;
 var dataName = 'sf_store_database';
 const API_BASE = `https://xe5a-injf-5wxp.n7.xano.io`;
 // extract query string
@@ -22,6 +23,7 @@ function setUpTestEnv() {
         API_VERSION = `:v${version}`;
         API_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/order-details-by-session`;
         API_ORDER_REDITUS = `${API_BASE}/api:z9NOXVAQ${API_VERSION}/api_new_reditus_conversion_payment`;
+        API_ORDER_PARTNERO = `${API_BASE}/api:z9NOXVAQ:v5/create_parntero_transaction`;
 
         $.ajaxSetup({
             beforeSend: function (xhr) {
@@ -32,6 +34,7 @@ function setUpTestEnv() {
     } else {
         API_ORDER_INFO = `${API_BASE}/api:z9NOXVAQ/order-details-by-session`;
         API_ORDER_REDITUS = `${API_BASE}/api:z9NOXVAQ/api_new_reditus_conversion_payment`;
+        API_ORDER_PARTNERO = `${API_BASE}/api:z9NOXVAQ:v5/create_parntero_transaction`;
         console.log('you are trying to use live env');
     }
 }
@@ -102,10 +105,14 @@ function getOrderInformation() {
             // console.warn(tracked)
             //console.log(tracked!='yes');
             callDataLayer(response);
+            const partnero_partner_id = getCookie('partnero_partner');
+            if (partnero_partner_id) {
+                sendToPartnero(order_id, email, partnero_partner_id);
+            }
             if (tracked != 'yes') {
                 callEncharge(response);
                 //gr('track', 'conversion', { email:email });
-                sendToReditus(order_id, email);
+                // sendToReditus(order_id, email);
             }
             //console.warn('lets send');
             //gr('track', 'conversion', { email:email });
@@ -124,7 +131,6 @@ function getOrderInformation() {
 //
 $(function () {
     localStorage.removeItem(dataName);
-
     getOrderInformation();
 });
 
@@ -211,4 +217,34 @@ function sendToReditus(order_id, email) {
             },
         });
     }, 5000);
+}
+
+function sendToPartnero(order_id, email, partner_id) {
+    gr('track', 'conversion', { email: email });
+    console.log('sending too partnero');
+    setTimeout(() => {
+        $.ajax({
+            url: API_ORDER_PARTNERO,
+            type: 'POST',
+            data: {
+                order_id,
+                email,
+                partner_id,
+            },
+            dataType: 'JSON',
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    }, 5000);
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return '';
 }
