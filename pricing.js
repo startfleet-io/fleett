@@ -310,7 +310,6 @@ $(function () {
                 let frigate = null;
                 let cruiser = null;
                 let payment_type = item['payment_type'];
-
                 if (Boolean(item['included_in_freelancer']) == true) {
                     //&& item['freelancer_price'] <= 0s
                     corvette =
@@ -433,6 +432,8 @@ $(function () {
             complianceItems = _.sortBy(complianceItems, 'order');
 
             complianceItems.forEach((item, index) => {
+                console.log('item', item);
+                console.log('included_in_freelancer', item['included_in_freelancer']);
                 let corvette = null;
                 let frigate = null;
                 let cruiser = null;
