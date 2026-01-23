@@ -310,12 +310,10 @@ $(function () {
                 let frigate = null;
                 let cruiser = null;
                 let payment_type = item['payment_type'];
-                if (Boolean(item['included_in_freelancer']) == true) {
-                    //&& item['freelancer_price'] <= 0s
+                if (Boolean(item['included_in_freelancer']) == true && item['freelancer_price'] <= 0) {
                     corvette =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_freelancer']) == false) {
-                    //&& item['freelancer_price'] <= 0
+                } else if (Boolean(item['included_in_freelancer']) == false && item['freelancer_price'] <= 0) {
                     corvette =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -337,12 +335,10 @@ $(function () {
                     //     : item['freelancer_price']
                     // } `;
                 }
-                if (Boolean(item['included_in_startup']) == true) {
-                    //&& item['startup_price'] == 0
+                if (Boolean(item['included_in_startup']) == true && item['startup_price'] == 0) {
                     frigate =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_startup']) == false) {
-                    //&& item['startup_price'] <= 0
+                } else if (Boolean(item['included_in_startup']) == false && item['startup_price'] <= 0) {
                     frigate =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -364,12 +360,10 @@ $(function () {
                     //     : item['startup_price']
                     // } `;
                 }
-                if (Boolean(item['included_in_business']) == true) {
-                    //&& item['business_price'] == 0
+                if (Boolean(item['included_in_business']) == true && item['business_price'] == 0) {
                     cruiser =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_business']) == false) {
-                    //&& item['business_price'] <= 0
+                } else if (Boolean(item['included_in_business']) == false && item['business_price'] <= 0) {
                     cruiser =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -438,12 +432,10 @@ $(function () {
                 let frigate = null;
                 let cruiser = null;
                 let payment_type = item['payment_type'];
-                if (Boolean(item['included_in_freelancer']) == true) {
-                    //&& item['freelancer_price'] == 0
+                if (Boolean(item['included_in_freelancer']) == true && item['freelancer_price'] == 0) {
                     corvette =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_freelancer']) == false) {
-                    //&& item['freelancer_price'] <= 0
+                } else if (Boolean(item['included_in_freelancer']) == false && item['freelancer_price'] <= 0) {
                     corvette =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -465,12 +457,10 @@ $(function () {
                     //     : item['freelancer_price']
                     // } `;
                 }
-                if (Boolean(item['included_in_startup']) == true) {
-                    //&& item['startup_price'] == 0
+                if (Boolean(item['included_in_startup']) == true && item['startup_price'] == 0) {
                     frigate =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_startup']) == false) {
-                    //&& item['startup_price'] <= 0
+                } else if (Boolean(item['included_in_startup']) == false && item['startup_price'] <= 0) {
                     frigate =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -492,12 +482,10 @@ $(function () {
                     //     : item['startup_price']
                     // } `;
                 }
-                if (Boolean(item['included_in_business']) == true) {
-                    //&& item['business_price'] == 0
+                if (Boolean(item['included_in_business']) == true && item['business_price'] == 0) {
                     cruiser =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_business']) == false) {
-                    //&& item['business_price'] <= 0
+                } else if (Boolean(item['included_in_business']) == false && item['business_price'] <= 0) {
                     cruiser =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -562,12 +550,10 @@ $(function () {
                 let frigate = null;
                 let cruiser = null;
                 let payment_type = item['payment_type'];
-                if (Boolean(item['included_in_freelancer']) == true) {
-                    //&& item['freelancer_price'] == 0
+                if (Boolean(item['included_in_freelancer']) == true && item['freelancer_price'] == 0) {
                     corvette =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_freelancer']) == false) {
-                    //&& item['freelancer_price'] <= 0
+                } else if (Boolean(item['included_in_freelancer']) == false && item['freelancer_price'] <= 0) {
                     corvette =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -589,12 +575,10 @@ $(function () {
                     //     : item['freelancer_price']
                     // } `;
                 }
-                if (Boolean(item['included_in_startup']) == true) {
-                    //&& item['startup_price'] == 0
+                if (Boolean(item['included_in_startup']) == true && item['startup_price'] == 0) {
                     frigate =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_startup']) == false) {
-                    //&& item['startup_price'] <= 0
+                } else if (Boolean(item['included_in_startup']) == false && item['startup_price'] <= 0) {
                     frigate =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -616,12 +600,10 @@ $(function () {
                     //     : item['startup_price']
                     // } `;
                 }
-                if (Boolean(item['included_in_business']) == true) {
-                    //&& item['business_price'] == 0
+                if (Boolean(item['included_in_business']) == true && item['business_price'] == 0) {
                     cruiser =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_business']) == false) {
-                    //&& item['business_price'] <= 0
+                } else if (Boolean(item['included_in_business']) == false && item['business_price'] <= 0) {
                     cruiser =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -684,12 +666,10 @@ $(function () {
                 let frigate = null;
                 let cruiser = null;
                 let payment_type = item['payment_type'];
-                if (Boolean(item['included_in_freelancer']) == true) {
-                    //&& item['freelancer_price'] <= 0
+                if (Boolean(item['included_in_freelancer']) == true && item['freelancer_price'] <= 0) {
                     corvette =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_freelancer']) == false) {
-                    //&& item['freelancer_price'] <= 0
+                } else if (Boolean(item['included_in_freelancer']) == false && item['freelancer_price'] <= 0) {
                     corvette =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -735,12 +715,10 @@ $(function () {
                     //   } `;
                     // }
                 }
-                if (Boolean(item['included_in_startup']) == true) {
-                    //&& item['startup_price'] == 0
+                if (Boolean(item['included_in_startup']) == true && item['startup_price'] == 0) {
                     frigate =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_startup']) == false) {
-                    //&& item['startup_price'] <= 0
+                } else if (Boolean(item['included_in_startup']) == false && item['startup_price'] <= 0) {
                     frigate =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
@@ -786,12 +764,10 @@ $(function () {
                     //   } `;
                     // }
                 }
-                if (Boolean(item['included_in_business']) == true) {
-                    //&& item['business_price'] == 0
+                if (Boolean(item['included_in_business']) == true && item['business_price'] == 0) {
                     cruiser =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60d6e22ef380bfebd4610eeb_Icon%20awesome-check.png" alt="" class="check"></div>';
-                } else if (Boolean(item['included_in_business']) == false) {
-                    //&& item['business_price'] <= 0
+                } else if (Boolean(item['included_in_business']) == false && item['business_price'] <= 0) {
                     cruiser =
                         '<div class="tb"><img src="https://uploads-ssl.webflow.com/60bbb50e4214ca995721f7d9/60dc79882513616b11cfe448_line.png" alt="" class="check"></div>';
                 } else {
