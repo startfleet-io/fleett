@@ -1069,9 +1069,8 @@ function makeOrder(form_data) {
             // track the order encharge
             callEncharge(form_data);
 
-            const leadId =
-                (resonse && (resonse.order_id || resonse.id)) ||
-                'lead-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+            //resonse.id is strip id
+            const leadId = (resonse && resonse.id) || 'lead-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
             onCheckout(2, String(leadId));
 
             setTimeout(() => {
@@ -1723,8 +1722,8 @@ function pushCheckout(step, extra) {
                     },
                 },
             },
-            extra || {}
-        )
+            extra || {},
+        ),
     );
 }
 
