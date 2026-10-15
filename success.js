@@ -159,11 +159,39 @@ function setSurveyValues(response) {
     window.qwary.survey();
 }
 
+// send the purchase to the dataLayer once per order per browser
+// (reloads / revisits of /success used to send it again and inflate ad platform purchases)
+function alreadyTracked(order_id) {
+    try {
+        return localStorage.getItem('sf_tx_' + order_id) === '1';
+    } catch (e) {
+        return false;
+    }
+}
+
+function markTracked(order_id) {
+    try {
+        localStorage.setItem('sf_tx_' + order_id, '1');
+    } catch (e) {}
+}
+
 function callDataLayer(form_data) {
     const products = [];
     const { phone, email, full_name, order_id, totalCost, items } = form_data;
 
-    items.forEach((item, index) => {
+    if (!order_id) return;
+
+    // test orders (?v=..&source=test) must not reach ad platforms
+    if (getParameterByName('source') === 'test') {
+        console.warn('test mode: purchase not sent to dataLayer');
+        return;
+    }
+
+    if (alreadyTracked(order_id)) return;
+
+    const revenue = parseFloat(totalCost);
+
+    (items || []).forEach((item, index) => {
         let val = {
             name: item.item_name, // Name or ID is required.
             id: item.merchandise_id,
@@ -187,7 +215,7 @@ function callDataLayer(form_data) {
                 actionField: {
                     id: order_id, // Transaction ID. Required for purchases and refunds.
                     affiliation: 'Startfleet Store',
-                    revenue: totalCost, // Total transaction value (incl. tax and shipping)
+                    revenue: isNaN(revenue) ? undefined : revenue, // Total transaction value (incl. tax and shipping)
                     tax: '0.00',
                     // 'shipping': '0.00',
                     coupon: '',
@@ -197,6 +225,7 @@ function callDataLayer(form_data) {
             },
         },
     });
+    markTracked(order_id);
     console.log(form_data);
 }
 
