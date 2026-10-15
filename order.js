@@ -1069,7 +1069,10 @@ function makeOrder(form_data) {
             // track the order encharge
             callEncharge(form_data);
 
-            onCheckout(2);
+            const leadId =
+                (resonse && (resonse.order_id || resonse.id)) ||
+                'lead-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+            onCheckout(2, String(leadId));
 
             setTimeout(() => {
                 Swal.close();
@@ -1653,7 +1656,82 @@ input.addEventListener('keyup', reset);
 
 // datalayer work
 
-function onCheckout(step) {
+// rebuild the cart (plan + state fee + add-ons) from the saved order data every time,
+// so going Back/Next or reloading the page never doubles or zeroes the revenue
+function buildBucket(data) {
+    const { planId, stateId, refcodes } = data;
+
+    cleanBucket();
+
+    let selectedPlan = plans.filter(plan => plan.id === planId)[0];
+    let selectedState = dt.filter(state => state.id === stateId)[0];
+
+    if (selectedPlan) {
+        bucketProducts.push({
+            name: selectedPlan.name,
+            id: selectedPlan.merchandise_id,
+            price: selectedPlan.price,
+            category: 'plan',
+            quantity: 1,
+        });
+        bucketPrice = parseFloat(bucketPrice) + parseFloat(selectedPlan.price);
+    }
+    if (selectedState) {
+        bucketProducts.push({
+            name: `${selectedState.state}/${selectedState.structure}`,
+            id: selectedState.merchandise_id,
+            price: selectedState.fee,
+            category: 'state',
+            quantity: 1,
+        });
+        bucketPrice = parseFloat(bucketPrice) + parseFloat(selectedState.fee);
+    }
+
+    if (refcodes && selectedPlan) {
+        let pkey = selectedPlan.name.toLowerCase();
+
+        refcodes.split('-').forEach(add => {
+            let product = products.filter(product => parseInt(product.refcode) === parseInt(add))[0];
+            if (!product) return;
+
+            bucketProducts.push({
+                name: `${product.name}`,
+                id: product.merchandise_id,
+                price: product[pkey + '_price'],
+                category: 'addon',
+                quantity: 1,
+            });
+            bucketPrice = parseFloat(bucketPrice) + parseFloat(product[pkey + '_price']);
+        });
+    }
+}
+
+function pushCheckout(step, extra) {
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push(
+        Object.assign(
+            {
+                event: 'checkout',
+                ecommerce: {
+                    checkout: {
+                        actionField: {
+                            step: step,
+                            revenue: bucketPrice,
+                            currency: 'USD',
+                        },
+                        products: bucketProducts,
+                    },
+                },
+            },
+            extra || {}
+        )
+    );
+}
+
+// step 1 = company details done, step 2 = contact submitted and order created (before Stripe)
+// leadId (step 2): the order id from the order API if it returns one, else a random id;
+// GTM sends it as the Reddit Lead conversionId and the GA4 event_id so pixel and CAPI dedupe
+function onCheckout(step, leadId) {
     let data = JSON.parse(localStorage.getItem(dataName));
 
     const { planId, stateId, refcodes, cEmail, cName, cPhone, country_c, country_r } = data;
@@ -1663,113 +1741,19 @@ function onCheckout(step) {
         return false;
     }
 
-    let selectedPlan = plans.filter(plan => plan.id === planId)[0];
-    let selectedState = dt.filter(state => state.id === stateId)[0];
-    let selectedProducts = [];
+    buildBucket(data);
 
     if (step != 2) {
-        if (selectedPlan) {
-            bucketProducts.push({
-                name: selectedPlan.name,
-                id: selectedPlan.merchandise_id,
-                price: selectedPlan.price,
-                // 'brand': 'Google',
-                category: 'plan',
-                //  'variant': 'Gray',
-                quantity: 1,
-            });
-            bucketPrice = parseFloat(bucketPrice) + parseFloat(selectedPlan.price);
-        }
-        if (selectedState) {
-            bucketProducts.push({
-                name: `${selectedState.state}/${selectedState.structure}`,
-                id: selectedState.merchandise_id,
-                price: selectedState.fee,
-                // 'brand': 'Google',
-                category: 'state',
-                //  'variant': 'Gray',
-                quantity: 1,
-            });
+        // send step 1 once per cart: Back/Next with the same plan, state and add-ons is not a new event
+        const cartKey = [planId, stateId, refcodes || ''].join('|');
+        try {
+            if (sessionStorage.getItem('sf_checkout_step1') === cartKey) return;
+            sessionStorage.setItem('sf_checkout_step1', cartKey);
+        } catch (e) {}
 
-            bucketPrice = parseFloat(bucketPrice) + parseFloat(selectedState.fee);
-        }
-        //console.warn(selectedPlan)
-        //console.warn(selectedState)
-        //console.warn(refcodes)
-
-        if (refcodes) {
-            let addonsIds = refcodes.split('-');
-
-            addonsIds.forEach(add => {
-                let product = products.filter(product => parseInt(product.refcode) === parseInt(add))[0];
-
-                selectedProducts.push(product);
-            });
-
-            //console.error(addonsIds);
-        }
-
-        if (selectedProducts.length) {
-            let pkey = selectedPlan.name.toLowerCase();
-
-            selectedProducts.forEach(product => {
-                bucketProducts.push({
-                    name: `${product.name}`,
-                    id: product.merchandise_id,
-                    price: product[pkey + '_price'],
-                    // 'brand': 'Google',
-                    category: 'addon',
-                    //  'variant': 'Gray',
-                    quantity: 1,
-                });
-
-                bucketPrice = parseFloat(bucketPrice) + parseFloat(product[pkey + '_price']);
-            });
-        }
-
-        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-        dataLayer.push({
-            event: 'checkout',
-            ecommerce: {
-                checkout: {
-                    actionField: {
-                        step: step,
-                        revenue: bucketPrice,
-                        currency: 'USD',
-                    },
-                    products: bucketProducts,
-                },
-            },
-            // 'eventCallback': function() {
-            //    console.log('datalayer event triggered')
-            // }
-        });
-    } // if step !=2
-    else {
-        console.error(bucketProducts);
-        //console.log(selectedProducts);
-        //console.log(data);
-        //console.log(plans)
-        //console.log(dt)
-        //console.log(products)
-
-        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-        dataLayer.push({
-            event: 'checkout',
-            ecommerce: {
-                checkout: {
-                    actionField: {
-                        step: step,
-                        revenue: bucketPrice,
-                        currency: 'USD',
-                    },
-                    products: bucketProducts,
-                },
-            },
-            // 'eventCallback': function() {
-            //    console.log('datalayer event triggered')
-            // }
-        });
+        pushCheckout(step);
+    } else {
+        pushCheckout(step, { lead_id: leadId });
 
         const updValues = {
             email: cEmail, // replace yourEmailVariable with variable name that captures your user’s email
