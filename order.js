@@ -953,6 +953,27 @@ async function finalSubmission() {
             country_r,
         } = items;
 
+        // charge for the state the customer has selected now: look stateId up again from state +
+        // structure so a stateId saved earlier can never disagree with company_state
+        const selectedState = dt
+            .filter(t => t.state !== null)
+            .find(elm => elm.structure.toLowerCase() == String(structure).toLowerCase() && elm.state.toLowerCase() == String(state).toLowerCase());
+
+        if (!selectedState) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please go back to step 1 and choose your state again.',
+            });
+            return false;
+        }
+
+        if (selectedState.id !== stateId) {
+            console.warn(`stateId ${stateId} did not match ${state}/${structure}, using ${selectedState.id}`);
+            items.stateId = selectedState.id;
+            localStorage.setItem(dataName, JSON.stringify(items));
+        }
+
         // set form data
 
         const form_data = {
@@ -968,7 +989,7 @@ async function finalSubmission() {
             ssn_or_itin: SSNYN,
             plan,
             planId,
-            stateId,
+            stateId: selectedState.id,
             termsAgree: agree,
             country_c,
             country_r,

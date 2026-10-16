@@ -58,6 +58,7 @@ $(function () {
     const plan_level_two = 'Startup'; // old frigate
     const plan_level_three = 'Business'; // old cruiser
     const plan_names = [plan_level_one, plan_level_two, plan_level_three];
+    const DEFAULT_STATE = 'Wyoming';
 
     var dataName = 'sf_store_database';
     var launchDomain = `https://launch.startfleet.io/`;
@@ -225,6 +226,12 @@ $(function () {
             let sname = n.charAt(0).toUpperCase() + n.slice(1);
             companyState.append(`<option value="${sname}">${sname}</option>`);
         });
+
+        // the list is alphabetical, so without this the first option (California) becomes the
+        // default while the page copy and the static HTML default say Wyoming
+        if (uniques.includes(DEFAULT_STATE.toLowerCase())) {
+            companyState.val(DEFAULT_STATE);
+        }
 
         console.log(uniques);
     }
@@ -876,11 +883,12 @@ $(function () {
 
                 cruiserSaving.html(`Save $${cruiserSavePrice}`);
             }
-        });
 
-        setTimeout(() => {
+            // Recalculate the fee text and totals now that the state fees have loaded. This used to run on a
+            // 500 ms timer; if the API was slower, it crashed (dt was still empty) and the page kept showing
+            // "Wyoming $100" while the dropdown said California.
             $('select').trigger('change');
-        }, 500);
+        });
     }
 
     // call it default
@@ -896,9 +904,12 @@ $(function () {
             return false;
         }
 
+        if (!dt) return;
+
         let found = dt.find(function (elm) {
             return elm.structure.toLowerCase() == company.toLowerCase() && elm.state.toLowerCase() == state.toLowerCase();
         });
+        if (!found) return;
         let stateName = found.state.charAt(0).toUpperCase() + found.state.slice(1);
         //   console.log(stateName);
 
