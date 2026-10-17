@@ -956,7 +956,7 @@ async function finalSubmission() {
         // charge for the state the customer has selected now: look stateId up again from state +
         // structure so a stateId saved earlier can never disagree with company_state
         const selectedState = dt
-            .filter(t => t.state !== null)
+            .filter(t => !!t.state)
             .find(elm => elm.structure.toLowerCase() == String(structure).toLowerCase() && elm.state.toLowerCase() == String(state).toLowerCase());
 
         if (!selectedState) {
@@ -1428,7 +1428,7 @@ function myinit() {
 
     if (companyCity && companyType) {
         let found = dt
-            .filter(t => t.state !== null)
+            .filter(t => !!t.state)
             .find(function (elm) {
                 return elm.structure.toLowerCase() == companyType.toLowerCase() && elm.state.toLowerCase() == companyCity.toLowerCase();
             });
