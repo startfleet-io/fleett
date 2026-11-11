@@ -233,7 +233,6 @@ var renderMoreInfoForm = (function () {
     }
 
     var COMMON_RULES = [
-        filled('company_name', 'Please enter your company name.'),
         checked('confirm_name', 'Please confirm your company name.'),
         checked('confirm_state', 'Please confirm the state.'),
         checked('confirm_structure', 'Please confirm the structure.'),
@@ -394,11 +393,7 @@ var renderMoreInfoForm = (function () {
     function formHtml(isCorporation) {
         var fromOrder = 'From your order. If this is wrong, please contact us.';
         return `<form class="sf-mi-form" novalidate>
-            ${fieldHtml('company_name', 'Company name', textInput('company_name', 'autocomplete="organization"'))}
-            <div class="sf-mi-field sf-mi-field-tight">
-                <label class="sf-mi-check"><input type="checkbox" name="confirm_name"> This is my company name</label>
-                <p class="sf-mi-error" data-error-for="confirm_name" hidden></p>
-            </div>
+            ${confirmedField('company_name', 'Company name', 'confirm_name', 'This is my company name', fromOrder)}
             ${confirmedField('state', 'State', 'confirm_state', "This is my company's state", fromOrder)}
             ${confirmedField('structure', 'Structure', 'confirm_structure', "This is my company's structure", fromOrder)}
             ${confirmedField('suffix', 'Suffix', 'confirm_suffix', "This is my company's suffix", fromOrder)}
@@ -440,7 +435,6 @@ var renderMoreInfoForm = (function () {
         .sf-mi-form *, .sf-mi-form *::before, .sf-mi-form *::after { box-sizing: border-box; }
         .sf-mi-form [hidden] { display: none !important; }
         .sf-mi-field { margin: 0 0 22px; }
-        .sf-mi-field-tight { margin-top: -12px; }
         .sf-mi-label { display: block; font-weight: 600; margin: 0 0 6px; }
         .sf-mi-help { margin: 0 0 8px; font-size: 0.9em; line-height: 1.45; opacity: 0.8; }
         .sf-mi-input { display: block; width: 100%; min-height: 44px; margin: 0; padding: 10px 12px; font: inherit; color: #111827;
@@ -509,7 +503,7 @@ var renderMoreInfoForm = (function () {
         var $form = $container.find('.sf-mi-form');
         var $button = $form.find('.sf-mi-button');
 
-        $form.find('[name="company_name"]').val(answers.company_name);
+        $form.find('[data-readonly="company_name"]').text(answers.company_name || '-');
         ['state', 'structure', 'suffix'].forEach(field => $form.find(`[data-readonly="${field}"]`).text(order[field] || '-'));
 
         function renderErrors() {
