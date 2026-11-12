@@ -637,6 +637,10 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function showLoadProblem(title, text) {
+    Swal.fire({ icon: 'info', title, text, allowOutsideClick: false, showConfirmButton: false });
+}
+
 function init() {
     setUpTestEnv();
 
@@ -648,6 +652,14 @@ function init() {
     let savedState = localStorage.getItem('state') ?? '';
     let savedStructure = localStorage.getItem('structure') ?? '';
     let savedOrderId = localStorage.getItem('orderId') ?? 0;
+
+    if (!orderID) {
+        showLoadProblem(
+            'Your order number is missing',
+            "This link doesn't include your order number. Please open the link from your order email, or email us at hello@startfleet.io.",
+        );
+        return;
+    }
 
     if (coldStop == '' || !coldStop || coldStop != 'yes' || savedOrderId != orderID || savedState != pstate || savedStructure != pstructure) {
         let url = new URL(window.location.href);
@@ -678,15 +690,11 @@ function init() {
                 window.history.pushState({ path: url.href }, '', url.href);
                 window.location = window.location;
             },
-            error: function (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Sorry order not found',
-                    allowOutsideClick: false,
-                    showCancelButton: false,
-                    showConfirmButton: false,
-                });
+            error: function () {
+                showLoadProblem(
+                    "We couldn't load your order",
+                    `Please reload this page or open the link from your order email again. If it still doesn't work, email us at hello@startfleet.io with your order number ${orderID}.`,
+                );
             },
         });
     } else {
