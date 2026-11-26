@@ -501,6 +501,8 @@ var renderMoreInfoForm = (function () {
         injectStyle();
         var $container = $(container).html(formHtml(isCorporation));
         var $form = $container.find('.sf-mi-form');
+        // Partnero (loaded by GTM) re-sends every form with form.submit(), which reloads this page without the orderId.
+        $form[0].submit = function () {};
         var $button = $form.find('.sf-mi-button');
 
         $form.find('[data-readonly="company_name"]').text(answers.company_name || '-');
